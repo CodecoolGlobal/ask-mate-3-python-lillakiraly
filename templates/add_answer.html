@@ -1,0 +1,14 @@
+{% extends 'template_site.html' %}
+{% block title %}Add answer{% endblock %}
+{% block content %}
+    <a href="/question/{{ id}}">Go back</a>
+<form action='{{ url_for('add_answer', question_id=id) }}' enctype="multipart/form-data" method="post">
+    <label for="message">Message</label>
+    <br>
+    <textarea id="message" name="message" cols="80" rows="6" placeholder="Write your answer here..."></textarea>
+    <br>
+    <input type="file" name="image">
+    <br>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

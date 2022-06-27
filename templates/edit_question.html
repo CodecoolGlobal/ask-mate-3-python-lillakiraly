@@ -1,0 +1,22 @@
+{% extends 'template_site.html' %}
+{% block title %}Edit question{% endblock %}
+{% block content %}
+<a href="/question/{{ id }}">Go back</a>
+<form action="/question/{{ data.id }}/edit" enctype="multipart/form-data" method="post">
+    <label for="title">Question</label>
+    <br>
+    <input type="text" id="title" name="title"  minlength="5" maxlength="100" size="40" value="{{ data.title }}">
+    <br>
+    <p></p>
+    <label for="message">Details</label>
+    <br>
+    <textarea id="message" name="message"  cols="80" rows="6" placeholder="{{ data.message }}">{{ data.message }}</textarea>
+    <br>
+    <input type="file" name="uploaded_image">
+    <br>
+    <input type="hidden" name="vote_number" value="{{ data.vote_number }}">
+    <input type="hidden" name="view_number" value="{{ data.view_number }}">
+    <br>
+    <button type="submit">Submit</button>
+    </form>
+{% endblock %}

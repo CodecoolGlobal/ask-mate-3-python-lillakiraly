@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+     <a href="/list">
+         <img src="{{ url_for('static', filename='images/ask_logo.png') }}" alt="AskMate logo" width="100">
+     </a>
+     <br>
+    {% block content %}{% endblock %}
+</body>
+</html>
