@@ -1,16 +1,10 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from werkzeug.utils import secure_filename
 
-import datetime
-
-import data_handler
-from settings import PORT
-import util
 import os
 
-from data_handler import QUESTION_HEADERS, read_csv, display_question_from_id, get_answers, append_line, \
-    write_questions_to_csv
-
+import data_manager
+import util
 
 UPLOAD_FOLDER = 'static/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -28,36 +22,36 @@ def allowed_file(filename):
 @app.route("/list", methods=['GET', 'POST'])
 def home_page():
     """ 1. Implement the /list page that displays all questions """
-    datas = read_csv()
-    if request.method == 'GET':
-        if request.args.get('order_by') == 'id':
-            datas = data_handler.sort_questions(sorted_by='id', order=request.args.get('order_direction'))
-        elif request.args.get('order_by') == 'submission_time':
-            datas = data_handler.sort_questions(sorted_by='submission_time', order=request.args.get('order_direction'))
-        elif request.args.get('order_by') == 'view_number':
-            datas = data_handler.sort_questions(sorted_by='view_number', order=request.args.get('order_direction'))
-        elif request.args.get('order_by') == 'vote_number':
-            datas = data_handler.sort_questions(sorted_by='vote_number', order=request.args.get('order_direction'))
-        elif request.args.get('order_by') == 'title':
-            datas = data_handler.sort_questions(sorted_by='title', order=request.args.get('order_direction'),
-                                                is_int_header=False)
-        elif request.args.get('order_by') == 'message':
-            datas = data_handler.sort_questions(sorted_by='message', order=request.args.get('order_direction'),
-                                                is_int_header=False)
-
-        datas = util.convert_date(datas=datas)
-        return render_template("index.html", datas=datas)
-    datas = util.convert_date(datas=datas)
+    datas = data_manager.get_questions()
+    # if request.method == 'GET':
+    #     if request.args.get('order_by') == 'id':
+    #         datas = data_handler.sort_questions(sorted_by='id', order=request.args.get('order_direction'))
+    #     elif request.args.get('order_by') == 'submission_time':
+    #         datas = data_handler.sort_questions(sorted_by='submission_time', order=request.args.get('order_direction'))
+    #     elif request.args.get('order_by') == 'view_number':
+    #         datas = data_handler.sort_questions(sorted_by='view_number', order=request.args.get('order_direction'))
+    #     elif request.args.get('order_by') == 'vote_number':
+    #         datas = data_handler.sort_questions(sorted_by='vote_number', order=request.args.get('order_direction'))
+    #     elif request.args.get('order_by') == 'title':
+    #         datas = data_handler.sort_questions(sorted_by='title', order=request.args.get('order_direction'),
+    #                                             is_int_header=False)
+    #     elif request.args.get('order_by') == 'message':
+    #         datas = data_handler.sort_questions(sorted_by='message', order=request.args.get('order_direction'),
+    #                                             is_int_header=False)
+    #
+    #     datas = util.convert_date(datas=datas)
+    #     return render_template("index.html", datas=datas)
+    # datas = util.convert_date(datas=datas)
     return render_template("index.html", datas=datas)
 
 
 @app.route("/question/<int:question_id>")
 def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
-    util.increase_page_view_num(question_id)
-    title, question = display_question_from_id(question_id)
-    answers = get_answers(question_id)
-    return render_template("question_form.html", title=title, question=question, id=question_id, answers=answers)
+    data_manager.increase_view_number(question_id)
+    question_data = data_manager.display_question_from_id(question_id)
+    answers = data_manager.get_answers(question_id)
+    return render_template("question_form.html", title=question_data['title'], question=question_data['message'], id=question_id, answers=answers)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -209,5 +203,5 @@ def vote_down_answer(answer_id):
 if __name__ == "__main__":
     app.run(
         debug=True,
-        port=PORT
+        port=8080
     )
