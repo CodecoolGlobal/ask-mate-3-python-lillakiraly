@@ -26,7 +26,6 @@ def home_page():
     """ 1. Implement the /list page that displays all questions
     """
     datas = data_manager.get_datas('question')
-    print(datas)
     if request.method == 'GET' and request.args.get('order_by'):
         order_direction = request.args.get('order_direction') == 'asc'
         datas = data_manager.get_datas(
