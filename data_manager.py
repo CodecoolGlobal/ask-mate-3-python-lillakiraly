@@ -125,10 +125,48 @@ def get_question_id_by_answer_id(cursor, answer_id):
     query = """
         SELECT question_id
         FROM answer
-        WHERE id = &(answer_id)s"""
+        WHERE id = %(answer_id)s"""
     value = {'answer_id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    query = """
+            DELETE FROM question
+            WHERE id = %(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def edit_question(cursor, question_id, submission_time, title, message):
+    query = """
+        UPDATE question
+        SET submission_time = %(submission_time)s, title = %(title)s, message = %(message)s
+        WHERE id = %(question_id)s"""
+    value = {
+        'submission_time': submission_time,
+        'title': title,
+        'message': message,
+        'question_id': question_id
+    }
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def delete_answer(cursor, answer_id):
+    query = """
+            DELETE FROM answer
+            WHERE id = %(answer_id)s"""
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return None
+
+
 #
 #
 # @database_common.connection_handler
