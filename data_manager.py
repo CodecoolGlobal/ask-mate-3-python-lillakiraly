@@ -101,7 +101,7 @@ def vote_down_question(cursor, question_id):
 @database_common.connection_handler
 def vote_up_answer(cursor, answer_id):
     query = """
-        UPDATE question
+        UPDATE answer
         SET vote_number = vote_number + 1
         WHERE id = %(answer_id)s"""
     value = {'answer_id': answer_id}
@@ -112,7 +112,7 @@ def vote_up_answer(cursor, answer_id):
 @database_common.connection_handler
 def vote_down_answer(cursor, answer_id):
     query = """
-        UPDATE question
+        UPDATE answer
         SET vote_number = vote_number - 1
         WHERE id = %(answer_id)s"""
     value = {'answer_id': answer_id}
