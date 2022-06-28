@@ -254,3 +254,17 @@ def get_question_id_by_answer_id(cursor, answer_id):
 #         FROM applicant"""
 #     cursor.execute(query)
 #     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_search_results(cursor, search_phrase):
+    query = """
+        SELECT question.* FROM question
+        LEFT JOIN answer ON answer.question_id = question.id 
+        WHERE question.title ILIKE %(search_phrase)s OR question.message ILIKE %(search_phrase)s OR answer.message ILIKE %(search_phrase)s
+        GROUP BY question.id
+    """
+    search_values = {'search_phrase': f'%{search_phrase}%'}
+    cursor.execute(query, search_values)
+    return cursor.fetchall()
+
