@@ -173,12 +173,12 @@ form.search {
 }
 
 input[type=text] {
-    margin: 2px 1px 2px 40px;
+    margin: 2px 1px 2px 180px;
     border:0;
     border-radius: 3px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
     color: darkslateblue;
-    width: 80%;
+    width: 70%;
 }
 
 input, textarea {
