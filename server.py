@@ -162,14 +162,14 @@ def vote_down_question(question_id):
 def vote_up_answer(answer_id):
     data_manager.vote_up_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
-    return redirect(url_for('display_question', question_id=question_id))
+    return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
 @app.route('/answer/<int:answer_id>/vote-down')
 def vote_down_answer(answer_id):
     data_manager.vote_down_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
-    return redirect(url_for('display_question', question_id=question_id))
+    return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
 @app.route('/search')
