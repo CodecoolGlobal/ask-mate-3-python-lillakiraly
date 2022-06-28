@@ -44,6 +44,91 @@ def display_question_from_id(cursor, id):
     value = {'id': id}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_new_question(cursor, submission_time, title, message, image):
+    query = """
+        INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
+        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s)"""
+    value = {
+        'submission_time': submission_time,
+        'title': title,
+        'message': message,
+        'image': image
+    }
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def add_new_answer(cursor, submission_time, question_id, message, image):
+    query = """
+        INSERT INTO question(submission_time, vote_number, question_id, message, image)
+        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)"""
+    value = {
+        'submission_time': submission_time,
+        'question_id': question_id,
+        'message': message,
+        'image': image
+    }
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def vote_up_question(cursor, question_id):
+    query = """
+        UPDATE question
+        SET vote_number = vote_number + 1
+        WHERE id = %(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def vote_down_question(cursor, question_id):
+    query = """
+        UPDATE question
+        SET vote_number = vote_number - 1
+        WHERE id = %(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def vote_up_answer(cursor, answer_id):
+    query = """
+        UPDATE question
+        SET vote_number = vote_number + 1
+        WHERE id = %(answer_id)s"""
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def vote_down_answer(cursor, answer_id):
+    query = """
+        UPDATE question
+        SET vote_number = vote_number - 1
+        WHERE id = %(answer_id)s"""
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def get_question_id_by_answer_id(cursor, answer_id):
+    query = """
+        SELECT question_id
+        FROM answer
+        WHERE id = &(answer_id)s"""
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
 #
 #
 # @database_common.connection_handler

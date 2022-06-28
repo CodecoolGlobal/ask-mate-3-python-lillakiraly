@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, flash, url_for
 from werkzeug.utils import secure_filename
 
@@ -44,19 +46,14 @@ def display_question(question_id: int):
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
-def add_question():
+def add_question():  # sourcery skip: replace-interpolation-with-fstring
     """ 3. Implement a form that allows the user to add a question. """
-    questions = data_manager.get_datas('question')
     if request.method == 'POST':
-        added_question = {
-            'id': util.generate_id(questions),
-            'submission_time': util.convert_date(time_data=datetime.datetime.now()),
-            'view_number': 0,
-            'vote_number': 0,
-            'title': request.form.get('title', ''),
-            'message': request.form.get('message', ''),
-            'image': 'images/%s' % request.files.get('image', '').filename
-        }
+        # 'id': util.generate_id(questions),
+        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        title = request.form.get('title', '')
+        message = request.form.get('message', '')
+        image = 'images/%s' % request.files.get('image', '').filename
 
         if 'image' not in request.files:
             flash('No file part')
@@ -65,8 +62,7 @@ def add_question():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        export = append_line(questions, added_question)
-        write_questions_to_csv(export)
+        data_manager.add_new_question(submission_time, title, message, image)
         return redirect('/list')
     return render_template('add_question.html')
 
@@ -75,21 +71,16 @@ def add_question():
 def add_answer(question_id):
     answers = data_manager.get_datas('answer')
     if request.method == 'POST':
-        added_answer = {
-            'id': util.generate_id(answers),
-            'submission_time': util.convert_date(time_data=datetime.datetime.now()),
-            'vote_number': 0,
-            'question_id': question_id,
-            'message': request.form.get('message' ''),
-            'image': 'images/%s' % request.files.get('image', '').filename
-        }
+        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        question_id = question_id
+        message = request.form.get('message' '')
+        image = 'images/%s' % request.files.get('image', '').filename
 
         file = request.files['image']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        export = append_line(answers, added_answer)
-        write_questions_to_csv(export, switch=False)
+        data_manager.add_new_answer(submission_time, question_id, message, image)
         return redirect(url_for('display_question', question_id=question_id))
     return render_template('add_answer.html', id=question_id)
 
@@ -159,34 +150,28 @@ def delete_answer(answer_id):
 
 @app.route('/question/<int:question_id>/vote_up')
 def vote_up_question(question_id):
-    util.vote(question_id, 'sample_data/question.csv', 'up', switch=True)
+    data_manager.vote_up_question(question_id)
     return redirect('/list')
 
 
 @app.route('/question/<int:question_id>/vote_down')
 def vote_down_question(question_id):
-    util.vote(question_id, 'sample_data/question.csv', 'down', switch=True)
+    data_manager.vote_down_question(question_id)
     return redirect('/list')
 
 
 @app.route('/answer/<int:answer_id>/vote-up')
 def vote_up_answer(answer_id):
-    util.vote(answer_id, 'sample_data/answer.csv', 'up', switch=False)
-    answers = data_manager.get_datas('answer')
-    for answer in answers:
-        if int(answer['id']) == answer_id:
-            break
-    return redirect(url_for('display_question', question_id=answer['question_id']))
+    data_manager.vote_up_answer(answer_id)
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route('/answer/<int:answer_id>/vote-down')
 def vote_down_answer(answer_id):
-    util.vote(answer_id, 'sample_data/answer.csv', 'down', switch=False)
-    answers = data_manager.get_datas('answer')
-    for answer in answers:
-        if int(answer['id']) == answer_id:
-            break
-    return redirect(url_for('display_question', question_id=answer['question_id']))
+    data_manager.vote_down_answer(answer_id)
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    return redirect(url_for('display_question', question_id=question_id))
 
 
 if __name__ == "__main__":
