@@ -193,7 +193,7 @@ def vote_down_answer(answer_id):
 def search_question():
     search_phrase = request.args.get('q')
     results = data_manager.get_search_results(search_phrase)
-    return None
+    return render_template('search.html', results=results)
 
 
 if __name__ == "__main__":

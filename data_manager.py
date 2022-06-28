@@ -174,9 +174,10 @@ def display_question_from_id(cursor, id):
 @database_common.connection_handler
 def get_search_results(cursor, search_phrase):
     query = """
-        SELECT * FROM question
-        INNER JOIN answer ON answer.question_id = question.id 
-        WHERE question.title LIKE %(search_phrase)s OR question.message LIKE %(search_phrase)s OR answer.message LIKE %(search_phrase)s
+        SELECT question.* FROM question
+        LEFT JOIN answer ON answer.question_id = question.id 
+        WHERE question.title ILIKE %(search_phrase)s OR question.message ILIKE %(search_phrase)s OR answer.message ILIKE %(search_phrase)s
+        GROUP BY question.id
     """
     search_values = {'search_phrase': f'%{search_phrase}%'}
     cursor.execute(query, search_values)

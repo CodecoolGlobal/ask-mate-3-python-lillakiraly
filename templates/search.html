@@ -1,85 +1,21 @@
 {% extends "template_site.html" %}
-{% block title %}List page{% endblock %}
+{% block title %}Search page{% endblock %}
 {% block content %}
+    <a href="/">Go back</a>
     <table>
         <thead>
             <tr>
-{#            QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']#}
-                <form action="/list" method="get">
-                    <th>
-                        Id
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="id">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="id">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th style="white-space:nowrap;">
-                        Submission Time
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="submission_time">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="submission_time">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        View Number
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="view_number">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="view_number">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Vote Number
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="vote_number">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="vote_number">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Title
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="title">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="title">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Question
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="message">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button type="submit" name='order_by' value="message">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Image
-                    </th>
-                </form>
+                <th>Id</th>
+                <th style="white-space:nowrap;">Submission Time</th>
+                <th>View Number</th>
+                <th>Vote Number</th>
+                <th>Title</th>
+                <th>Question</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody>
-            {% for question in datas %}
+            {% for question in results %}
             <tr>
                 <td name="id" style="text-align:center"><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['id'] }}</a></td>
                 <td style="text-align:center">{{ question['submission_time'] }}</td>

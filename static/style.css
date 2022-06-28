@@ -169,16 +169,16 @@ a.ask-button:hover, a.ask-button:active {
 
 form.search {
     display: inline-block;
+    width: 70%;
 }
 
 input[type=text] {
-    padding: 5px;
-    margin: 2px 2px;
+    margin: 2px 1px 2px 40px;
     border:0;
     border-radius: 3px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
     color: darkslateblue;
-
+    width: 80%;
 }
 
 input, textarea {
