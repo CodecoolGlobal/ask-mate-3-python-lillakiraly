@@ -83,66 +83,45 @@ def add_answer(question_id):
     return render_template('add_answer.html', id=question_id)
 
 
-def sorting_questions():
-    """ 5. Implement sorting for the question list """
-    pass
-
-
 @app.route("/question/<int:question_id>/delete", methods=['GET'])
 def delete_question(question_id):
     """ 6. Implement deleting a question. """
     if request.method == 'GET':
-        data_handler.delete_line_by_id(question_id, "./sample_data/question.csv", QUESTION_HEADERS)
+        data_manager.delete_question(question_id)
         return redirect("/list")
     return redirect("/list")
-
-
-def upload_image():
-    """ 7. Allow the user to upload an image for a question or answer. """
-    pass
 
 
 @app.route("/question/<int:question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
     """ 8. Implement editing an existing question. """
-    data = data_handler.read_csv()
-    row = [item for item in data if int(item['id']) == question_id]
     if request.method == 'POST':
-        edited_question = {
-            "id": question_id,
-            "submission_time": util.convert_date(time_data=datetime.datetime.now()),
-            "view_number": request.form.get('view_number', ''),
-            "vote_number": request.form.get('vote_number', ''),
-            "title": request.form.get('title', ''),
-            "message": request.form.get('message', ''),
-            "image": 'images/'
-        }
+        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        title = request.form.get('title', '')
+        message = request.form.get('message', '')
 
-        file = request.files['uploaded_image']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            if row[0]['image'] != f'images/{filename}':
-                edited_question['image'] = f'images/{filename}'
-        else:
-            edited_question['image'] = row[0]['image']
+        # file = request.files['uploaded_image']
+        # if file and allowed_file(file.filename):
+        #     filename = secure_filename(file.filename)
+        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #     if row[0]['image'] != f'images/{filename}':
+        #         edited_question['image'] = f'images/{filename}'
+        # else:
+        #     edited_question['image'] = row[0]['image']
 
-        data_handler.edit_line_by_id(question_id, "./sample_data/question.csv", edited_question)
+        data_manager.edit_question(question_id, submission_time, title, message)
         return redirect("/list")
-    return render_template("edit_question.html", data=row[0], id=question_id)
+    data = data_manager.display_question_from_id(question_id)
+    return render_template("edit_question.html", data=data, id=question_id)
 
 
 @app.route("/answer/<int:answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     """ 9. Implement deleting an answer. """
-    answers = data_manager.get_datas("answer")
     if request.method == 'GET':
-        for answer in answers:
-            if int(answer['id']) == answer_id:
-                question_id = int(answer['question_id'])
-                break
-        data_handler.delete_line_by_id(answer_id, "./sample_data/answer.csv", data_handler.ANSWER_HEADERS)
-        return redirect(url_for('display_question', question_id=question_id))
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
+        data_manager.delete_answer(answer_id)
+        return redirect(url_for('display_question', question_id=question_id['question_id']))
     return redirect("/list")
 
 
