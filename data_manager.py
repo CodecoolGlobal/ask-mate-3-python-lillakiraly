@@ -64,7 +64,7 @@ def add_new_question(cursor, submission_time, title, message, image):
 @database_common.connection_handler
 def add_new_answer(cursor, submission_time, question_id, message, image):
     query = """
-        INSERT INTO question(submission_time, vote_number, question_id, message, image)
+        INSERT INTO answer(submission_time, vote_number, question_id, message, image)
         VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)"""
     value = {
         'submission_time': submission_time,
