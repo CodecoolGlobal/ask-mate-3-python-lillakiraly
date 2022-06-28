@@ -39,31 +39,30 @@ def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
-    print(question_data)
     answers = data_manager.get_answers(question_id)
     return render_template("question_form.html", title=question_data['title'], question=question_data['message'], id=question_id, answers=answers)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
-def add_question():  # sourcery skip: replace-interpolation-with-fstring
+def add_question():    # sourcery skip: replace-interpolation-with-fstring
     """ 3. Implement a form that allows the user to add a question. """
-    if request.method == 'POST':
-        # 'id': util.generate_id(questions),
-        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        title = request.form.get('title', '')
-        message = request.form.get('message', '')
-        image = 'images/%s' % request.files.get('image', '').filename
+    if request.method != 'POST':
+        return render_template('add_question.html')
+    # 'id': util.generate_id(questions),
+    submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    title = request.form.get('title', '')
+    message = request.form.get('message', '')
+    image = 'images/%s' % request.files.get('image', '').filename
 
-        if 'image' not in request.files:
-            flash('No file part')
-            return redirect('/add-question')
-        file = request.files['image']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        data_manager.add_new_question(submission_time, title, message, image)
-        return redirect('/list')
-    return render_template('add_question.html')
+    if 'image' not in request.files:
+        flash('No file part')
+        return redirect('/add-question')
+    file = request.files['image']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    data_manager.add_new_question(submission_time, title, message, image)
+    return redirect('/list')
 
 
 @app.route("/question/<int:question_id>/new-answer", methods=['POST', 'GET'])
