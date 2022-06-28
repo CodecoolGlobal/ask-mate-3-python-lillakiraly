@@ -189,6 +189,13 @@ def vote_down_answer(answer_id):
     return redirect(url_for('display_question', question_id=answer['question_id']))
 
 
+@app.route('/search')
+def search_question():
+    search_phrase = request.args.get('q')
+    results = data_manager.get_search_results(search_phrase)
+    return None
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,

@@ -72,6 +72,7 @@ form {
     align-items: center;
     font-size: 15px;
     font-weight: bold;
+    opacity: 80%;
 }
 
 .logo {
@@ -102,7 +103,7 @@ form {
 }
 
 .logo img {
-    width: 100px;
+    width: 80px;
     vertical-align: middle;
 }
 
@@ -140,11 +141,9 @@ a.ask-button:link, a.ask-button:visited  {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     font-weight: bold;
     border-radius: 1px;
     font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
-    margin: 20px 185px;
     border: 1px solid darkcyan;
 }
 
@@ -153,3 +152,36 @@ a.ask-button:hover, a.ask-button:active {
     color: darkcyan;
 }
 
+/* question bar */
+.question-bar {
+    background-color: darkcyan;
+    margin: auto;
+    width: 80%;
+    border: 1px solid yellow;
+    justify-content: space-between;
+    align-items: center;
+    color: yellow;
+    font-weight: bold;
+    font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+form.search {
+    display: inline-block;
+}
+
+input[type=text] {
+    padding: 5px;
+    margin: 2px 2px;
+    border:0;
+    border-radius: 3px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    color: darkslateblue;
+
+}
+
+input, textarea {
+    font-family:inherit;
+    font-size: inherit;
+}

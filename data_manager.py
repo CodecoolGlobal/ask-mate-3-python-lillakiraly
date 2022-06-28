@@ -169,3 +169,16 @@ def display_question_from_id(cursor, id):
 #         FROM applicant"""
 #     cursor.execute(query)
 #     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_search_results(cursor, search_phrase):
+    query = """
+        SELECT * FROM question
+        INNER JOIN answer ON answer.question_id = question.id 
+        WHERE question.title LIKE %(search_phrase)s OR question.message LIKE %(search_phrase)s OR answer.message LIKE %(search_phrase)s
+    """
+    search_values = {'search_phrase': f'%{search_phrase}%'}
+    cursor.execute(query, search_values)
+    return cursor.fetchall()
+
