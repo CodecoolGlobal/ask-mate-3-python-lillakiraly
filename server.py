@@ -21,27 +21,15 @@ def allowed_file(filename):
 @app.route("/")
 @app.route("/list", methods=['GET', 'POST'])
 def home_page():
-    """ 1. Implement the /list page that displays all questions """
-    datas = data_manager.get_questions()
-    # if request.method == 'GET':
-    #     if request.args.get('order_by') == 'id':
-    #         datas = data_handler.sort_questions(sorted_by='id', order=request.args.get('order_direction'))
-    #     elif request.args.get('order_by') == 'submission_time':
-    #         datas = data_handler.sort_questions(sorted_by='submission_time', order=request.args.get('order_direction'))
-    #     elif request.args.get('order_by') == 'view_number':
-    #         datas = data_handler.sort_questions(sorted_by='view_number', order=request.args.get('order_direction'))
-    #     elif request.args.get('order_by') == 'vote_number':
-    #         datas = data_handler.sort_questions(sorted_by='vote_number', order=request.args.get('order_direction'))
-    #     elif request.args.get('order_by') == 'title':
-    #         datas = data_handler.sort_questions(sorted_by='title', order=request.args.get('order_direction'),
-    #                                             is_int_header=False)
-    #     elif request.args.get('order_by') == 'message':
-    #         datas = data_handler.sort_questions(sorted_by='message', order=request.args.get('order_direction'),
-    #                                             is_int_header=False)
-    #
-    #     datas = util.convert_date(datas=datas)
-    #     return render_template("index.html", datas=datas)
-    # datas = util.convert_date(datas=datas)
+    """ 1. Implement the /list page that displays all questions
+    """
+    datas = data_manager.get_datas('question')
+    print(datas)
+    if request.method == 'GET' and request.args.get('order_by'):
+        order_direction = request.args.get('order_direction') == 'asc'
+        datas = data_manager.get_datas(
+            'question', col=request.args.get('order_by'), is_ascending=order_direction)
+        return render_template("index.html", datas=datas)
     return render_template("index.html", datas=datas)
 
 
@@ -50,6 +38,7 @@ def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
+    print(question_data)
     answers = data_manager.get_answers(question_id)
     return render_template("question_form.html", title=question_data['title'], question=question_data['message'], id=question_id, answers=answers)
 
@@ -57,7 +46,7 @@ def display_question(question_id: int):
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     """ 3. Implement a form that allows the user to add a question. """
-    questions = read_csv(reverse=False)
+    questions = data_manager.get_datas('question')
     if request.method == 'POST':
         added_question = {
             'id': util.generate_id(questions),
@@ -84,7 +73,7 @@ def add_question():
 
 @app.route("/question/<int:question_id>/new-answer", methods=['POST', 'GET'])
 def add_answer(question_id):
-    answers = read_csv(csv_database='./sample_data/answer.csv', reverse=False)
+    answers = data_manager.get_datas('answer')
     if request.method == 'POST':
         added_answer = {
             'id': util.generate_id(answers),
@@ -157,7 +146,7 @@ def edit_question(question_id):
 @app.route("/answer/<int:answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     """ 9. Implement deleting an answer. """
-    answers = read_csv("./sample_data/answer.csv")
+    answers = data_manager.get_datas("answer")
     if request.method == 'GET':
         for answer in answers:
             if int(answer['id']) == answer_id:
@@ -183,7 +172,7 @@ def vote_down_question(question_id):
 @app.route('/answer/<int:answer_id>/vote-up')
 def vote_up_answer(answer_id):
     util.vote(answer_id, 'sample_data/answer.csv', 'up', switch=False)
-    answers = read_csv('sample_data/answer.csv')
+    answers = data_manager.get_datas('answer')
     for answer in answers:
         if int(answer['id']) == answer_id:
             break
@@ -193,7 +182,7 @@ def vote_up_answer(answer_id):
 @app.route('/answer/<int:answer_id>/vote-down')
 def vote_down_answer(answer_id):
     util.vote(answer_id, 'sample_data/answer.csv', 'down', switch=False)
-    answers = read_csv('sample_data/answer.csv')
+    answers = data_manager.get_datas('answer')
     for answer in answers:
         if int(answer['id']) == answer_id:
             break

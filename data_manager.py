@@ -1,13 +1,14 @@
 from psycopg2.extras import RealDictCursor
+from psycopg2 import sql
 
 import database_common
 
 
 @database_common.connection_handler
-def get_questions(cursor):
-    query = """
-        SELECT *
-        FROM question"""
+def get_datas(cursor, table_name, col='id', is_ascending=True):
+    order_ = 'ASC' if is_ascending else 'DESC'
+    query = sql.SQL("select * from {table} ORDER BY {order_by} {order_}").\
+        format(table=sql.Identifier(table_name), order_by=sql.Identifier(col), order_=sql.SQL(order_))
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -42,7 +43,7 @@ def display_question_from_id(cursor, id):
         WHERE id = %(id)s"""
     value = {'id': id}
     cursor.execute(query, value)
-    return cursor.fetchall()
+    return cursor.fetchone()
 #
 #
 # @database_common.connection_handler
