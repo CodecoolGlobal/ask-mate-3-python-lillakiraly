@@ -112,15 +112,12 @@ def delete_answer(answer_id):
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return redirect("/list")
 
+
 # TODO
 @app.route("/answer/<int:answer_id>/edit", methods=['GET'])
 def edit_answer(answer_id):
     """ Implement editing an answer. """
-    if request.method == 'GET':
-        question_id = data_manager.get_question_id_by_answer_id(answer_id)
-        data_manager.edit_answer(answer_id)
-        return redirect(url_for('display_question', question_id=question_id['question_id']))
-    return redirect("/list")
+    return
 
 
 @app.route('/question/<int:question_id>/vote_up')
