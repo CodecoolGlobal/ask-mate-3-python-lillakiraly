@@ -30,7 +30,8 @@ def modify_request_form(dict_, filename):
 
 
 def modify_request_form_for_comment(dict_, question_id):
-    dict_['question_id'], dict_['submission_time'] = question_id, SUBMISSION_TIME
+    dict_['question_id'] = question_id
+    dict_['submission_time'] = SUBMISSION_TIME
     return dict_
 
 
