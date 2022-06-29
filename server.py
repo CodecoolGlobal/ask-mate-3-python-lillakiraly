@@ -27,7 +27,7 @@ def home_page():
     return render_template("index.html", datas=datas)
 
 
-@app.route("/question/<int:question_id>")
+@app.route("/question/<int:question_id>", methods=['GET', 'POST'])
 def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
     data_manager.increase_view_number(question_id)
