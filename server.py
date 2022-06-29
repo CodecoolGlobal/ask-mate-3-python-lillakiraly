@@ -7,7 +7,7 @@ import os
 import re
 import data_manager
 import util
-from SETTINGS import PATH
+from SETTINGS import PATH, SUBMISSION_TIME
 from util import allowed_file, upload_image, modify_request_form
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -166,14 +166,19 @@ def add_comment_to_question(question_id):
         return redirect(url_for('display_question', question_id=question_id))
     return render_template('new_comment_to_question.html', question_id=question_id)
 
-#TODO
+
 @app.route('/answer/<int:answer_id>/new-comment', methods=['GET', 'POST'])
-def add_comment_to_answer(answer_id, question_id):
+def add_comment_to_answer(answer_id):
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
     if request.method == 'POST':
-        message = util.modify_request_form_for_comment(request.form.to_dict(), answer_id)
-        data_manager.add_new_comment_to_answer(message)
-        return redirect(url_for('display_question', question_id=question_id))
-    return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id)
+        message = request.form.get('message', '')
+        data_manager.add_new_comment_to_answer(
+                                    answer_id,
+                                    message,
+                                    SUBMISSION_TIME
+        )
+        return redirect(url_for('display_question', question_id=question_id['question_id']))
+    return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id['question_id'])
 
 
 if __name__ == "__main__":
