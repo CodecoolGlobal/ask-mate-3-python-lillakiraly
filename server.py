@@ -86,15 +86,6 @@ def edit_question(question_id):
         title = request.form.get('title', '')
         message = request.form.get('message', '')
 
-        # file = request.files['uploaded_image']
-        # if file and allowed_file(file.filename):
-        #     filename = secure_filename(file.filename)
-        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #     if row[0]['image'] != f'images/{filename}':
-        #         edited_question['image'] = f'images/{filename}'
-        # else:
-        #     edited_question['image'] = row[0]['image']
-
         data_manager.edit_question(question_id, submission_time, title, message)
         return redirect("/list")
     data = data_manager.display_question_from_id(question_id)
