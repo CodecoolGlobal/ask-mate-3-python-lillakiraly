@@ -22,9 +22,9 @@
                             <td>{{ title }}</td>
                             <td>{{ message }}</td>
                             {#            <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>#}
-                            <td><a href={{ url_for('edit_question', question_id=id) }}>Edit</a></td>
-                            <td><a href={{ url_for('delete_question', question_id=id) }}>Delete</a></td>
-                            <td><a href={{ url_for('add_comment_to_question', question_id=id) }}>Comment</a></td>
+                            <td><a href={{ url_for('edit_question', question_id=question_id) }}>Edit</a></td>
+                            <td><a href={{ url_for('delete_question', question_id=question_id) }}>Delete</a></td>
+                            <td><a href={{ url_for('add_comment_to_question', question_id=question_id) }}>Comment</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -52,7 +52,7 @@
             </div>
 
             <div class="answers">
-            <h2>Answers<a class="add-button" href={{ url_for('add_answer', question_id=id) }}>+</a></h2>
+            <h2>Answers<a class="add-button" href={{ url_for('add_answer', question_id=question_id) }}>+</a></h2>
             <p></p>
                 <table>
                     <thead>
@@ -77,9 +77,9 @@
                         {% else %}
                         <td><img src="{{ url_for('static', filename= answer['image']) }}" alt="{{ answer['image'] }}" width="50px"></td>
                         {% endif %}
-                        <td><a href="#">Edit</a></td>
+                        <td><a href="{{ url_for('edit_answer', answer_id=answer['id']) }}">Edit</a></td>
                         <td><a href={{ url_for('delete_answer', answer_id=answer['id']) }}>Delete</a></td>
-                        <td><a href={{ url_for('add_comment_to_answer', answer_id=answer['id'], question_id=id) }}>Comment</a></td>
+                        <td><a href={{ url_for('add_comment_to_answer', answer_id=answer['id']) }}>Comment</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
