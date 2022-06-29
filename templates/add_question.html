@@ -1,7 +1,6 @@
 {% extends 'template_site.html' %}
 {% block title %}Add question{% endblock %}
 {% block content %}
-<a href="/list">Go back</a>
 <form action="/add-question" enctype="multipart/form-data" method="post">
     <label for="title">Question</label>
     <br>
@@ -17,4 +16,5 @@
     <p></p>
     <button type="submit">Submit</button>
 </form>
+    <br><a class="back-button" href="/list">Go back</a>
 {% endblock %}

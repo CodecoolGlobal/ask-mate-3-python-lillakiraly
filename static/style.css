@@ -29,20 +29,20 @@ table thead, tr {
     background-color: darkcyan;
     color: yellow;
     text-align: center;
-    border-bottom: 1px solid whitesmoke;
+    border-bottom: 1px solid lightslategray;
+    border-top: 1px solid lightslategray;
     font-weight: bold;
     font-size: 18px;
 }
 
 table thead th, td {
     padding: 12px 15px;
-    border-left: 1px solid whitesmoke;
-    border-right: 1px solid whitesmoke;
+    border-left: 1px solid lightslategray;
+    border-right: 1px solid lightslategray;
 }
 
 table tbody tr {
-    border-bottom: 1px solid whitesmoke;
-    background-color: lightgrey;
+    background-color: lightyellow;
     font-weight: bold;
     text-align: left;
     color: black;
@@ -129,22 +129,22 @@ form {
 }
 
 .page-wrap {
-    top: auto;
     width: 100%;
+    margin: 100px 1px;
 }
 
 /* Ask a question button */
 a.ask-button:link, a.ask-button:visited  {
     color: yellow;
-    background-color: darkcyan;
-    padding: 20px 20px;
+    padding: 2%;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-weight: bold;
     border-radius: 1px;
     font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
-    border: 1px solid darkcyan;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+
 }
 
 a.ask-button:hover, a.ask-button:active {
@@ -157,14 +157,13 @@ a.ask-button:hover, a.ask-button:active {
     background-color: darkcyan;
     margin: auto;
     width: 80%;
-    border: 1px solid yellow;
     justify-content: space-between;
-    align-items: center;
     color: yellow;
     font-weight: bold;
     font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 14px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
 }
 
 form.search {
@@ -172,16 +171,76 @@ form.search {
     width: 70%;
 }
 
-input[type=text] {
-    margin: 2px 1px 2px 180px;
+input[type=text].search {
+    margin: auto;
     border:0;
     border-radius: 3px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-    color: darkslateblue;
-    width: 70%;
+    color: yellow;
+    font-weight: bold;
+    width: 100%;
+    background-color: darkslategray;
+    opacity: 30%;
+    text-align: center;
+    display: flex;
 }
 
-input, textarea {
+input.search, textarea {
     font-family:inherit;
     font-size: inherit;
+    padding: 15px;
+}
+
+span.highlight {
+    background-color: yellow;
+}
+
+/* Ask question form */
+
+
+
+
+/* Back button */
+a.back-button:link, a.back-button:visited {
+    background-color: darkcyan;
+    color: yellow;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    padding: 20px 20px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 1px 200px;
+    border: 1px solid darkcyan;
+
+}
+
+a.back-button:hover, a.back-button:active {
+    background-color: yellow;
+    color: darkcyan;
+}
+
+a.add-button:link, a.add-button:visited {
+    background-color: darkcyan;
+    color: yellow;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+a.add-button:hover, a.add-button:active {
+    background-color: yellow;
+    color: darkcyan;
+}
+
+.answers, .questions {
+    display: inline-list-item;
+    width: 80%;
+    margin: auto;
 }

@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from werkzeug.utils import secure_filename
 
 import os
-
+import re
 import data_manager
 import util
 
@@ -155,7 +155,22 @@ def vote_down_answer(answer_id):
 def search_question():
     search_phrase = request.args.get('q')
     results = data_manager.get_search_results(search_phrase)
+    for result in results:
+        for key, text in result.items():
+            if key != 'image':
+                # result[key] = str(text).replace(search_phrase, '<span class="highlight">{}</span>'.format(search_phrase))
+                result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text), flags=re.IGNORECASE)
     return render_template('search.html', results=results)
+
+
+@app.route('/question/<int:question_id>/new-comment')
+def add_comment_to_question(question_id):
+    return render_template('new_comment.html')
+
+
+@app.route('/answer/<int:answer_id>/new-comment')
+def add_comment_to_answer(answer_id):
+    return render_template('new_comment.html')
 
 
 if __name__ == "__main__":

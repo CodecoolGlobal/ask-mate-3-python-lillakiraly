@@ -1,0 +1,12 @@
+{% extends 'template_site.html' %}
+{% block title %}Add question{% endblock %}
+{% block content %}
+        <form action="/new-comment" enctype="multipart/form-data" method="post">
+            <label for="message">Details</label>
+            <br>
+            <textarea id="message" name="message" cols="80" rows="6" placeholder="Write your comment here..."></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        <br><a class="back-button" href="/list">Go back</a>
+{% endblock %}

@@ -1,12 +1,12 @@
 {% extends "template_site.html" %}
 {% block title %}List page{% endblock %}
 {% block content %}
+    <div class="page-wrap">
     <div class="question-bar">
         <a class="ask-button" href="/add-question">Ask question</a>
         <form class="search" action="/search" method="get">
             <label for="search"></label>
-            <input id="search" name="q" type="text">
-            <button class="search" type="submit">Search</button>
+            <input class="search" name="q" type="text" placeholder="Search">
         </form>
     </div>
     <table>
@@ -104,4 +104,5 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
 {% endblock %}
