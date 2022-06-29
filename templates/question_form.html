@@ -5,25 +5,71 @@
 
             <div class="questions">
             <h2>Question</h2>
-            <table>
-                <tr>
-                    <td><strong>{{ title }}</strong></td>
-                    <td>{{ question }}</td>
-                    {#            <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>#}
-                    <td><a href={{ url_for('edit_question', question_id=id) }}>Edit</a></td>
-                    <td><a href={{ url_for('delete_question', question_id=id) }}>Delete</a></td>
-                    <td><a href={{ url_for('add_comment_to_question', question_id=id) }}>Comment</a></td>
-                </tr>
-            </table>
-            <p></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Submission time</td>
+                            <td>Title</td>
+                            <td>Question</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ submission_time }}</td>
+                            <td>{{ title }}</td>
+                            <td>{{ message }}</td>
+                            {#            <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>#}
+                            <td><a href={{ url_for('edit_question', question_id=id) }}>Edit</a></td>
+                            <td><a href={{ url_for('delete_question', question_id=id) }}>Delete</a></td>
+                            <td><a href={{ url_for('add_comment_to_question', question_id=id) }}>Comment</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="question_comments">
+                    <h3>Comments to question</h3>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>Submission time</td>
+                            <td>Comment</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for comment in question_comments %}
+                        <tr>
+                            <td>{{ comment['submission_time'] }}</td>
+                            <td>{{ comment['message'] }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                <p></p>
+                </div>
             </div>
 
             <div class="answers">
             <h2>Answers<a class="add-button" href={{ url_for('add_answer', question_id=id) }}>+</a></h2>
             <p></p>
                 <table>
+                    <thead>
+                        <tr>
+                            <td>Submission Time</td>
+                            <td>Vote Number</td>
+                            <td>Message</td>
+                            <td>Image</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {% for answer in answers %}
                     <tr>
+                        <td>{{ answer['submission_time'] }}</td>
                         <td>{{ answer['vote_number'] }}<a href="{{ url_for('vote_up_answer', answer_id=answer['id']) }}">&uarr;</a><a href="{{ url_for('vote_down_answer', answer_id=answer['id']) }}" >&darr;</a></td>
                         <td>{{ answer['message'] }}</td>
                         {% if answer['image'] == 'images/' or answer['image'] == None or answer['image'] == '' %}
@@ -33,11 +79,33 @@
                         {% endif %}
                         <td><a href="#">Edit</a></td>
                         <td><a href={{ url_for('delete_answer', answer_id=answer['id']) }}>Delete</a></td>
-                        <td><a href={{ url_for('add_comment_to_answer', answer_id=id) }}>Comment</a></td>
+                        <td><a href={{ url_for('add_comment_to_answer', answer_id=answer['id'], question_id=id) }}>Comment</a></td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
-            </div>
+
+                <div class="answer_comments">
+                    <h3>Comments to answers</h3>
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>Submission time</td>
+                                <td>Comment</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for comment in answer_comments %}
+                            <tr>
+                                <td>{{ comment['submission_time'] }}</td>
+                                <td>{{ comment['message'] }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    <p></p>
+                    </div>
+                </div>
 
         <br><a class="back-button" href="/list">Go back</a>
     </div>
