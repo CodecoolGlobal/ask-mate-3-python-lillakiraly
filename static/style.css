@@ -72,7 +72,7 @@ form {
     align-items: center;
     font-size: 15px;
     font-weight: bold;
-    opacity: 80%;
+    opacity: 100%;
 }
 
 .logo {
@@ -213,7 +213,7 @@ a.back-button:link, a.back-button:visited {
     text-transform: uppercase;
     margin: 1px 200px;
     border: 1px solid darkcyan;
-
+    position: relative;
 }
 
 a.back-button:hover, a.back-button:active {
@@ -232,6 +232,7 @@ a.add-button:link, a.add-button:visited {
     padding: 5px 8px 5px 8px;
     display: inline-block;
     text-transform: uppercase;
+    margin: 10px;
 }
 
 a.add-button:hover, a.add-button:active {
