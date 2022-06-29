@@ -1,23 +1,16 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 import os
 import re
 import data_manager
-import util
-
-UPLOAD_FOLDER = 'static/images'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+from SETTINGS import PATH, SUBMISSION_TIME
+from util import allowed_file, upload_image, modify_request_form
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+app.config['UPLOAD_FOLDER'] = PATH
 
 
 @app.route("/")
