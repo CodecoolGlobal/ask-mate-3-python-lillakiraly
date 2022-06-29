@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 import os
 import re
 import data_manager
+import util
 from SETTINGS import PATH
 from util import allowed_file, upload_image, modify_request_form
 
@@ -33,7 +34,17 @@ def display_question(question_id: int):
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
-    return render_template("question_form.html", title=question_data['title'], question=question_data['message'], id=question_id, answers=answers)
+    question_comments = data_manager.display_comment_from_question_id(question_id)
+    answer_comments = data_manager.display_comment_from_answer_id(question_id)
+    return render_template(
+            "question_form.html",
+            id=question_id,
+            submission_time=question_data['submission_time'],
+            title=question_data['title'],
+            message=question_data['message'],
+            answers=answers,
+            question_comments=question_comments,
+            answer_comments=answer_comments)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -101,6 +112,16 @@ def delete_answer(answer_id):
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return redirect("/list")
 
+# TODO
+@app.route("/answer/<int:answer_id>/edit", methods=['GET'])
+def edit_answer(answer_id):
+    """ Implement editing an answer. """
+    if request.method == 'GET':
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
+        data_manager.edit_answer(answer_id)
+        return redirect(url_for('display_question', question_id=question_id['question_id']))
+    return redirect("/list")
+
 
 @app.route('/question/<int:question_id>/vote_up')
 def vote_up_question(question_id):
@@ -140,14 +161,22 @@ def search_question():
     return render_template('search.html', results=results)
 
 
-@app.route('/question/<int:question_id>/new-comment')
+@app.route('/question/<int:question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_question(question_id):
-    return render_template('new_comment.html', question_id=question_id)
+    if request.method == 'POST':
+        message = util.modify_request_form_for_comment(request.form.to_dict(), question_id)
+        data_manager.add_new_comment_to_question(message)
+        return redirect(url_for('display_question', question_id=question_id))
+    return render_template('new_comment_to_question.html', question_id=question_id)
 
-
-@app.route('/answer/<int:answer_id>/new-comment')
-def add_comment_to_answer(answer_id):
-    return render_template('new_comment.html')
+#TODO
+@app.route('/answer/<int:answer_id>/new-comment', methods=['GET', 'POST'])
+def add_comment_to_answer(answer_id, question_id):
+    if request.method == 'POST':
+        message = util.modify_request_form_for_comment(request.form.to_dict(), answer_id)
+        data_manager.add_new_comment_to_answer(message)
+        return redirect(url_for('display_question', question_id=question_id))
+    return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id)
 
 
 if __name__ == "__main__":
