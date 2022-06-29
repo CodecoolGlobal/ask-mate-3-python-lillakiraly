@@ -47,16 +47,11 @@ def display_question_from_id(cursor, id):
 
 
 @database_common.connection_handler
-def add_new_question(cursor, submission_time, title, message_, image):
+def add_new_question(cursor, question):
     query = """
         INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
-        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message_)s, %(image)s)"""
-    value = {
-        'submission_time': submission_time,
-        'title': title,
-        'message_': message_,
-        'image': image
-    }
+        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s)"""
+    value = question
     cursor.execute(query, value)
     return None
 
