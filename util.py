@@ -27,3 +27,10 @@ def modify_request_form(dict_, filename):
     dict_['submission_time'] = SUBMISSION_TIME
     dict_['image'] = filename
     return dict_
+
+
+def modify_request_form_for_comment(dict_, question_id):
+    dict_['question_id'], dict_['submission_time'] = question_id, SUBMISSION_TIME
+    return dict_
+
+
