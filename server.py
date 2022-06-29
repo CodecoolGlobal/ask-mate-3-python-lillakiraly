@@ -38,7 +38,7 @@ def display_question(question_id: int):
     answer_comments = data_manager.display_comment_from_answer_id(question_id)
     return render_template(
             "question_form.html",
-            id=question_id,
+            question_id=question_id,
             submission_time=question_data['submission_time'],
             title=question_data['title'],
             message=question_data['message'],
