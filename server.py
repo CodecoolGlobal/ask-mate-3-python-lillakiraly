@@ -37,30 +37,23 @@ def display_question(question_id: int):
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
-def add_question():    # sourcery skip: replace-interpolation-with-fstring
+def add_question():    # sourcery skip: replace-interpolation-with-fstring, use-fstring-for-formatting
     """ 3. Implement a form that allows the user to add a question. """
     if request.method != 'POST':
         return render_template('add_question.html')
-    # 'id': util.generate_id(questions),
-    submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    title = request.form.get('title', '')
-    message = request.form.get('message', '')
-    image = 'images/%s' % request.files.get('image', '').filename
 
-    if 'image' not in request.files:
-        flash('No file part')
-        return redirect('/add-question')
+    image = 'images/%s' % request.files.get('image', '').filename
     file = request.files['image']
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    data_manager.add_new_question(submission_time, title, message, image)
+        image = upload_image(file)
+
+    question = modify_request_form(request.form.to_dict(), image)
+    data_manager.add_new_question(question)
     return redirect('/list')
 
 
 @app.route("/question/<int:question_id>/new-answer", methods=['POST', 'GET'])
-def add_answer(question_id):
-    answers = data_manager.get_datas('answer')
+def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstring
     if request.method == 'POST':
         submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         question_id = question_id
