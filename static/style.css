@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: "Times New Roman", Times, serif
+    font-family: cursive;
 }
 
 /* HTML */
@@ -65,12 +65,12 @@ form {
     width: 100%;
     background-image: linear-gradient(darkcyan, darkslategray);
     box-shadow: 1px 1px 10px darkslategrey;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     position: sticky;
     justify-content: space-between;
     align-items: center;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     opacity: 100%;
 }
@@ -103,7 +103,7 @@ form {
 }
 
 .logo img {
-    width: 80px;
+    width: 100px;
     vertical-align: middle;
 }
 
@@ -142,9 +142,8 @@ a.ask-button:link, a.ask-button:visited  {
     display: inline-block;
     font-weight: bold;
     border-radius: 1px;
-    font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
+    font-size: 16px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-
 }
 
 a.ask-button:hover, a.ask-button:active {
@@ -169,6 +168,7 @@ a.ask-button:hover, a.ask-button:active {
 form.search {
     display: inline-block;
     width: 70%;
+    padding-left: 200px;
 }
 
 input[type=text].search {
@@ -233,6 +233,7 @@ a.add-button:link, a.add-button:visited {
     display: inline-block;
     text-transform: uppercase;
     margin: 10px;
+    border: 1px solid darkcyan;
 }
 
 a.add-button:hover, a.add-button:active {
@@ -240,8 +241,128 @@ a.add-button:hover, a.add-button:active {
     color: darkcyan;
 }
 
+a.edit:link, a.edit:visited  {
+    color: yellow;
+    background-color: darkcyan;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+    border: 1pt solid darkcyan;
+    display: flex;
+    opacity: 70%;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+}
+
+a.edit:hover, a.edit:active {
+    background-color: yellow;
+    color: darkcyan;
+    display: inline-block;
+    border: 1pt solid darkcyan;
+}
+
+a.vote:link, a.vote:visited  {
+    color: yellow;
+    background-color: darkcyan;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 1pt solid darkcyan;
+    opacity: 70%;
+}
+
+a.vote:hover, a.vote:active {
+    background-color: yellow;
+    color: darkcyan;
+    display: inline-block;
+    border: 1pt solid darkcyan;
+}
+
 .answers, .questions {
     display: inline-list-item;
     width: 80%;
     margin: auto;
+}
+
+.form {
+    border-collapse: collapse;
+    margin: auto;
+    width: 30%;
+    font-size: 2em;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    background-color: darkcyan;
+    color: yellow;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+}
+
+.form input, textarea {
+    width: 80%;
+    font-family:inherit;
+    font-size: 16px;
+    padding: 15px;
+}
+
+button.submit {
+    background-color: yellow;
+    color: darkcyan;
+    padding: 10px 10px 10px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Lucida Console", "Courier New", monospace;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 50px;
+    position: relative;
+}
+
+button.submit:hover {
+    background-color: yellow;
+    color: darkcyan;
+    transition: 0.3s;
+}
+
+button.submit:focus {
+    outline-color: transparent;
+    outline-style: solid;
+    box-shadow: 0 0 0 2px cyan;
+    transition: 0.7s;
+}
+
+button.submit:active {
+    background-color: yellow;
+    color: darkcyan;
+}
+
+button.filter {
+    font-weight: bold;
+    background-color:darkslategray;
+    color: yellow;
+    border: 0;
+    border-radius: 3px;
+    padding: 3px;
+    margin: auto;
+    display: flex;
+}
+
+button.filter:hover {
+    background-color: yellow;
+    color: darkcyan;
+    transition: 0.3s;
+}
+
+button.filter:focus {
+    outline-color: transparent;
+    outline-style: solid;
+    box-shadow: 0 0 0 2px cyan;
+    transition: 0.7s;
+}
+
+button.filter:active {
+    background-color: yellow;
+    color: darkcyan;
 }

@@ -70,7 +70,11 @@
                     {% for answer in answers %}
                     <tr>
                         <td>{{ answer['submission_time'] }}</td>
-                        <td>{{ answer['vote_number'] }}<a href="{{ url_for('vote_up_answer', answer_id=answer['id']) }}">&uarr;</a><a href="{{ url_for('vote_down_answer', answer_id=answer['id']) }}" >&darr;</a></td>
+                        <td>
+                            <a class="vote" href="{{ url_for('vote_up_answer', answer_id=answer['id']) }}">&uarr;</a>
+                            {{ answer['vote_number'] }}
+                            <a class="vote" href="{{ url_for('vote_down_answer', answer_id=answer['id']) }}" >&darr;</a>
+                        </td>
                         <td>{{ answer['message'] }}</td>
                         {% if answer['image'] == 'images/' or answer['image'] == None or answer['image'] == '' %}
                         <td></td>
