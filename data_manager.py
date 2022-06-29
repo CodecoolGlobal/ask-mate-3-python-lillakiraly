@@ -164,9 +164,10 @@ def delete_answer(cursor, answer_id):
     cursor.execute(query, value)
     return None
 
+
 # TODO
 @database_common.connection_handler
-def edit_answer(cursor, question_id):
+def edit_answer(cursor, answer_id):
     query = """
         UPDATE answer
         SET submission_time = %(submission_time)s, message = %(message)s
