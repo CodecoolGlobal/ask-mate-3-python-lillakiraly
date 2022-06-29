@@ -54,19 +54,19 @@ def add_question():    # sourcery skip: replace-interpolation-with-fstring, use-
 
 @app.route("/question/<int:question_id>/new-answer", methods=['POST', 'GET'])
 def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstring
-    if request.method == 'POST':
-        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        question_id = question_id
-        message = request.form.get('message' '')
-        image = 'images/%s' % request.files.get('image', '').filename
+    if request.method != 'POST':
+        return render_template('add_answer.html', id=question_id)
+    submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    question_id = question_id
+    message = request.form.get('message' '')
+    image = 'images/%s' % request.files.get('image', '').filename
 
-        file = request.files['image']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        data_manager.add_new_answer(submission_time, question_id, message, image)
-        return redirect(url_for('display_question', question_id=question_id))
-    return render_template('add_answer.html', id=question_id)
+    file = request.files['image']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    data_manager.add_new_answer(submission_time, question_id, message, image)
+    return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route("/question/<int:question_id>/delete", methods=['GET'])
