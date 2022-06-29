@@ -4,6 +4,7 @@ from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
 import database_common
+from SETTINGS import SUBMISSION_TIME
 
 
 @database_common.connection_handler
@@ -40,7 +41,7 @@ def get_answers(cursor, id):
 @database_common.connection_handler
 def display_question_from_id(cursor, id):
     query = """
-        SELECT title, question.message
+        SELECT question.submission_time, question.title, question.message
         FROM question
         WHERE id = %(id)s"""
     value = {'id': id}
@@ -163,6 +164,21 @@ def delete_answer(cursor, answer_id):
     cursor.execute(query, value)
     return None
 
+# TODO
+@database_common.connection_handler
+def edit_answer(cursor, question_id):
+    query = """
+        UPDATE answer
+        SET submission_time = %(submission_time)s, message = %(message)s
+        WHERE question_id = %(question_id)s"""
+    value = {
+        'submission_time': submission_time,
+        'message': message,
+        'answer_id': answer_id
+    }
+    cursor.execute(query, value)
+    return None
+
 
 @database_common.connection_handler
 def get_search_results(cursor, search_phrase):
@@ -176,3 +192,45 @@ def get_search_results(cursor, search_phrase):
     search_values = {'search_phrase': f'%{search_phrase}%'}
     cursor.execute(query, search_values)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def display_comment_from_question_id(cursor, id):
+    query = """
+        SELECT submission_time, message
+        FROM comment
+        WHERE question_id = %(id)s"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def display_comment_from_answer_id(cursor, id):
+    query = """
+        SELECT submission_time, message
+        FROM comment
+        WHERE answer_id = %(id)s"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def add_new_comment_to_question(cursor, comment):
+    query = """
+        INSERT INTO comment(question_id, message, submission_time, edited_count)
+        VALUES (%(question_id)s, %(message)s, %(submission_time)s, 0)"""
+    value = comment
+    cursor.execute(query, value)
+    return None
+
+#TODO
+@database_common.connection_handler
+def add_new_comment_to_answer(cursor, comment):
+    query = """
+        INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count)
+        VALUES (%(answer_id)s, %(question_id)s, %(message)s, %(submission_time)s, 0)"""
+    value = comment
+    cursor.execute(query, value)
+    return None
