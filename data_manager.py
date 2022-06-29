@@ -226,12 +226,16 @@ def add_new_comment_to_question(cursor, comment):
     cursor.execute(query, value)
     return None
 
-#TODO
+
 @database_common.connection_handler
-def add_new_comment_to_answer(cursor, comment):
+def add_new_comment_to_answer(cursor, answer_id, message, submission_time):
     query = """
-        INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count)
-        VALUES (%(answer_id)s, %(question_id)s, %(message)s, %(submission_time)s, 0)"""
-    value = comment
+        INSERT INTO comment(answer_id, message, submission_time, edited_count)
+        VALUES (%(answer_id)s, %(message)s, %(submission_time)s, 0)"""
+    value = {
+        'answer_id': answer_id,
+        'message': message,
+        'submission_time': submission_time
+    }
     cursor.execute(query, value)
     return None
