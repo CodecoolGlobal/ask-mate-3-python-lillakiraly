@@ -1,3 +1,5 @@
+import os
+
 from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
