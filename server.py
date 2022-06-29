@@ -142,7 +142,7 @@ def search_question():
 
 @app.route('/question/<int:question_id>/new-comment')
 def add_comment_to_question(question_id):
-    return render_template('new_comment.html')
+    return render_template('new_comment.html', question_id=question_id)
 
 
 @app.route('/answer/<int:answer_id>/new-comment')
