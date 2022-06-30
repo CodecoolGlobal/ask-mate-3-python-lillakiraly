@@ -8,7 +8,7 @@
             <p>Tags</p>
             <ul>
                 {% for tag in question_tags %}
-                    <li>{{ tag['name'] }}</li>
+                    <li>{{ tag['name'] }} <a href="{{ url_for('delete_question_tag', question_id=question_id, tag_id=tag['id']) }}">X</a></li>
                 {% endfor %}
             </ul>
                 <a href="{{ url_for('add_tag', question_id=question_id) }}">Add Tag</a>

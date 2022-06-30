@@ -252,7 +252,7 @@ def get_all_question_tags(cursor):
 @database_common.connection_handler
 def get_question_tags_by_question_id(cursor, question_id):
     query = """
-        SELECT tag.name
+        SELECT tag.name, tag.id
         FROM tag
         JOIN question_tag
         ON question_tag.tag_id = tag.id
@@ -280,3 +280,12 @@ def add_new_tag(cursor, tag_id, new_tag):
     """
     cursor.execute(query, {'tag_id':tag_id, 'new_tag': new_tag})
 
+
+@database_common.connection_handler
+def delete_tag_from_question(cursor, tag_id, question_id):
+    query = """
+        DELETE FROM question_tag
+        WHERE question_id = %(question_id)s
+        AND tag_id = %(tag_id)s
+    """
+    cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
