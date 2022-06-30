@@ -146,7 +146,7 @@ def delete_answer(answer_id):
 # TODO
 @app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    answer = data_manager.get_answer_by_id(answer_id)
+    answer = data_manager.get_answer_by_answer_id(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     if request.method == 'POST':
         edited_answer = {
