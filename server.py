@@ -193,6 +193,7 @@ def add_tag(question_id):
         new_tag_added = request.form.get('new_tag', None)
         id_for_new_tag = max([tag['id'] for tag in all_tags]) + 1
         data_manager.add_new_tag(id_for_new_tag, new_tag_added)
+        return redirect(url_for("add_tag", question_id=question_id))
 
     elif request.method == 'POST':
         add_tag_ids = []
@@ -204,7 +205,7 @@ def add_tag(question_id):
         if add_tag_ids:
             data_manager.add_tags_to_question(question_id, add_tag_ids)
         return redirect(url_for('display_question', question_id=question_id))
-# TODO fix UniqueViolation Error
+# TODO fix UniqueViolation
     return render_template('add_tag.html', tags=all_tags, question_id=question_id)
 
 
