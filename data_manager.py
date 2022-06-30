@@ -245,12 +245,22 @@ def add_new_comment_to_answer(cursor, answer_id, message, submission_time):
 
 
 @database_common.connection_handler
+def get_all_question_tags(cursor):
+    query = """
+        SELECT tag.name, tag.id FROM tag
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_question_tags_by_question_id(cursor, question_id):
     query = """
-        SELECT tag.name 
-        FROM tag, question_tag
-        WHERE question_tag.tag_id = tag.id
-        AND question_tag.question_id = %(question_id)s;
+        SELECT tag.name, tag.id
+        FROM tag
+        JOIN question_tag
+        ON question_tag.tag_id = tag.id
+        WHERE question_tag.question_id = %(question_id)s;
     """
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
@@ -264,3 +274,46 @@ def get_comment_by_id(cursor, comment_id):
     value = {'comment_id': comment_id}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_tags_to_question(cursor, question_id, tags):
+    query = """
+            INSERT INTO question_tag 
+            VALUES (%(question_id)s, %(tag)s)
+            """
+    for tag in tags:
+        cursor.execute(query, {'question_id': question_id, 'tag': tag})
+
+
+@database_common.connection_handler
+def add_new_tag(cursor, tag_id, new_tag):
+    query = """
+    INSERT INTO tag
+    VALUES (%(tag_id)s, %(new_tag)s)
+    """
+    cursor.execute(query, {'tag_id': tag_id, 'new_tag': new_tag})
+
+
+@database_common.connection_handler
+def delete_tag_from_question(cursor, tag_id, question_id):
+    query = """
+        DELETE FROM question_tag
+        WHERE question_id = %(question_id)s
+        AND tag_id = %(tag_id)s
+    """
+    cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@database_common.connection_handler
+def get_comments_by_answer_id(cursor, answer_id):
+    query = """
+        SELECT answer.submission_time, answer.vote_number, answer.message, answer.image, comment.submission_time, comment.message, comment.edited_count
+        FROM comment
+        FULL JOIN answer ON answer.id = comment.answer_id
+        INNER JOIN question ON question.id = answer.question_id
+        WHERE answer.id = %(answer_id)s
+    """
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
