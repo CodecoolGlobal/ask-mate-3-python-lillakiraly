@@ -185,6 +185,28 @@ def add_comment_to_answer(answer_id):
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id['question_id'])
 
+@app.route("/question/<int:question_id>/new-tag", methods=['GET', 'POST'])
+def add_tag(question_id):
+    all_tags = data_manager.get_all_question_tags()
+    if request.method == 'POST' and request.form.get('new_tag', None):
+        new_tag_added = request.form.get('new_tag', None)
+        id_for_new_tag = max([tag['id'] for tag in all_tags]) + 1
+        data_manager.add_new_tag(id_for_new_tag, new_tag_added)
+
+    elif request.method == 'POST':
+        add_tag_ids = []
+        for tag in all_tags:
+            is_valid_tag = request.form.get(tag['name'], None)
+            if is_valid_tag:
+                add_tag_ids.append(tag['id'])
+
+        if add_tag_ids:
+            data_manager.add_tags_to_question(question_id, add_tag_ids)
+        return redirect(url_for('display_question', question_id=question_id))
+# TODO fix UniqueViolation Error
+    return render_template('add_tag.html', tags=all_tags)
+
+
 
 if __name__ == "__main__":
     app.run(
