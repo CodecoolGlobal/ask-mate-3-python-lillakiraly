@@ -135,8 +135,10 @@ def edit_question(question_id):
 def delete_answer(answer_id):
     """ 9. Implement deleting an answer. """
     if request.method == 'GET':
+        data_manager.delete_comment_by_answer_id(answer_id)
         question_id = data_manager.get_question_id_by_answer_id(answer_id)
         data_manager.delete_answer(answer_id)
+
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return redirect("/list")
 
