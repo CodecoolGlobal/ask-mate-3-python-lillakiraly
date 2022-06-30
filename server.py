@@ -31,6 +31,7 @@ def home_page():
 @app.route("/question/<int:question_id>", methods=['GET', 'POST'])
 def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
+    answer_comments = []
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
