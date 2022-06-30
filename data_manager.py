@@ -198,6 +198,18 @@ def get_search_results(cursor, search_phrase):
     return cursor.fetchall()
 
 
+# @database_common.connection_handler
+# def get_search_results_from_answers(cursor, search_phrase):
+#     query = """
+#         SELECT message FROM answer
+#         WHERE anmessage ILIKE %(search_phrase)s
+#         GROUP BY
+#     """
+#     search_values = {'search_phrase': f'%{search_phrase}%'}
+#     cursor.execute(query, search_values)
+#     return cursor.fetchall()
+
+
 @database_common.connection_handler
 def display_comment_from_question_id(cursor, id):
     query = """
