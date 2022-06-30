@@ -42,6 +42,9 @@ def display_question(question_id: int):
             submission_time=question_data['submission_time'],
             title=question_data['title'],
             message=question_data['message'],
+            view=question_data['view_number'],
+            vote=question_data['vote_number'],
+            image=question_data['image'],
             answers=answers,
             question_comments=question_comments,
             answer_comments=answer_comments)

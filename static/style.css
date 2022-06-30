@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: cursive;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* HTML */
@@ -88,8 +88,8 @@ form {
     display: inline-block;
     padding: 10px 15px;
     text-decoration: none;
-    color: lightgoldenrodyellow;
-    font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
+    color: yellow;
+    font-family: 'Roboto', sans-serif;
 }
 
 .nav-item:hover {
@@ -365,4 +365,54 @@ button.filter:focus {
 button.filter:active {
     background-color: yellow;
     color: darkcyan;
+}
+
+
+/* Dropdown menu*/
+.dropdown {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    box-shadow: 1px 10px 10px 1px rgba(0,0,0,0.4);
+    background-color: #00A4BD;
+    text-align: center;
+    z-index: 20;
+    opacity: 90%;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    color: whitesmoke;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: #00A4BD;
+    background-color: yellow;
+}
+
+.dropdown button {
+    font-weight: bold;
+    background-color:#00A4BD;
+    color: yellow;
+    border: 0;
+    border-radius: 3px;
+    padding: 10px 20px 10px 20px;
+    margin: auto;
+    display: flex;
+    opacity: 80%;
+    text-transform: uppercase;
+    box-shadow: 1px 5px 5px 1px rgba(0,0,0,0.4);
 }

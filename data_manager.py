@@ -41,7 +41,7 @@ def get_answers(cursor, id):
 @database_common.connection_handler
 def display_question_from_id(cursor, id):
     query = """
-        SELECT question.submission_time, question.title, question.message
+        SELECT *
         FROM question
         WHERE id = %(id)s"""
     value = {'id': id}

@@ -9,22 +9,33 @@
                     <thead>
                         <tr>
                             <td>Submission time</td>
+                            <td>View Number</td>
+                            <td>Vote Number</td>
                             <td>Title</td>
                             <td>Question</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Image</td>
+                            <td>Menu</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>{{ submission_time }}</td>
+                            <td>{{ view }}</td>
+                            <td>{{ vote }}</td>
                             <td>{{ title }}</td>
                             <td>{{ message }}</td>
+                            <td>{{ image }}</td>
                             {#            <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>#}
-                            <td><a href={{ url_for('edit_question', question_id=question_id) }}>Edit</a></td>
-                            <td><a href={{ url_for('delete_question', question_id=question_id) }}>Delete</a></td>
-                            <td><a href={{ url_for('add_comment_to_question', question_id=question_id) }}>Comment</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button>Options</button>
+                                    <div class="dropdown-content">
+                                        <a href="{{ url_for('edit_question', question_id=question_id) }}">Edit</a>
+                                        <a href="{{ url_for('delete_question', question_id=question_id) }}">Delete</a>
+                                        <a href="{{ url_for('add_comment_to_question', question_id=question_id) }}">Comment</a>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -61,9 +72,7 @@
                             <td>Vote Number</td>
                             <td>Message</td>
                             <td>Image</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Menu</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,9 +90,16 @@
                         {% else %}
                         <td><img src="{{ url_for('static', filename= answer['image']) }}" alt="{{ answer['image'] }}" width="50px"></td>
                         {% endif %}
-                        <td><a href="{{ url_for('edit_answer', answer_id=answer['id']) }}">Edit</a></td>
-                        <td><a href={{ url_for('delete_answer', answer_id=answer['id']) }}>Delete</a></td>
-                        <td><a href={{ url_for('add_comment_to_answer', answer_id=answer['id']) }}>Comment</a></td>
+                        <td>
+                            <div class="dropdown">
+                                <button>Options</button>
+                                <div class="dropdown-content">
+                                    <a href="{{ url_for('edit_answer', answer_id=answer['id']) }}">Edit</a>
+                                    <a href="{{ url_for('delete_answer', answer_id=answer['id']) }}">Delete</a>
+                                    <a href="{{ url_for('add_comment_to_answer', answer_id=answer['id']) }}">Comment</a>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>

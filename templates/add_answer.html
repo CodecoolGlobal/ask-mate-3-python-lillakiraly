@@ -1,14 +1,15 @@
 {% extends 'template_site.html' %}
 {% block title %}Add answer{% endblock %}
 {% block content %}
-<form action='{{ url_for('add_answer', question_id=id) }}' enctype="multipart/form-data" method="post">
-    <label for="message">Message</label>
-    <br>
-    <textarea id="message" name="message" cols="80" rows="6" placeholder="Write your answer here..." required></textarea>
-    <br>
-    <input type="file" name="image">
-    <br>
-    <button type="submit">Submit</button>
-</form>
+    <div class="form">
+        <form action='{{ url_for('add_answer', question_id=id) }}' enctype="multipart/form-data" method="post">
+            <label for="message">Message</label><br>
+            <p></p>
+            <br><textarea id="message" name="message" cols="80" rows="6" placeholder="Write your answer here..." required></textarea><br>
+            <input type="file" name="image">
+            <p></p>
+            <br><button class="submit" type="submit">Submit</button><br>
+        </form>
+    </div>
     <br><a class="back-button" href="/question/{{ id}}">Go back</a>
 {% endblock %}
