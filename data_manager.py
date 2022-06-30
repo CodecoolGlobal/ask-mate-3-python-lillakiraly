@@ -249,6 +249,7 @@ def get_all_question_tags(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_question_tags_by_question_id(cursor, question_id):
     query = """

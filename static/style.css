@@ -163,7 +163,7 @@ a.ask-button:hover, a.ask-button:active {
     font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
     text-transform: uppercase;
     font-size: 14px;
-    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    box-shadow:15px 4px 15px 4px rgba(0,0,0,0.06);
 }
 
 form.search {
@@ -310,6 +310,22 @@ a.vote:hover, a.vote:active {
     font-family:inherit;
     font-size: 16px;
     padding: 15px;
+}
+
+.tag-form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+    margin: auto;
+    align-items: center;
+}
+
+.tag-form input {
+    width: min-content;
+    align-items: center;
+    margin: auto;
 }
 
 button.submit {

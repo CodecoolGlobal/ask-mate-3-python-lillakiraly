@@ -185,6 +185,7 @@ def add_comment_to_answer(answer_id):
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id['question_id'])
 
+
 @app.route("/question/<int:question_id>/new-tag", methods=['GET', 'POST'])
 def add_tag(question_id):
     all_tags = data_manager.get_all_question_tags()
@@ -204,13 +205,14 @@ def add_tag(question_id):
             data_manager.add_tags_to_question(question_id, add_tag_ids)
         return redirect(url_for('display_question', question_id=question_id))
 # TODO fix UniqueViolation Error
-    return render_template('add_tag.html', tags=all_tags)
+    return render_template('add_tag.html', tags=all_tags, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/tag/<int:tag_id>/delete')
 def delete_question_tag(question_id, tag_id):
     data_manager.delete_tag_from_question(tag_id, question_id)
     return redirect(url_for('display_question', question_id=question_id))
+
 
 if __name__ == "__main__":
     app.run(
