@@ -36,6 +36,7 @@ def display_question(question_id: int):
     answers = data_manager.get_answers(question_id)
     question_comments = data_manager.display_comment_from_question_id(question_id)
     answer_comments = data_manager.display_comment_from_answer_id(question_id)
+    question_tags = data_manager.get_question_tags_by_question_id(question_id)
     return render_template(
             "question_form.html",
             question_id=question_id,
@@ -47,7 +48,8 @@ def display_question(question_id: int):
             image=question_data['image'],
             answers=answers,
             question_comments=question_comments,
-            answer_comments=answer_comments)
+            answer_comments=answer_comments,
+            question_tags=question_tags)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

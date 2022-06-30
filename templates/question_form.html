@@ -5,6 +5,12 @@
 
             <div class="questions">
             <h2>Question</h2>
+            <p>Tags</p>
+            <ul>
+                {% for tag in question_tags %}
+                    <li>{{ tag['name'] }}</li>
+                {% endfor %}
+            </ul>
                 <table>
                     <thead>
                         <tr>

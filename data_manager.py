@@ -239,3 +239,15 @@ def add_new_comment_to_answer(cursor, answer_id, message, submission_time):
     }
     cursor.execute(query, value)
     return None
+
+
+@database_common.connection_handler
+def get_question_tags_by_question_id(cursor, question_id):
+    query = """
+        SELECT tag.name 
+        FROM tag, question_tag
+        WHERE question_tag.tag_id = tag.id
+        AND question_tag.question_id = %(question_id)s;
+    """
+    cursor.execute(query, {'question_id': question_id})
+    return cursor.fetchall()
