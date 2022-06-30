@@ -31,6 +31,7 @@ def home_page():
 @app.route("/question/<int:question_id>", methods=['GET', 'POST'])
 def display_question(question_id: int):
     """ 2. Create the /question/<question_id> page that displays a question and the answers for it. """
+    answer_comments = []
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
@@ -40,22 +41,22 @@ def display_question(question_id: int):
         answer_comments.append(data_manager.display_comment_from_answer_id(answer['id']))
     question_tags = data_manager.get_question_tags_by_question_id(question_id)
     return render_template(
-            "question_form.html",
-            question_id=question_id,
-            submission_time=question_data['submission_time'],
-            title=question_data['title'],
-            message=question_data['message'],
-            view=question_data['view_number'],
-            vote=question_data['vote_number'],
-            image=question_data['image'],
-            answers=answers,
-            question_comments=question_comments,
-            answer_comments=answer_comments,
-            question_tags=question_tags)
+        "question_form.html",
+        question_id=question_id,
+        submission_time=question_data['submission_time'],
+        title=question_data['title'],
+        message=question_data['message'],
+        view=question_data['view_number'],
+        vote=question_data['vote_number'],
+        image=question_data['image'],
+        answers=answers,
+        question_comments=question_comments,
+        answer_comments=answer_comments,
+        question_tags=question_tags)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
-def add_question():    # sourcery skip: replace-interpolation-with-fstring, use-fstring-for-formatting
+def add_question():  # sourcery skip: replace-interpolation-with-fstring, use-fstring-for-formatting
     """ 3. Implement a form that allows the user to add a question. """
     if request.method != 'POST':
         return render_template('add_question.html')
@@ -73,7 +74,11 @@ def add_question():    # sourcery skip: replace-interpolation-with-fstring, use-
 @app.route("/question/<int:question_id>/new-answer", methods=['POST', 'GET'])
 def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstring
     if request.method != 'POST':
-        return render_template('add_answer.html', id=question_id)
+        return render_template('add_answer.html',
+                               title='Add answer',
+                               question_id=question_id,
+                               action=url_for('add_answer', question_id=question_id))
+
     submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     question_id = question_id
     message = request.form.get('message' '')
@@ -100,14 +105,26 @@ def delete_question(question_id):
 def edit_question(question_id):
     """ 8. Implement editing an existing question. """
     if request.method == 'POST':
-        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        submission_time = SUBMISSION_TIME
         title = request.form.get('title', '')
         message = request.form.get('message', '')
+        if request.files.get('uploaded_image').filename == '':
+            image = request.form.get('default_image')
+        else:
+            image = 'images/%s' % request.files.get('uploaded_image').filename
+            file = request.files['uploaded_image']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        data_manager.edit_question(question_id, submission_time, title, message)
+        data_manager.edit_question(question_id, submission_time, title, message, image)
         return redirect("/list")
     data = data_manager.display_question_from_id(question_id)
-    return render_template("edit_question.html", data=data, id=question_id)
+    return render_template("edit.html",
+                           action=url_for('edit_question', question_id=question_id),
+                           title='Edit question',
+                           question_id=question_id,
+                           question_to_update=data)
 
 
 @app.route("/answer/<int:answer_id>/delete", methods=['GET'])
@@ -121,10 +138,54 @@ def delete_answer(answer_id):
 
 
 # TODO
-@app.route("/answer/<int:answer_id>/edit", methods=['GET'])
+@app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    """ Implement editing an answer. """
-    return
+    answer = data_manager.get_answer_by_id(answer_id)
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    if request.method == 'POST':
+        edited_answer = {
+            'id': answer.get('id'),
+            'submission_time': SUBMISSION_TIME,
+            'question_id': answer.get('question_id'),
+            'message': request.form.get('message', ''),
+        }
+        if request.files.get('uploaded_image').filename == '':
+            edited_answer['image'] = request.form.get('default_image')
+        else:
+            edited_answer['image'] = 'images/%s' % request.files.get('uploaded_image').filename
+            file = request.files['uploaded_image']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        data_manager.edit_answer(edited_answer)
+        return redirect(url_for('display_question', question_id=question_id['question_id']))
+
+    return render_template("edit.html",
+                           title='Edit answer',
+                           question_id=question_id['question_id'],
+                           answer_id=answer_id,
+                           answer_to_update=answer)
+
+
+# @app.route("/comment/<int:comment_id>/edit", methods=['GET', 'POST'])
+# def edit_comment(comment_id):
+#     answer = data_manager.get_comment_by_id(comment_id)
+#     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+#     if request.method == 'POST':
+#         edited_answer = {
+#             'id': answer.get('id'),
+#             'submission_time': SUBMISSION_TIME,
+#             'question_id': answer.get('question_id'),
+#             'message': request.form.get('message', ''),
+#         }
+#         data_manager.edit_answer(edited_answer)
+#         return redirect(url_for('display_question', question_id=question_id['question_id']))
+#
+#     return render_template("edit.html",
+#                            title='Edit answer',
+#                            question_id=question_id['question_id'],
+#                            answer_id=answer_id,
+#                            answer_to_update=answer)
 
 
 @app.route('/question/<int:question_id>/vote_up')
@@ -161,7 +222,8 @@ def search_question():
         for key, text in result.items():
             if key != 'image':
                 # result[key] = str(text).replace(search_phrase, '<span class="highlight">{}</span>'.format(search_phrase))
-                result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text), flags=re.IGNORECASE)
+                result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text),
+                                     flags=re.IGNORECASE)
     return render_template('search.html', results=results)
 
 
@@ -180,9 +242,9 @@ def add_comment_to_answer(answer_id):
     if request.method == 'POST':
         message = request.form.get('message', '')
         data_manager.add_new_comment_to_answer(
-                                    answer_id,
-                                    message,
-                                    SUBMISSION_TIME
+            answer_id,
+            message,
+            SUBMISSION_TIME
         )
         return redirect(url_for('display_question', question_id=question_id['question_id']))
     return render_template('new_comment_to_answer.html', answer_id=answer_id, question_id=question_id['question_id'])
@@ -215,6 +277,21 @@ def add_tag(question_id):
 def delete_question_tag(question_id, tag_id):
     data_manager.delete_tag_from_question(tag_id, question_id)
     return redirect(url_for('display_question', question_id=question_id))
+
+
+@app.route('/authentication')
+def authentication():
+    return render_template('authentication.html')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 
 if __name__ == "__main__":

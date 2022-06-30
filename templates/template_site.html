@@ -15,7 +15,7 @@
     <a class="logo" href="/list"><img src="{{ url_for('static', filename='images/ask_logo.png') }}" alt="AskMate logo" width="100"></a>
     <ul class="nav-links">
         <li class="nav-item"><a href="#">Support</a></li>
-        <li class="nav-item"><a href="#">Login</a></li>
+        <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>
     </ul>
 </nav>
 </div>

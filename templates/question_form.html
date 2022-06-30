@@ -33,7 +33,11 @@
                             <td>{{ vote }}</td>
                             <td>{{ title }}</td>
                             <td>{{ message }}</td>
-                            <td>{{ image }}</td>
+                            {% if image == 'images/' or image == None or image == '' %}
+                            <td></td>
+                            {% else %}
+                            <td><img src="{{ url_for('static', filename=image) }}" alt="{{ image }}" width="50px"></td>
+                            {% endif %}
                             {#            <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>#}
                             <td>
                                 <div class="dropdown">
