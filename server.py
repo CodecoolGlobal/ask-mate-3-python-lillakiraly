@@ -122,7 +122,7 @@ def edit_question(question_id):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         data_manager.edit_question(question_id, submission_time, title, message, image)
-        return redirect("/list")
+        return redirect(url_for('display_question', question_id=question_id))
     data = data_manager.display_question_from_id(question_id)
     return render_template("edit.html",
                            action=url_for('edit_question', question_id=question_id),
