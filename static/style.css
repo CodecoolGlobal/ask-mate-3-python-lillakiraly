@@ -36,9 +36,10 @@ table thead, tr {
 }
 
 table thead th, td {
-    padding: 12px 15px;
     border-left: 1px solid lightslategray;
     border-right: 1px solid lightslategray;
+    padding: 12px 30px;
+    align-content: center;
 }
 
 table tbody tr {
@@ -162,7 +163,7 @@ a.ask-button:hover, a.ask-button:active {
     font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
     text-transform: uppercase;
     font-size: 14px;
-    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    box-shadow:15px 4px 15px 4px rgba(0,0,0,0.06);
 }
 
 form.search {
@@ -177,10 +178,11 @@ input[type=text].search {
     border-radius: 3px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
     color: yellow;
+    font-size: 18px;
     font-weight: bold;
     width: 100%;
     background-color: darkslategray;
-    opacity: 30%;
+    opacity: 50%;
     text-align: center;
     display: flex;
 }
@@ -244,12 +246,10 @@ a.add-button:hover, a.add-button:active {
 a.edit:link, a.edit:visited  {
     color: yellow;
     background-color: darkcyan;
-    text-align: center;
     text-decoration: none;
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
     border: 1pt solid darkcyan;
-    display: flex;
     opacity: 70%;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
 }
@@ -257,7 +257,6 @@ a.edit:link, a.edit:visited  {
 a.edit:hover, a.edit:active {
     background-color: yellow;
     color: darkcyan;
-    display: inline-block;
     border: 1pt solid darkcyan;
 }
 
@@ -283,6 +282,12 @@ a.vote:hover, a.vote:active {
     margin: auto;
 }
 
+.answer_comments, .question_comments {
+    display: inline-list-item;
+    width: 100%;
+    margin: auto;
+}
+
 .form {
     border-collapse: collapse;
     margin: auto;
@@ -305,6 +310,22 @@ a.vote:hover, a.vote:active {
     font-family:inherit;
     font-size: 16px;
     padding: 15px;
+}
+
+.tag-form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+    margin: auto;
+    align-items: center;
+}
+
+.tag-form input {
+    width: min-content;
+    align-items: center;
+    margin: auto;
 }
 
 button.submit {
@@ -418,7 +439,83 @@ button.filter:active {
 }
 
 
-th.filter-cell, span.filter-cell {
+th .box {
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+    align-content: center;
+    align-items: center;
+}
+
+th .box form{
+    width: min-content;
+    margin: auto;
+    align-content: center;
+    align-items: center;
+}
+
+th .column_name {
+    width: min-content;
+    align-content: center;
+    margin-left: auto;
+    padding-right: 5px;
+}
+
+.filter-head {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
+.question-tags {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    padding-left: 120px;
+}
+
+.tag-links {
+    list-style: none;
+    display: flex;
+}
+
+.tag-item {
     display: inline-block;
-    width: 50%;
+    align-items: center;
+    padding-left: 10px;
+    align-content: center;
+    text-decoration: none;
+    background-color: darkslategray;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+a.delete-button:link, a.delete-button:visited {
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 10px;
+}
+
+a.delete-button:hover, a.delete-button:active {
+    background-color: orangered;
+    color: white;
+    padding: 0 2px 0 2px;
+}
+
+.answer_comment_header {
+    background-color: darkcyan;
+    text-align: center;
+    color: yellow;
+    font-weight: bold;
+    opacity: 60%;
 }

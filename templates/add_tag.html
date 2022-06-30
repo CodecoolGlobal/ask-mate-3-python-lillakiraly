@@ -1,0 +1,22 @@
+{% extends "template_site.html" %}
+{% block title %}Add tag{% endblock %}
+{% block content %}
+    <div class="tag-form">
+        <form method="post">
+            {% for tag in tags %}
+            <input class="checkbox" type="checkbox" id="{{ tag['name'] }}" name="{{ tag['name'] }}" value="{{ tag['name'] }}">
+                <label for="{{ tag['name'] }}">{{ tag['name'] }}</label>
+            {% endfor %}
+        <p></p>
+            <br><button class="submit" type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="form">
+        <form method="post">
+            <label for="new-tag">New tag</label><br>
+            <br><input id="new-tag" name="new_tag" type="text" placeholder="Add new tag">
+            <button class="submit" type="submit">+</button><br>
+        </form>
+    </div>
+    <br><a class="back-button" href="/question/{{ question_id }}">Go back</a>
+{% endblock %}
