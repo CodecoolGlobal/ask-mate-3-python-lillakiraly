@@ -46,6 +46,51 @@ def get_answer_by_answer_id(cursor, answer_id):
 
 
 @database_common.connection_handler
+def get_answer_id_by_question_id(cursor, question_id):
+    query = """
+        SELECT id
+        FROM answer
+        WHERE question_id = %(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def delete_answers_by_question_id(cursor, question_id):
+    query = """
+        DELETE FROM answer
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return None
+
+
+@database_common.connection_handler
+def delete_question_by_question_id(cursor, question_id):
+    query = """
+        DELETE FROM question
+        WHERE id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return None
+
+
+@database_common.connection_handler
+def delete_comment_by_question_id(cursor, question_id):
+    query = """
+        DELETE FROM comment
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return None
+
+@database_common.connection_handler
+def delete_comment_by_answer_id(cursor, answer_id):
+    query = """
+        DELETE FROM comment
+        WHERE answer_id = %(answer_id)s"""
+    cursor.execute(query, {'answer_id': answer_id})
+    return None
+
+@database_common.connection_handler
 def display_question_from_id(cursor, id):
     query = """
         SELECT *
