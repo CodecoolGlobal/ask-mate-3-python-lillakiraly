@@ -511,3 +511,11 @@ a.delete-button:hover, a.delete-button:active {
     color: white;
     padding: 0 2px 0 2px;
 }
+
+.answer_comment_header {
+    background-color: darkcyan;
+    text-align: center;
+    color: yellow;
+    font-weight: bold;
+    opacity: 60%;
+}

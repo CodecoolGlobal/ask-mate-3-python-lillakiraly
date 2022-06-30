@@ -35,7 +35,9 @@ def display_question(question_id: int):
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
     question_comments = data_manager.display_comment_from_question_id(question_id)
-    answer_comments = data_manager.display_comment_from_answer_id(question_id)
+    answer_comments = []
+    for answer in answers:
+        answer_comments.append(data_manager.display_comment_from_answer_id(answer['id']))
     question_tags = data_manager.get_question_tags_by_question_id(question_id)
     return render_template(
             "question_form.html",

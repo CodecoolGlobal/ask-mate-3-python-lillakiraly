@@ -279,7 +279,7 @@ def add_new_tag(cursor, tag_id, new_tag):
     INSERT INTO tag
     VALUES (%(tag_id)s, %(new_tag)s)
     """
-    cursor.execute(query, {'tag_id':tag_id, 'new_tag': new_tag})
+    cursor.execute(query, {'tag_id': tag_id, 'new_tag': new_tag})
 
 
 @database_common.connection_handler
@@ -290,3 +290,17 @@ def delete_tag_from_question(cursor, tag_id, question_id):
         AND tag_id = %(tag_id)s
     """
     cursor.execute(query, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@database_common.connection_handler
+def get_comments_by_answer_id(cursor, answer_id):
+    query = """
+        SELECT answer.submission_time, answer.vote_number, answer.message, answer.image, comment.submission_time, comment.message, comment.edited_count
+        FROM comment
+        FULL JOIN answer ON answer.id = comment.answer_id
+        INNER JOIN question ON question.id = answer.question_id
+        WHERE answer.id = %(answer_id)s
+    """
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
