@@ -35,7 +35,7 @@ def get_answers(cursor, id):
 
 
 @database_common.connection_handler
-def get_answer_by_id(cursor, answer_id):
+def get_answer_by_answer_id(cursor, answer_id):
     query = """
         SELECT *
         FROM answer
