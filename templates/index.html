@@ -15,15 +15,17 @@
 {#            QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']#}
                 <form action="/list" method="get">
                     <th>
-                        Id
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="id">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="id">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
+                        <span class="filter-cell">Id</span>
+                        <div class="filter-cell">
+                            <form action="/list" method="get">
+                                <button class="filter" type="submit" name='order_by' value="id">&uarr;</button>
+                                <input type="hidden" name="order_direction" value="asc">
+                            </form>
+                            <form action="/list" method="get">
+                                <button class="filter" type="submit" name='order_by' value="id">&darr;</button>
+                                <input type="hidden" name="order_direction" value="desc">
+                            </form>
+                        </div>
                     </th>
                     <th style="white-space:nowrap;">
                         Submission Time
