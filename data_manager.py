@@ -1,10 +1,6 @@
-import os
-
-from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
 import database_common
-from SETTINGS import SUBMISSION_TIME
 
 
 @database_common.connection_handler
@@ -36,6 +32,17 @@ def get_answers(cursor, id):
     value = {'id': id}
     cursor.execute(query, value)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE id = %(answer_id)s"""
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -140,16 +147,17 @@ def delete_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def edit_question(cursor, question_id, submission_time, title, message):
+def edit_question(cursor, question_id, submission_time, title, message, image):
     query = """
         UPDATE question
-        SET submission_time = %(submission_time)s, title = %(title)s, message = %(message)s
+        SET submission_time = %(submission_time)s, title = %(title)s, message = %(message)s, image = %(image)s
         WHERE id = %(question_id)s"""
     value = {
         'submission_time': submission_time,
         'title': title,
         'message': message,
-        'question_id': question_id
+        'question_id': question_id,
+        'image': image
     }
     cursor.execute(query, value)
     return None
@@ -165,18 +173,13 @@ def delete_answer(cursor, answer_id):
     return None
 
 
-# TODO
 @database_common.connection_handler
-def edit_answer(cursor, answer_id):
+def edit_answer(cursor, new_answer):
     query = """
         UPDATE answer
-        SET submission_time = %(submission_time)s, message = %(message)s
-        WHERE question_id = %(question_id)s"""
-    value = {
-        'submission_time': submission_time,
-        'message': message,
-        'answer_id': answer_id
-    }
+        SET submission_time = %(submission_time)s, message = %(message)s, image = %(image)s
+        WHERE id = %(id)s"""
+    value = new_answer
     cursor.execute(query, value)
     return None
 
@@ -251,3 +254,13 @@ def get_question_tags_by_question_id(cursor, question_id):
     """
     cursor.execute(query, {'question_id': question_id})
     return cursor.fetchall()
+
+
+def get_comment_by_id(cursor, comment_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE id = %(comment_id)s"""
+    value = {'comment_id': comment_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
