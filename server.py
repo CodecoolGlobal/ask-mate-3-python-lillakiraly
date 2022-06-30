@@ -95,7 +95,12 @@ def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstrin
 def delete_question(question_id):
     """ 6. Implement deleting a question. """
     if request.method == 'GET':
-        data_manager.delete_question(question_id)
+        answer_ids = data_manager.get_answer_id_by_question_id(question_id)
+        for answer_id in answer_ids:
+            data_manager.delete_comment_by_answer_id(answer_id['id'])
+        data_manager.delete_comment_by_question_id(question_id)
+        data_manager.delete_answers_by_question_id(question_id)
+        data_manager.delete_question_by_question_id(question_id)
         return redirect("/list")
     return redirect("/list")
 
