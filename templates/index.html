@@ -2,113 +2,136 @@
 {% block title %}List page{% endblock %}
 {% block content %}
     <div class="page-wrap">
-    <div class="question-bar">
-        <a class="ask-button" href="/add-question">Ask question</a>
-        <form class="search" action="/search" method="get">
-            <label for="search"></label>
-            <input class="search" name="q" type="text" placeholder="Search">
-        </form>
-    </div>
-    <table>
-        <thead>
-            <tr>
-{#            QUESTION_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']#}
-                <form action="/list" method="get">
-                    <th>
-                        <span class="filter-cell">Id</span>
-                        <div class="filter-cell">
-                            <form action="/list" method="get">
-                                <button class="filter" type="submit" name='order_by' value="id">&uarr;</button>
-                                <input type="hidden" name="order_direction" value="asc">
-                            </form>
-                            <form action="/list" method="get">
-                                <button class="filter" type="submit" name='order_by' value="id">&darr;</button>
-                                <input type="hidden" name="order_direction" value="desc">
-                            </form>
-                        </div>
-                    </th>
-                    <th style="white-space:nowrap;">
-                        Submission Time
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="submission_time">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="submission_time">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        View Number
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="view_number">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="view_number">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Vote Number
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="vote_number">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="vote_number">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Title
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="title">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="title">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Question
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="message">&uarr;</button>
-                            <input type="hidden" name="order_direction" value="asc">
-                        </form>
-                        <form action="/list" method="get">
-                            <button class="filter" type="submit" name='order_by' value="message">&darr;</button>
-                            <input type="hidden" name="order_direction" value="desc">
-                        </form>
-                    </th>
-                    <th>
-                        Image
-                    </th>
-                </form>
-            </tr>
-        </thead>
-        <tbody>
-            {% for question in datas %}
-            <tr>
-                <td name="id" style="text-align:center"><a class="edit" href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['id'] }}</a></td>
-                <td style="text-align:center">{{ question['submission_time'] }}</td>
-                <td style="text-align:center">{{ question['view_number'] }}</td>
-                <td style="text-align:center">
-                    <a class="vote" href="{{ url_for('vote_up_question', question_id=question['id']) }}">&uarr;</a>
-                    {{ question['vote_number'] }}
-                    <a class="vote" href="{{ url_for('vote_down_question', question_id=question['id']) }}" >&darr;</a>
-                </td>
-                <td>{{ question['title'] }}</td>
-                <td>{{ question['message'] }}</td>
-                {% if question['image'] == 'images/' or question['image'] == None or question['image'] == '' %}
-                <td></td>
-                {% else %}
-                <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="question-bar">
+            <a class="ask-button" href="/add-question">Ask question</a>
+            <form class="search" action="/search" method="get">
+                <label for="search"></label>
+                <input class="search" name="q" type="text" placeholder="Search">
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <form action="/list" method="get">
+                        <th>
+                            <div class="filter-head">
+                                <div class="column_name">Id</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="id">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="id">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-head">
+                                <div class="column_name">Submission Time</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="submission_time">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="submission_time">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-head">
+                                <div class="column_name">View Number</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="view_number">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="view_number">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-head">
+                            <div class="column_name">Vote Number</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="vote_number">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="vote_number">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th >
+                            <div class="filter-head">
+                            <div class="column_name">Title</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="title">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="title">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-head">
+                            <div class="column_name">Question</div>
+                                <div class="box">
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="message">&uarr;</button>
+                                        <input type="hidden" name="order_direction" value="asc">
+                                    </form>
+                                    <form action="/list" method="get">
+                                        <button class="filter" type="submit" name='order_by' value="message">&darr;</button>
+                                        <input type="hidden" name="order_direction" value="desc">
+                                    </form>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-head">
+                            <div class="column_name">Image</div>
+                                <div class="box"></div>
+                            </div>
+                    </form>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in datas %}
+                <tr>
+                    <td name="id" style="text-align:center"><a class="edit" href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['id'] }}</a></td>
+                    <td style="text-align:center">{{ question['submission_time'] }}</td>
+                    <td style="text-align:center">{{ question['view_number'] }}</td>
+                    <td style="text-align:center">
+                        <a class="vote" href="{{ url_for('vote_up_question', question_id=question['id']) }}">&uarr;</a>
+                        {{ question['vote_number'] }}
+                        <a class="vote" href="{{ url_for('vote_down_question', question_id=question['id']) }}" >&darr;</a>
+                    </td>
+                    <td>{{ question['title'] }}</td>
+                    <td>{{ question['message'] }}</td>
+                    {% if question['image'] == 'images/' or question['image'] == None or question['image'] == '' %}
+                    <td></td>
+                    {% else %}
+                    <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

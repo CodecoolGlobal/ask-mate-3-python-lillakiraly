@@ -5,13 +5,15 @@
 
             <div class="questions">
             <h2>Question</h2>
-            <p>Tags</p>
-            <ul>
-                {% for tag in question_tags %}
-                    <li>{{ tag['name'] }} <a href="{{ url_for('delete_question_tag', question_id=question_id, tag_id=tag['id']) }}">X</a></li>
-                {% endfor %}
-            </ul>
-                <a href="{{ url_for('add_tag', question_id=question_id) }}">Add Tag</a>
+                    <div class="question-tags">
+                    <h3>Tags<a class="add-button" href="{{ url_for('add_tag', question_id=question_id) }}">+</a></h3>
+                        <ul class="tag-links">
+                        {% for tag in question_tags %}
+                            <li class="tag-item">{{ tag['name'] }} <a class="delete-button" href="{{ url_for('delete_question_tag', question_id=question_id, tag_id=tag['id']) }}">X</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                <br>
                 <table>
                     <thead>
                         <tr>
@@ -48,7 +50,6 @@
                 </table>
 
                 <div class="question_comments">
-                    <h3>Comments to question</h3>
                     <table>
                         <thead>
                         <tr>
@@ -113,7 +114,6 @@
                 </table>
 
                 <div class="answer_comments">
-                    <h3>Comments to answers</h3>
                         <table>
                             <thead>
                             <tr>
