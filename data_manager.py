@@ -57,6 +57,15 @@ def get_answer_id_by_question_id(cursor, question_id):
 
 
 @database_common.connection_handler
+def delete_question_tag_by_question_id(cursor, question_id):
+    query = """
+        DELETE FROM question_tag
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+    return None
+
+
+@database_common.connection_handler
 def delete_answers_by_question_id(cursor, question_id):
     query = """
         DELETE FROM answer
@@ -82,6 +91,7 @@ def delete_comment_by_question_id(cursor, question_id):
     cursor.execute(query, {'question_id': question_id})
     return None
 
+
 @database_common.connection_handler
 def delete_comment_by_answer_id(cursor, answer_id):
     query = """
@@ -89,6 +99,7 @@ def delete_comment_by_answer_id(cursor, answer_id):
         WHERE answer_id = %(answer_id)s"""
     cursor.execute(query, {'answer_id': answer_id})
     return None
+
 
 @database_common.connection_handler
 def display_question_from_id(cursor, id):
