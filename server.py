@@ -225,12 +225,20 @@ def vote_down_answer(answer_id):
 def search_question():
     search_phrase = request.args.get('q')
     results = data_manager.get_search_results(search_phrase)
+    highlight_prefix = '<span class="highlight">'
+    highlight_suffix = '</span>'
     for result in results:
         for key, text in result.items():
             if key != 'image':
                 # result[key] = str(text).replace(search_phrase, '<span class="highlight">{}</span>'.format(search_phrase))
-                result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text),
-                                     flags=re.IGNORECASE)
+                # result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text),
+                #                      flags=re.IGNORECASE)
+                if locations := [i.span() for i in re.finditer(f'{search_phrase}', str(result[key]), flags=re.IGNORECASE)]:
+                    for location in locations[::-1]:
+                        result[key] = f'{str(result[key][:location[0]])}' \
+                                      f'{highlight_prefix}{str(result[key])[location[0]:location[1]]}{highlight_suffix}' \
+                                      f'{str(result[key])[location[1]:]}'
+
     return render_template('search.html', results=results)
 
 
