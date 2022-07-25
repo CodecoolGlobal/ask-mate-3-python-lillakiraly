@@ -192,6 +192,27 @@ def get_question_id_by_answer_id(cursor, answer_id):
     return cursor.fetchone()
 
 
+# DELETE [target table]
+# FROM    [table1]
+#         INNER JOIN [table2]
+# ON [table1.[joining column] = [table2].[joining column]
+# WHERE   [condition]
+
+
+# @database_common.connection_handler
+# def delete_question_with_dependencies(cursor, question_id):
+#     query = """
+#         DELETE FROM question
+#         JOIN answer ON answer.question_id = %(question_id)s
+#         JOIN comment ON comment.answer_id = answer.id and comment.question_id = answer.question_id
+#         WHERE question.id = %(question_id)s
+#         AND answer.question_id = %(question_id)s
+#         AND comment.answer_id = answer.id and comment.question_id = answer.question_id
+#         """
+#     cursor.execute(query, {'question_id': question_id})
+#     return None
+
+
 @database_common.connection_handler
 def delete_question(cursor, question_id):
     query = """
