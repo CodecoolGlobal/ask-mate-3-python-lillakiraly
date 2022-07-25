@@ -1,0 +1,38 @@
+{% extends "template_site.html" %}
+{% block title %}Search page{% endblock %}
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th style="white-space:nowrap;">Submission Time</th>
+                <th>View Number</th>
+                <th>Vote Number</th>
+                <th>Title</th>
+                <th>Question</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in results %}
+            <tr>
+                <td name="id" style="text-align:center"><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['id']|safe }}</a></td>
+                <td style="text-align:center">{{ question['submission_time']|safe }}</td>
+                <td style="text-align:center">{{ question['view_number']|safe }}</td>
+                <td style="text-align:center">
+                    <a class="vote" href="{{ url_for('vote_up_question', question_id=question['id']) }}">&uarr;</a>
+                    {{ question['vote_number']|safe }}
+                    <a class="vote" href="{{ url_for('vote_down_question', question_id=question['id']) }}" >&darr;</a></td>
+                <td>{{ question['title']|safe }}</td>
+                <td>{{ question['message']|safe }}</td>
+                {% if question['image'] == 'images/' or question['image'] == None or question['image'] == '' %}
+                <td></td>
+                {% else %}
+                <td><img src="{{ url_for('static', filename=question['image']) }}" alt="{{ question['image'] }}" width="50px"></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><a class="back-button" href="/">Go back</a>
+{% endblock %}

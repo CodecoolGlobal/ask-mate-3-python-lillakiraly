@@ -1,0 +1,18 @@
+{% extends 'template_site.html' %}
+{% block title %}Add question{% endblock %}
+{% block content %}
+    <div class="form">
+        <form action="/add-question" enctype="multipart/form-data" method="post">
+            <label for="title">Question</label><br>
+            <br><input type="text" id='title' name="title" size='40' placeholder="Type your question here..." required>
+            <p></p>
+            <br><label for="message">Details</label><br>
+            <br><textarea id="message" name="message" cols="80" rows="6" placeholder="Write the details of your question here..." required></textarea><br>
+            <br><input type="file" name="image"><br>
+            <p></p>
+            <br><button class="submit" type="submit">Submit</button><br>
+        </form>
+    </div>
+    <br><a class="back-button" href="/list">Go back</a>
+
+{% endblock %}

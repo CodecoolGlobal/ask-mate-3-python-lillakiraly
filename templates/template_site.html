@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<div class="sticky">
+<nav class="navbar">
+    <a class="logo" href="/list"><img src="{{ url_for('static', filename='images/ask_logo.png') }}" alt="AskMate logo" width="100"></a>
+    <ul class="nav-links">
+        <li class="nav-item"><a href="#">Support</a></li>
+        <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>
+    </ul>
+</nav>
+</div>
+
+ <div class="page-wrap">
+     {% block content %}{% endblock %}
+ </div>
+</body>
+</html>

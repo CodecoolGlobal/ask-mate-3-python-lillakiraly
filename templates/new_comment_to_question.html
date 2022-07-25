@@ -1,0 +1,14 @@
+{% extends 'template_site.html' %}
+{% block title %}Add question comment{% endblock %}
+{% block content %}
+    <div class="form">
+        <form action="{{ url_for('add_comment_to_question', question_id=question_id) }}" enctype="multipart/form-data" method="post">
+            <label for="message">Details</label><br>
+            <p></p>
+            <br><textarea id="message" name="message" cols="80" rows="6" placeholder="Write your comment here..." required></textarea><br>
+            <p></p>
+            <br><button class="submit" type="submit">Submit</button><br>
+        </form>
+    </div>
+        <br><a class="back-button" href="/list">Go back</a>
+{% endblock %}
