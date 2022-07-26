@@ -308,10 +308,25 @@ def authentication():
     return render_template('authentication.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    response_ok = make_response(render_template('login.html'), 200)
+    response_forbidden = make_response(render_template('login.html'), 403)
+    if request.method == 'POST':
+        user_email, user_password = util.get_user_login_info()
+        if data_manager.does_user_exist(user_email).get('case'):
+            if util.verify_password(user_password, data_manager.get_user_password(user_email).get('password', '')):
+                session['user'] = user_email
+                session['answers'] = []
+                return redirect('/')
+            else:
+                flash('Invalid password')
+                return response_forbidden
+        else:
+            flash('Invalid username')
+            return response_forbidden
 
+    return response_ok
 
 @app.route('/register')
 def register():
