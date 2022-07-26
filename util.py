@@ -1,9 +1,26 @@
 import os
 from datetime import datetime
 
+from flask import request
 from werkzeug.utils import secure_filename
 
 from SETTINGS import ALLOWED_EXTENSIONS, PATH, SUBMISSION_TIME
+import bcrypt
+
+
+def hash_password(plain_text_password):
+    # By using bcrypt, the salt is saved into the hash itself
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+def get_user_login_info():
+    return request.form.get('email', ''), request.form.get('password', '')
 
 
 def allowed_file(filename):

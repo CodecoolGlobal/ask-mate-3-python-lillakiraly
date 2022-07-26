@@ -417,3 +417,53 @@ def get_comments_by_answer_id(cursor, answer_id):
     value = {'answer_id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def does_user_exist(cursor, username):
+    query = """
+        SELECT CASE WHEN EXISTS (
+            SELECT username
+            FROM users
+            WHERE username = %(username)s
+        )
+        THEN CAST(1 AS BIT)
+        ELSE CAST(0 AS BIT) END"""
+    value = {'username': username}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def is_password_ok(cursor, username, password):
+    query = """
+        SELECT CASE WHEN EXISTS (
+            SELECT password
+            FROM users
+            WHERE username = %(username)s AND password = %(password)s
+        )
+        THEN CAST(1 AS BIT)
+        ELSE CAST(0 AS BIT) END"""
+    value = {'username': username, 'password': password}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_user_password(cursor, username):
+    query = """
+        SELECT password from users
+        WHERE username = %(username)s"""
+    value = {'username': username}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def add_user_details(cursor, username, password, user_role='user'):
+    query = """
+        INSERT INTO users(username, password, user_role)
+        VALUES (%(username)s, %(password)s, %(user_role)s)"""
+    value = {'username': username, 'password': password, 'user_role': user_role}
+    cursor.execute(query, value)
+    return None

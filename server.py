@@ -7,7 +7,7 @@
 
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
 from werkzeug.utils import secure_filename
 
 import os
@@ -19,6 +19,7 @@ from util import allowed_file, upload_image, modify_request_form
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['UPLOAD_FOLDER'] = PATH
+app.secret_key = os.environ.get('SECRET_KEY', 'dev')
 
 
 @app.route("/")
@@ -307,14 +308,46 @@ def authentication():
     return render_template('authentication.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    response_ok = make_response(render_template('login.html'), 200)
+    response_forbidden = make_response(render_template('login.html'), 403)
+    if request.method == 'POST':
+        user_email, user_password = util.get_user_login_info()
+        if data_manager.does_user_exist(user_email).get('case'):
+            if util.verify_password(user_password, data_manager.get_user_password(user_email).get('password', '')):
+                session['user'] = user_email
+                session['answers'] = []
+                return redirect('/')
+            else:
+                flash('Invalid password')
+                return response_forbidden
+        else:
+            flash('Invalid username')
+            return response_forbidden
+
+    return response_ok
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        email = request.form.get('email', '')
+        password = request.form.get('password', '')
+        if data_manager.does_user_exist(email).get('case', ''):
+            data_manager.add_user_details(email, util.hash_password(password))
+            flash('Account created! Please log in!')
+            return redirect('/login')
+        else:
+            flash('Username already in use')
     return render_template('register.html')
+
+
+@app.route('/logout')
+def logout():
+    if 'user' in session.keys():
+        session.clear()
+    return redirect('/')
 
 
 if __name__ == "__main__":
