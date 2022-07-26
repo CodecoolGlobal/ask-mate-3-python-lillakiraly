@@ -152,6 +152,15 @@ a.ask-button:hover, a.ask-button:active {
     color: darkcyan;
 }
 
+a.tag-button:link, a.tag-button:visited {
+    color: darkcyan;
+    text-decoration: none;
+}
+
+a.tag-button:hover{
+    color: yellow;
+}
+
 /* question bar */
 .question-bar {
     background-color: darkcyan;

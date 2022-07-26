@@ -325,8 +325,13 @@ def login():
         else:
             flash('Invalid username')
             return response_forbidden
-
     return response_ok
+
+    
+@app.route('/tags')
+def show_tags():
+    tag_storage = data_manager.get_tags_table()
+    return render_template('tags.html',tags=tag_storage )
 
 
 @app.route('/register', methods=['GET', 'POST'])

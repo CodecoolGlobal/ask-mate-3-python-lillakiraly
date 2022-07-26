@@ -1,10 +1,11 @@
 {% extends "template_site.html" %}
-{% block title %}List page{% endblock %}
+{% block title %}Ask Mate{% endblock %}
 {% block content %}
     <div class="page-wrap">
         {% if session["user"] is defined %}
         <div class="question-bar">
             <a class="ask-button" href="/add-question">Ask question</a>
+            <a class="ask-button" href="/tags">Tags</a>
             <form class="search" action="/search" method="get">
                 <label for="search"></label>
                 <input class="search" name="q" type="text" placeholder="Search">
