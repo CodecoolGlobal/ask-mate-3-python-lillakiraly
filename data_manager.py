@@ -440,3 +440,11 @@ def get_user_password(cursor, username):
     value = {'username': username}
     cursor.execute(query, value)
     return cursor.fetchone()
+@database_common.connection_handler
+def add_user_details(cursor, username, password, user_role='user'):
+    query = """
+        INSERT INTO users(username, password, user_role)
+        VALUES (%(username)s, %(password)s, %(user_role)s)"""
+    value = {'username': username, 'password': password, 'user_role': user_role}
+    cursor.execute(query, value)
+    return None
