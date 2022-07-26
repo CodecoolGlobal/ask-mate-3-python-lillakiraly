@@ -124,10 +124,11 @@ def get_user_id_from_username(cursor, username: str) -> int:
 
 
 @database_common.connection_handler
-def add_new_question(cursor, question):
+def add_new_question(cursor, user_id, question):
     query = """
-        INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
-        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s)"""
+        INSERT INTO question(submission_time, view_number, vote_number, title, message, image, user_id)
+        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s, %(user_id)s)"""
+    question['user_id'] = user_id
     value = question
     cursor.execute(query, value)
     return None
