@@ -1,6 +1,6 @@
-# TODO
+
+#TODO
 # from bonus_questions import SAMPLE_QUESTIONS
-#
 # @app.route("/bonus-questions")
 # def main():
 #     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
@@ -72,9 +72,11 @@ def add_question():  # sourcery skip: replace-interpolation-with-fstring, use-fs
     file = request.files['image']
     if file and allowed_file(file.filename):
         image = upload_image(file)
-
+    username = session['user']
+    user_id = data_manager.get_user_id_from_username(username)['id']
+    print(user_id)
     question = modify_request_form(request.form.to_dict(), image)
-    data_manager.add_new_question(question)
+    data_manager.add_new_question(user_id, question)
     return redirect('/list')
 
 
