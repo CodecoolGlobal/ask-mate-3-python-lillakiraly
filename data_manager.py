@@ -419,3 +419,16 @@ def does_user_exist(cursor, username):
     value = {'username': username}
     cursor.execute(query, value)
     return cursor.fetchone()
+@database_common.connection_handler
+def is_password_ok(cursor, username, password):
+    query = """
+        SELECT CASE WHEN EXISTS (
+            SELECT password
+            FROM users
+            WHERE username = %(username)s AND password = %(password)s
+        )
+        THEN CAST(1 AS BIT)
+        ELSE CAST(0 AS BIT) END"""
+    value = {'username': username, 'password': password}
+    cursor.execute(query, value)
+    return cursor.fetchone()
