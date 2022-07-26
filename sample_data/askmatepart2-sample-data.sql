@@ -15,6 +15,16 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS pk_ques
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.comment DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+
+DROP TABLE IF EXISTS public.users;
+CREATE TABLE users (
+    id serial NOT NULL,
+    username text NOT NULL UNIQUE,
+    password text NOT NULL,
+    registration_date DATE DEFAULT NOW(),
+    user_role text
+);
 
 DROP TABLE IF EXISTS public.question;
 CREATE TABLE question (
@@ -44,7 +54,8 @@ CREATE TABLE comment (
     answer_id integer,
     message text,
     submission_time timestamp without time zone,
-    edited_count integer
+    edited_count integer,
+    user_id integer
 );
 
 
@@ -60,6 +71,8 @@ CREATE TABLE tag (
     name text
 );
 
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
 
 ALTER TABLE ONLY answer
     ADD CONSTRAINT pk_answer_id PRIMARY KEY (id);
@@ -87,6 +100,9 @@ ALTER TABLE ONLY question_tag
 
 ALTER TABLE ONLY comment
     ADD CONSTRAINT fk_question_id FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY comment
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE;
