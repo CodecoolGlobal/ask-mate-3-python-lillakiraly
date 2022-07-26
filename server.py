@@ -19,6 +19,7 @@ from util import allowed_file, upload_image, modify_request_form
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['UPLOAD_FOLDER'] = PATH
+app.secret_key = os.environ.get('SECRET_KEY', 'dev')
 
 
 @app.route("/")
