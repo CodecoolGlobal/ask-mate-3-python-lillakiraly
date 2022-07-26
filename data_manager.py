@@ -406,6 +406,8 @@ def get_comments_by_answer_id(cursor, answer_id):
     value = {'answer_id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchall()
+
+
 @database_common.connection_handler
 def does_user_exist(cursor, username):
     query = """
@@ -419,6 +421,8 @@ def does_user_exist(cursor, username):
     value = {'username': username}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
 @database_common.connection_handler
 def is_password_ok(cursor, username, password):
     query = """
@@ -432,6 +436,8 @@ def is_password_ok(cursor, username, password):
     value = {'username': username, 'password': password}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
 @database_common.connection_handler
 def get_user_password(cursor, username):
     query = """
@@ -440,6 +446,8 @@ def get_user_password(cursor, username):
     value = {'username': username}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
 @database_common.connection_handler
 def add_user_details(cursor, username, password, user_role='user'):
     query = """
