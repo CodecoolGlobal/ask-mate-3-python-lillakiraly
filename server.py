@@ -328,8 +328,18 @@ def login():
 
     return response_ok
 
-@app.route('/register')
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        email = request.form.get('email', '')
+        password = request.form.get('password', '')
+        if data_manager.does_user_exist(email).get('case', ''):
+            data_manager.add_user_details(email, util.hash_password(password))
+            flash('Account created! Please log in!')
+            return redirect('/login')
+        else:
+            flash('Username already in use')
     return render_template('register.html')
 
 
