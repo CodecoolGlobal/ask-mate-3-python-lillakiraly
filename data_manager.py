@@ -325,19 +325,20 @@ def display_comment_from_answer_id(cursor, id):
 @database_common.connection_handler
 def add_new_comment_to_question(cursor, comment):
     query = """
-        INSERT INTO comment(question_id, message, submission_time, edited_count)
-        VALUES (%(question_id)s, %(message)s, %(submission_time)s, 0)"""
+        INSERT INTO comment(user_id, question_id, message, submission_time, edited_count)
+        VALUES (%(user_id)s, %(question_id)s, %(message)s, %(submission_time)s, 0)"""
     value = comment
     cursor.execute(query, value)
     return None
 
 
 @database_common.connection_handler
-def add_new_comment_to_answer(cursor, answer_id, message, submission_time):
+def add_new_comment_to_answer(cursor, user_id, answer_id, message, submission_time):
     query = """
-        INSERT INTO comment(answer_id, message, submission_time, edited_count)
-        VALUES (%(answer_id)s, %(message)s, %(submission_time)s, 0)"""
+        INSERT INTO comment(user_id, answer_id, message, submission_time, edited_count)
+        VALUES (%(user_id)s ,%(answer_id)s, %(message)s, %(submission_time)s, 0)"""
     value = {
+        'user_id': user_id,
         'answer_id': answer_id,
         'message': message,
         'submission_time': submission_time
