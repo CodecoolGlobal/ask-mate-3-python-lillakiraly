@@ -113,6 +113,17 @@ def display_question_from_id(cursor, id):
 
 
 @database_common.connection_handler
+def get_user_id_from_username(cursor, username: str) -> int:
+    query ="""
+        SELECT id
+        FROM users
+        WHERE username = %(username)s
+    """
+    cursor.execute(query, {'username': username})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
 def add_new_question(cursor, question):
     query = """
         INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
