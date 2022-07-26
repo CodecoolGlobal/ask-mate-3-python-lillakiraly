@@ -432,3 +432,11 @@ def is_password_ok(cursor, username, password):
     value = {'username': username, 'password': password}
     cursor.execute(query, value)
     return cursor.fetchone()
+@database_common.connection_handler
+def get_user_password(cursor, username):
+    query = """
+        SELECT password from users
+        WHERE username = %(username)s"""
+    value = {'username': username}
+    cursor.execute(query, value)
+    return cursor.fetchone()
