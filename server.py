@@ -327,7 +327,7 @@ def login():
             return response_forbidden
     return response_ok
 
-    
+
 @app.route('/tags')
 def show_tags():
     tag_storage = data_manager.get_tags_table()

@@ -407,7 +407,6 @@ def get_comments_by_answer_id(cursor, answer_id):
     cursor.execute(query, value)
     return cursor.fetchall()
 
-<<<<<<< Updated upstream
 
 @database_common.connection_handler
 def does_user_exist(cursor, username):
@@ -457,7 +456,8 @@ def add_user_details(cursor, username, password, user_role='user'):
     value = {'username': username, 'password': password, 'user_role': user_role}
     cursor.execute(query, value)
     return None
-=======
+
+
 @database_common.connection_handler
 def get_tags_table(cursor):
     query = """
