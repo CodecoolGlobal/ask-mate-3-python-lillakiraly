@@ -406,3 +406,16 @@ def get_comments_by_answer_id(cursor, answer_id):
     value = {'answer_id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchall()
+@database_common.connection_handler
+def does_user_exist(cursor, username):
+    query = """
+        SELECT CASE WHEN EXISTS (
+            SELECT username
+            FROM users
+            WHERE username = %(username)s
+        )
+        THEN CAST(1 AS BIT)
+        ELSE CAST(0 AS BIT) END"""
+    value = {'username': username}
+    cursor.execute(query, value)
+    return cursor.fetchone()
