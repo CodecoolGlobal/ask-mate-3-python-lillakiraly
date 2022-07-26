@@ -15,7 +15,13 @@
     <a class="logo" href="/list"><img src="{{ url_for('static', filename='images/ask_logo.png') }}" alt="AskMate logo" width="100"></a>
     <ul class="nav-links">
         <li class="nav-item"><a href="#">Support</a></li>
-        <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>
+            {% if session['user'] is defined %}
+                <li class="nav-item"><a href="{{ url_for('logout') }}">Logout</a></li>
+
+            {% else %}
+                <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>
+                <li class="nav-item"><a href="{{ url_for('register') }}">Registration</a></li>
+            {% endif %}
     </ul>
 </nav>
 </div>
