@@ -92,12 +92,13 @@ def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstrin
     question_id = question_id
     message = request.form.get('message' '')
     image = 'images/%s' % request.files.get('image', '').filename
-
+    username = session['user']
+    user_id = data_manager.get_user_id_from_username(username)['id']
     file = request.files['image']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    data_manager.add_new_answer(submission_time, question_id, message, image)
+    data_manager.add_new_answer(user_id, submission_time, question_id, message, image)
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -257,6 +258,9 @@ def search_question():
 def add_comment_to_question(question_id):
     if request.method == 'POST':
         message = util.modify_request_form_for_comment(request.form.to_dict(), question_id)
+        username = session['user']
+        user_id = data_manager.get_user_id_from_username(username)['id']
+        message['user_id'] = user_id
         data_manager.add_new_comment_to_question(message)
         return redirect(url_for('display_question', question_id=question_id))
     return render_template('new_comment_to_question.html', question_id=question_id)
@@ -267,7 +271,10 @@ def add_comment_to_answer(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     if request.method == 'POST':
         message = request.form.get('message', '')
+        username = session['user']
+        user_id = data_manager.get_user_id_from_username(username)['id']
         data_manager.add_new_comment_to_answer(
+            user_id,
             answer_id,
             message,
             SUBMISSION_TIME
