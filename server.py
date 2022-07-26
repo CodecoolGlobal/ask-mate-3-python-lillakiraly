@@ -92,12 +92,13 @@ def add_answer(question_id):  # sourcery skip: replace-interpolation-with-fstrin
     question_id = question_id
     message = request.form.get('message' '')
     image = 'images/%s' % request.files.get('image', '').filename
-
+    username = session['user']
+    user_id = data_manager.get_user_id_from_username(username)['id']
     file = request.files['image']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    data_manager.add_new_answer(submission_time, question_id, message, image)
+    data_manager.add_new_answer(user_id, submission_time, question_id, message, image)
     return redirect(url_for('display_question', question_id=question_id))
 
 

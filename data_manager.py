@@ -135,11 +135,12 @@ def add_new_question(cursor, user_id, question):
 
 
 @database_common.connection_handler
-def add_new_answer(cursor, submission_time, question_id, message, image):
+def add_new_answer(cursor, user_id, submission_time, question_id, message, image):
     query = """
-        INSERT INTO answer(submission_time, vote_number, question_id, message, image)
-        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)"""
+        INSERT INTO answer(user_id, submission_time, vote_number, question_id, message, image)
+        VALUES (%(user_id)s, %(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)"""
     value = {
+        'user_id': user_id,
         'submission_time': submission_time,
         'question_id': question_id,
         'message': message,
