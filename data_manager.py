@@ -479,3 +479,15 @@ def get_users(cursor):
         FROM users"""
     cursor.execute(query)
     return cursor.fetchall()
+@database_common.connection_handler
+def change_reputation_value(cursor, user_id, increase_by):
+    query = """
+        UPDATE users
+        SET reputation = reputation + %(increase_by)s
+        WHERE id = %(user_id)s"""
+    value = {
+        'user_id': user_id,
+        'increase_by': increase_by
+    }
+    cursor.execute(query, value)
+    return None
