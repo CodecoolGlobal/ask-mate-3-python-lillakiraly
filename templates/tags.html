@@ -1,0 +1,25 @@
+{% extends "template_site.html" %}
+{% block title %}Tags{% endblock %}
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <td>Popular Tags</td>
+                <td>Number of questions</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for tag in tags %}
+            <tr>
+               <td>
+                   {{ tag['name'] }}
+               </td>
+                <td>
+                    {{ tag['count'] }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

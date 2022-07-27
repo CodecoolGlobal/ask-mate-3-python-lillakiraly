@@ -216,12 +216,16 @@ def edit_answer(answer_id):
 @app.route('/question/<int:question_id>/vote_up')
 def vote_up_question(question_id):
     data_manager.vote_up_question(question_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(question_id)
+    data_manager.change_reputation_value(user_id['user_id'], 5)
     return redirect('/list')
 
 
 @app.route('/question/<int:question_id>/vote_down')
 def vote_down_question(question_id):
     data_manager.vote_down_question(question_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(question_id)
+    data_manager.change_reputation_value(user_id['user_id'], -2)
     return redirect('/list')
 
 
@@ -229,6 +233,8 @@ def vote_down_question(question_id):
 def vote_up_answer(answer_id):
     data_manager.vote_up_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+    data_manager.change_reputation_value(user_id['user_id'], 10)
     return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
@@ -236,6 +242,8 @@ def vote_up_answer(answer_id):
 def vote_down_answer(answer_id):
     data_manager.vote_down_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+    data_manager.change_reputation_value(user_id['user_id'], -2)
     return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
@@ -318,6 +326,12 @@ def delete_question_tag(question_id, tag_id):
     return redirect(url_for('display_question', question_id=question_id))
 
 
+@app.route('/users')
+def users():
+    user_details = data_manager.get_users()
+    return make_response(render_template('users.html', user_details=user_details), 200)
+
+
 @app.route('/authentication')
 def authentication():
     return render_template('authentication.html')
@@ -340,8 +354,13 @@ def login():
         else:
             flash('Invalid username')
             return response_forbidden
-
     return response_ok
+
+
+@app.route('/tags')
+def show_tags():
+    tag_storage = data_manager.get_tags_table()
+    return render_template('tags.html',tags=tag_storage )
 
 
 @app.route('/register', methods=['GET', 'POST'])

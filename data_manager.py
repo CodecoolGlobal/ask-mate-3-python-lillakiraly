@@ -464,6 +464,7 @@ def add_user_details(cursor, username, password, user_role='user'):
 
 
 @database_common.connection_handler
+<<<<<<< HEAD
 def get_user_id_from_username(cursor, username: str) -> int:
     query ="""
         SELECT id
@@ -511,3 +512,42 @@ def set_answer_as_accepted(cursor, answer_id, is_accepted):
     value = {'is_accepted': is_accepted,
               'answer_id': answer_id}
     cursor.execute(query, value)
+
+def get_users(cursor):
+    query = """
+        SELECT username, registration_date
+        FROM users"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def change_reputation_value(cursor, user_id, increase_by):
+    query = """
+        UPDATE users
+        SET reputation = reputation + %(increase_by)s
+        WHERE id = %(user_id)s"""
+    value = {
+        'user_id': user_id,
+        'increase_by': increase_by
+    }
+    cursor.execute(query, value)
+    return None
+
+
+@database_common.connection_handler
+def get_user_id_from_question_or_answer_id(cursor, from_id, from_question_id=True):
+    if from_question_id:
+        query = """
+            SELECT user_id
+            FROM question
+            WHERE id = %(from_id)s"""
+    else:
+        query = """
+            SELECT user_id
+            FROM answer
+            WHERE id = %(from_id)s"""
+    value = {'from_id': from_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
