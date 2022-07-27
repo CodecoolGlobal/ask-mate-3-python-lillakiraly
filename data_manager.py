@@ -28,7 +28,9 @@ def get_answers(cursor, id):
     query = """
         SELECT *
         FROM answer
-        WHERE question_id = %(id)s"""
+        WHERE question_id = %(id)s
+        ORDER BY is_accepted DESC
+        """
     value = {'id': id}
     cursor.execute(query, value)
     return cursor.fetchall()
@@ -109,17 +111,6 @@ def display_question_from_id(cursor, id):
         WHERE id = %(id)s"""
     value = {'id': id}
     cursor.execute(query, value)
-    return cursor.fetchone()
-
-
-@database_common.connection_handler
-def get_user_id_from_username(cursor, username: str) -> int:
-    query ="""
-        SELECT id
-        FROM users
-        WHERE username = %(username)s
-    """
-    cursor.execute(query, {'username': username})
     return cursor.fetchone()
 
 
@@ -205,6 +196,16 @@ def get_question_id_by_answer_id(cursor, answer_id):
     return cursor.fetchone()
 
 
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    query = """
+            DELETE FROM question
+            WHERE id = %(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return None
+
+
 # DELETE [target table]
 # FROM    [table1]
 #         INNER JOIN [table2]
@@ -224,16 +225,6 @@ def get_question_id_by_answer_id(cursor, answer_id):
 #         """
 #     cursor.execute(query, {'question_id': question_id})
 #     return None
-
-
-@database_common.connection_handler
-def delete_question(cursor, question_id):
-    query = """
-            DELETE FROM question
-            WHERE id = %(question_id)s"""
-    value = {'question_id': question_id}
-    cursor.execute(query, value)
-    return None
 
 
 @database_common.connection_handler
@@ -288,6 +279,17 @@ def get_search_results(cursor, search_phrase):
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def display_comment_from_question_id(cursor, id):
+    query = """
+        SELECT submission_time, message
+        FROM comment
+        WHERE question_id = %(id)s"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
+
 # @database_common.connection_handler
 # def get_search_results_from_answers(cursor, search_phrase):
 #     query = """
@@ -298,17 +300,6 @@ def get_search_results(cursor, search_phrase):
 #     search_values = {'search_phrase': f'%{search_phrase}%'}
 #     cursor.execute(query, search_values)
 #     return cursor.fetchall()
-
-
-@database_common.connection_handler
-def display_comment_from_question_id(cursor, id):
-    query = """
-        SELECT submission_time, message
-        FROM comment
-        WHERE question_id = %(id)s"""
-    value = {'id': id}
-    cursor.execute(query, value)
-    return cursor.fetchall()
 
 
 @database_common.connection_handler
@@ -470,3 +461,53 @@ def add_user_details(cursor, username, password, user_role='user'):
     value = {'username': username, 'password': password, 'user_role': user_role}
     cursor.execute(query, value)
     return None
+
+
+@database_common.connection_handler
+def get_user_id_from_username(cursor, username: str) -> int:
+    query ="""
+        SELECT id
+        FROM users
+        WHERE username = %(username)s
+    """
+    cursor.execute(query, {'username': username})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def check_if_question_author(cursor, question_id, user_id):
+    query = """
+        SELECT COUNT(question.id) AS is_author
+        FROM question
+        INNER JOIN users
+        ON question.user_id = users.id
+        WHERE users.id = %(user_id)s
+        AND question.id = %(question_id)s
+    """
+    value = {'user_id': user_id, 'question_id': question_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_if_theres_accepted_answer_to_question(cursor, question_id):
+    query = """
+        SELECT COUNT(*) AS is_accepted
+        FROM answer
+        WHERE is_accepted is TRUE
+        AND question_id = %(question_id)s
+    """
+    cursor.execute(query, {'question_id': question_id})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def set_answer_as_accepted(cursor, answer_id, is_accepted):
+    query = """
+        UPDATE answer
+        SET is_accepted = %(is_accepted)s
+        WHERE answer.id = %(answer_id)s
+    """
+    value = {'is_accepted': is_accepted,
+              'answer_id': answer_id}
+    cursor.execute(query, value)

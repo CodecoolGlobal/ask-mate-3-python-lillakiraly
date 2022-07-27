@@ -82,6 +82,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <td></td>
                             <td>Submission Time</td>
                             <td>Vote Number</td>
                             <td>Message</td>
@@ -91,6 +92,28 @@
                     </thead>
                     <tbody>
                     <tr>
+                        <td>
+                            {% if answer['is_accepted'] %}
+                                ✓
+                            {% endif %}
+                            {% if not is_there_accepted_answer and is_user_the_author%}
+                            <form action="/set_answer" method="post">
+                            <input type="hidden" name="answer_id" value="{{ answer['id'] }}">
+                            <input type="hidden" name="value" value="1">
+                            <input type="hidden" name="question_id" value="{{ question_id }}">
+                            <button type="submit">Accept</button>
+                            </form>
+                            {% endif %}
+                            {% if answer['is_accepted'] == 1 and is_user_the_author %}
+                            <form action="/set_answer" method="post">
+                            <input type="hidden" name="answer_id" value="{{ answer['id'] }}">
+                            <input type="hidden" name="value" value="0">
+                            <input type="hidden" name="question_id" value="{{ question_id }}">
+                            <button type="submit">Undo Accept</button>
+                            </form>
+                            {% endif %}
+
+                        </td>
                         <td>{{ answer['submission_time'] }}</td>
                         <td>
                             <a class="vote" href="{{ url_for('vote_up_answer', answer_id=answer['id']) }}">&uarr;</a>
@@ -117,14 +140,14 @@
                         <tr>
                             <td></td>
                             <td class="answer_comment_header">Submission Time</td>
-                            <td class="answer_comment_header" colspan="2">Comments</td>
+                            <td class="answer_comment_header" colspan="3">Comments</td>
                             <td></td>
                         </tr>
                         {% for comment in answer_comments[loop.index - 1] %}
                             <tr>
                                 <td></td>
                                 <td>{{ comment['submission_time'] }}</td>
-                                <td colspan="3">{{ comment['message'] }}</td>
+                                <td colspan="4">{{ comment['message'] }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -134,6 +157,4 @@
         <br><a class="back-button" href="/list">Go back</a>
     </div>
 {% endblock %}
-
-
-answer['message']
+</div>
