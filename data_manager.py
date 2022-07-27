@@ -471,7 +471,17 @@ def add_user_details(cursor, username, password, user_role='user'):
     cursor.execute(query, value)
     return None
 
-
+@database_common.connection_handler
+def get_tags_table(cursor):
+    query = """
+    SELECT tag.name, COUNT(question_tag.tag_id)
+    FROM tag
+    INNER JOIN question_tag
+    ON tag.id = question_tag.tag_id
+    GROUP BY tag.id;"""
+    cursor.execute(query)
+    return cursor.fetchall()
+    
 @database_common.connection_handler
 def get_tags_table(cursor):
     query = """
