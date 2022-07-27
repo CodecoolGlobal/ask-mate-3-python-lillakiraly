@@ -210,12 +210,16 @@ def edit_answer(answer_id):
 @app.route('/question/<int:question_id>/vote_up')
 def vote_up_question(question_id):
     data_manager.vote_up_question(question_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(question_id)
+    data_manager.change_reputation_value(user_id['user_id'], 5)
     return redirect('/list')
 
 
 @app.route('/question/<int:question_id>/vote_down')
 def vote_down_question(question_id):
     data_manager.vote_down_question(question_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(question_id)
+    data_manager.change_reputation_value(user_id['user_id'], -2)
     return redirect('/list')
 
 
@@ -223,6 +227,8 @@ def vote_down_question(question_id):
 def vote_up_answer(answer_id):
     data_manager.vote_up_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+    data_manager.change_reputation_value(user_id['user_id'], 10)
     return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
@@ -230,6 +236,8 @@ def vote_up_answer(answer_id):
 def vote_down_answer(answer_id):
     data_manager.vote_down_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+    data_manager.change_reputation_value(user_id['user_id'], -2)
     return redirect(url_for('display_question', question_id=question_id['question_id']))
 
 
