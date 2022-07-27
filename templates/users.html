@@ -21,6 +21,15 @@
        {% endfor %}
        </tbody>
        </table>
+
+        <div class="profile-container" id="profile_container">
+            <div class="profile">
+                <div id="username">username</div>
+                <div id="user_details">Details</div>
+                <br><button class="visit_user" id="close">Close</button>
+            </div>
+        </div>
+
         <br><a class="back-button" href="/list">Go back</a>
     {% else %}
     <div class="form">
@@ -32,15 +41,5 @@
     {% endif %}
     </div>
 
-    <div class="profile-container" id="profile_container">
-        <div class="profile">
-            <h1>Profile</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci animi architecto cum dicta
-            dolor eaque eius eveniet expedita illo, in inventore iusto labore laborum laudantium maxime molestiae necessitatibus
-            nemo numquam omnis quae quidem quisquam reprehenderit repudiandae ut velit, veniam vitae voluptate voluptatibus
-            voluptatum. Ad dolores laudantium maiores nobis veritatis.</p>
-            <button class="visit_user" id="close">Close</button>
-        </div>
-    </div>
 <script src="/static/js/userProfile.js"></script>
 {% endblock %}

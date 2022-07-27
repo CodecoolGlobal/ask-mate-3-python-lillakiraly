@@ -331,6 +331,11 @@ def users():
     return make_response(render_template('users.html', user_details=user_details), 200)
 
 
+@app.route('/users/user/int:<user_id>')
+def visit_user_profile():
+    return None
+
+
 @app.route('/tags')
 def show_tags():
     tag_storage = data_manager.get_tags_table()
@@ -347,11 +352,6 @@ def set_answer():
             data_manager.change_reputation_value(user_id, 15)
         data_manager.set_answer_as_accepted(answer_id, is_answer_accepted)
     return redirect(url_for('display_question', question_id=request.form.get('question_id')))
-
-
-@app.route('/users/user/int:<user_id>')
-def visit_user_profile():
-    return None
 
 
 @app.route('/authentication')

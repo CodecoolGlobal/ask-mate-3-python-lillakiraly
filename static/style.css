@@ -560,23 +560,26 @@ a.delete-button:hover, a.delete-button:active {
 .profile-container {
     display: flex;
     background-color: darkcyan;
+    border: 1px solid yellow;
+    border-radius: 10px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-    color: white;
+    color: yellow;
     align-items: center;
     justify-content: center;
+    scrollbar-gutter: auto;
     position: fixed;
-    top: 50%;
-    left: 25%;
-    height: 50vh;
-    width: 50vw;
-    margin: auto;
+    top: 20%;
+    height: 18vh;
+    width: 10vw;
     transition: opacity 0.3s ease;
     opacity: 0;
+    z-index: -1;
 }
 
 .profile-container.show {
     pointer-events: auto;
     opacity: 100%;
+    z-index: 1;
 }
 
 .profile {
