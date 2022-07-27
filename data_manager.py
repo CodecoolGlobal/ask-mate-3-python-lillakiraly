@@ -280,12 +280,12 @@ def get_search_results(cursor, search_phrase):
 
 
 @database_common.connection_handler
-def display_comment_from_question_id(cursor, id):
+def display_comment_from_question_id(cursor, question_id):
     query = """
         SELECT submission_time, message
         FROM comment
-        WHERE question_id = %(id)s"""
-    value = {'id': id}
+        WHERE question_id = %(question_id)s"""
+    value = {'question_id': question_id}
     cursor.execute(query, value)
     return cursor.fetchall()
 
@@ -303,12 +303,12 @@ def display_comment_from_question_id(cursor, id):
 
 
 @database_common.connection_handler
-def display_comment_from_answer_id(cursor, id):
+def display_comment_from_answer_id(cursor, answer_id):
     query = """
         SELECT submission_time, message
         FROM comment
-        WHERE answer_id = %(id)s"""
-    value = {'id': id}
+        WHERE answer_id = %(answer_id)s"""
+    value = {'answer_id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchall()
 
@@ -402,7 +402,14 @@ def delete_tag_from_question(cursor, tag_id, question_id):
 @database_common.connection_handler
 def get_comments_by_answer_id(cursor, answer_id):
     query = """
-        SELECT answer.submission_time, answer.vote_number, answer.message, answer.image, comment.submission_time, comment.message, comment.edited_count
+        SELECT
+            answer.submission_time,
+            answer.vote_number,
+            answer.message,
+            answer.image,
+            comment.submission_time,
+            comment.message,
+            comment.edited_count
         FROM comment
         FULL JOIN answer ON answer.id = comment.answer_id
         INNER JOIN question ON question.id = answer.question_id
@@ -464,7 +471,6 @@ def add_user_details(cursor, username, password, user_role='user'):
 
 
 @database_common.connection_handler
-<<<<<<< HEAD
 def get_user_id_from_username(cursor, username: str) -> int:
     query ="""
         SELECT id
@@ -513,6 +519,8 @@ def set_answer_as_accepted(cursor, answer_id, is_accepted):
               'answer_id': answer_id}
     cursor.execute(query, value)
 
+
+@database_common.connection_handler
 def get_users(cursor):
     query = """
         SELECT username, registration_date
@@ -550,4 +558,3 @@ def get_user_id_from_question_or_answer_id(cursor, from_id, from_question_id=Tru
     value = {'from_id': from_id}
     cursor.execute(query, value)
     return cursor.fetchone()
-

@@ -1,10 +1,3 @@
-
-#TODO
-# from bonus_questions import SAMPLE_QUESTIONS
-# @app.route("/bonus-questions")
-# def main():
-#     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
-
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
@@ -15,6 +8,7 @@ import re
 import data_manager
 import util
 from SETTINGS import PATH, SUBMISSION_TIME
+from bonus_questions import SAMPLE_QUESTIONS
 from util import allowed_file, upload_image, modify_request_form
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -42,15 +36,16 @@ def display_question(question_id: int):
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
-    is_there_accepted_answer = True if int(data_manager.get_if_theres_accepted_answer_to_question(question_id)['is_accepted']) == 1 else False
+    is_there_accepted_answer = int(data_manager.get_if_theres_accepted_answer_to_question(question_id)['is_accepted']) == 1
+
     username = session['user']
     user_id = data_manager.get_user_id_from_username(username)['id']
 
-    is_user_the_author = True if data_manager.check_if_question_author(question_id, user_id)['is_author'] == 1 else False
+    is_user_the_author = data_manager.check_if_question_author(question_id, user_id)['is_author'] == 1
+
     question_comments = data_manager.display_comment_from_question_id(question_id)
-    answer_comments = []
-    for answer in answers:
-        answer_comments.append(data_manager.display_comment_from_answer_id(answer['id']))
+    answer_comments = [data_manager.display_comment_from_answer_id(answer['id']) for answer in answers]
+
     question_tags = data_manager.get_question_tags_by_question_id(question_id)
     return render_template(
         "question_form.html",
@@ -326,10 +321,33 @@ def delete_question_tag(question_id, tag_id):
     return redirect(url_for('display_question', question_id=question_id))
 
 
+@app.route("/bonus-questions")
+def bonus():
+    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+
+
 @app.route('/users')
 def users():
     user_details = data_manager.get_users()
     return make_response(render_template('users.html', user_details=user_details), 200)
+
+
+@app.route('/tags')
+def show_tags():
+    tag_storage = data_manager.get_tags_table()
+    return render_template('tags.html',tags=tag_storage )
+
+
+@app.route('/set_answer', methods=['GET', 'POST'])
+def set_answer():
+    if request.method == 'POST':
+        answer_id = request.form.get('answer_id', '')
+        is_answer_accepted = bool(int(request.form.get('value', False)))
+        if is_answer_accepted:
+            user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+            data_manager.change_reputation_value(user_id, 15)
+        data_manager.set_answer_as_accepted(answer_id, is_answer_accepted)
+    return redirect(url_for('display_question', question_id=request.form.get('question_id')))
 
 
 @app.route('/authentication')
@@ -357,12 +375,6 @@ def login():
     return response_ok
 
 
-@app.route('/tags')
-def show_tags():
-    tag_storage = data_manager.get_tags_table()
-    return render_template('tags.html',tags=tag_storage )
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -382,15 +394,6 @@ def logout():
     if 'user' in session.keys():
         session.clear()
     return redirect('/')
-
-
-@app.route('/set_answer', methods=['GET', 'POST'])
-def set_answer():
-    if request.method == 'POST':
-        answer_id = request.form.get('answer_id', '')
-        is_answer_accepted = bool(int(request.form.get('value', False)))
-        data_manager.set_answer_as_accepted(answer_id, is_answer_accepted)
-    return redirect(url_for('display_question', question_id=request.form.get('question_id')))
 
 
 if __name__ == "__main__":
