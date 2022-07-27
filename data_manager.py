@@ -464,8 +464,7 @@ def add_user_details(cursor, username, password, user_role='user'):
 
 
 @database_common.connection_handler
-<<<<<<< HEAD
-def get_user_id_from_username(cursor, username: str) -> int:
+def get_user_id_from_username(cursor, username: str):
     query ="""
         SELECT id
         FROM users
@@ -513,6 +512,8 @@ def set_answer_as_accepted(cursor, answer_id, is_accepted):
               'answer_id': answer_id}
     cursor.execute(query, value)
 
+
+@database_common.connection_handler
 def get_users(cursor):
     query = """
         SELECT username, registration_date
