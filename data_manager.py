@@ -471,12 +471,11 @@ def add_user_details(cursor, username, password, user_role='user'):
 
 
 @database_common.connection_handler
-def get_user_id_from_username(cursor, username: str) -> int:
-    query ="""
+def get_user_id_from_username(cursor, username: str):
+    query = """
         SELECT id
         FROM users
-        WHERE username = %(username)s
-    """
+        WHERE username = %(username)s"""
     cursor.execute(query, {'username': username})
     return cursor.fetchone()
 
