@@ -480,5 +480,11 @@ def get_tags_table(cursor):
     INNER JOIN question_tag
     ON tag.id = question_tag.tag_id
     GROUP BY tag.id;"""
+
+def get_users(cursor):
+    query = """
+        SELECT username, registration_date
+        FROM users"""
+
     cursor.execute(query)
     return cursor.fetchall()
