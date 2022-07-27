@@ -564,18 +564,19 @@ a.delete-button:hover, a.delete-button:active {
     color: white;
     align-items: center;
     justify-content: center;
-    position: center;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: 50%;
+    left: 25%;
     height: 50vh;
     width: 50vw;
     margin: auto;
     transition: opacity 0.3s ease;
+    opacity: 0;
 }
 
 .profile-container.show {
     pointer-events: auto;
-    opacity: 1;
+    opacity: 100%;
 }
 
 .profile {

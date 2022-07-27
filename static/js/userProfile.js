@@ -1,13 +1,15 @@
 const openProfileButton = document.querySelector('#open')
-const userProfile = document.querySelector('#profile_container')
+const userProfile = document.querySelector('.profile-container')
 const closeProfileButton = document.querySelector('#close')
 
 openProfileButton.addEventListener('click', () => {
-    console.log('Profile opened')
-    userProfile.classList.add('show');
+    userProfile.classList.add('show')
+    console.log('Profile opened');
+    console.log(userProfile)
 });
 
 closeProfileButton.addEventListener('click', () => {
-    console.log('Profile closed')
     userProfile.classList.remove('show')
+    console.log('Profile closed');
+    console.log(userProfile)
 });
