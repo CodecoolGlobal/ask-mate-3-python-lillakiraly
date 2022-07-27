@@ -344,7 +344,7 @@ def set_answer():
         answer_id = request.form.get('answer_id', '')
         is_answer_accepted = bool(int(request.form.get('value', False)))
         if is_answer_accepted:
-            user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)
+            user_id = data_manager.get_user_id_from_question_or_answer_id(answer_id, from_question_id=False)['user_id']
             data_manager.change_reputation_value(user_id, 15)
         data_manager.set_answer_as_accepted(answer_id, is_answer_accepted)
     return redirect(url_for('display_question', question_id=request.form.get('question_id')))
