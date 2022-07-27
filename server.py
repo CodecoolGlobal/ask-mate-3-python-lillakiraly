@@ -42,6 +42,11 @@ def display_question(question_id: int):
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
+    is_there_accepted_answer = True if int(data_manager.get_if_theres_accepted_answer_to_question(question_id)['is_accepted']) == 1 else False
+    username = session['user']
+    user_id = data_manager.get_user_id_from_username(username)['id']
+
+    is_user_the_author = True if data_manager.check_if_question_author(question_id, user_id)['is_author'] == 1 else False
     question_comments = data_manager.display_comment_from_question_id(question_id)
     answer_comments = []
     for answer in answers:
@@ -57,9 +62,11 @@ def display_question(question_id: int):
         vote=question_data['vote_number'],
         image=question_data['image'],
         answers=answers,
+        is_there_accepted_answer=is_there_accepted_answer,
         question_comments=question_comments,
         answer_comments=answer_comments,
-        question_tags=question_tags)
+        question_tags=question_tags,
+        is_user_the_author=is_user_the_author)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -74,7 +81,6 @@ def add_question():  # sourcery skip: replace-interpolation-with-fstring, use-fs
         image = upload_image(file)
     username = session['user']
     user_id = data_manager.get_user_id_from_username(username)['id']
-    print(user_id)
     question = modify_request_form(request.form.to_dict(), image)
     data_manager.add_new_question(user_id, question)
     return redirect('/list')
@@ -376,6 +382,15 @@ def logout():
     if 'user' in session.keys():
         session.clear()
     return redirect('/')
+
+
+@app.route('/set_answer', methods=['GET', 'POST'])
+def set_answer():
+    if request.method == 'POST':
+        answer_id = request.form.get('answer_id', '')
+        is_answer_accepted = bool(int(request.form.get('value', False)))
+        data_manager.set_answer_as_accepted(answer_id, is_answer_accepted)
+    return redirect(url_for('display_question', question_id=request.form.get('question_id')))
 
 
 if __name__ == "__main__":

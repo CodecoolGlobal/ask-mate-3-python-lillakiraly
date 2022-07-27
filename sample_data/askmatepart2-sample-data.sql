@@ -50,7 +50,8 @@ CREATE TABLE answer (
     vote_number integer,
     question_id integer,
     message text,
-    image text
+    image text,
+    is_accepted bool DEFAULT FALSE
 );
 
 DROP TABLE IF EXISTS public.comment;
