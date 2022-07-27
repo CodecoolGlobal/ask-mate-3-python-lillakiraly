@@ -26,6 +26,7 @@ CREATE TABLE users (
     username text NOT NULL UNIQUE,
     password text NOT NULL,
     registration_date DATE DEFAULT NOW(),
+    reputation integer DEFAULT  0,
     user_role text
 );
 
