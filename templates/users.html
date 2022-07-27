@@ -4,7 +4,24 @@
 {#  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>#}
 {% block content %}
 <div class="page-wrap">
+        <div class="tag-form">
+            <button class="visit_user" id="open">My profile</button>
+        </div>
+
         {% if session["user"] is defined %}
+            <div class="profile-container" id="profile_container">
+                <div class="profile">
+                    <h1>{{ user_data.username }}'s profile</h1><br>
+                    <p>ID: {{ user_data.id }}</p>
+                    <p>Username: {{ user_data.username }}</p>
+                    <p>Registered on: {{ user_data.registration_date }}</p>
+                    <p>Reputation: {{ user_data.reputation }}</p>
+                    <p>Number of questions: ?</p>
+                    <p>Number of answers: ?</p>
+                    <p>Number of comments: ?</p>
+                    <br><button class="visit_user" id="close">Close</button>
+                </div>
+            </div>
        <table>
        <thead>
        <tr>
@@ -15,20 +32,14 @@
        <tbody>
        {% for user in user_details %}
        <tr>
-           <td><button class="visit_user" id="open">{{ user.username }}</button></td>
+           <td>
+               <a class="visit_user edit" href="{{ url_for('visit_user_profile', user_id=user.id) }}">{{ user.username }}</a>
+           </td>
            <td>{{ user.registration_date }}</td>
        </tr>
        {% endfor %}
        </tbody>
        </table>
-
-        <div class="profile-container" id="profile_container">
-            <div class="profile">
-                <div id="username">username</div>
-                <div id="user_details">Details</div>
-                <br><button class="visit_user" id="close">Close</button>
-            </div>
-        </div>
 
         <br><a class="back-button" href="/list">Go back</a>
     {% else %}

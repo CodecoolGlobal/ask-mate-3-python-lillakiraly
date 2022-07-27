@@ -522,7 +522,7 @@ def set_answer_as_accepted(cursor, answer_id, is_accepted):
 @database_common.connection_handler
 def get_users(cursor):
     query = """
-        SELECT username, registration_date
+        SELECT id, username, registration_date, reputation
         FROM users"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -569,3 +569,16 @@ def get_tags_table(cursor):
         GROUP BY tag.id;"""
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_user_from_user_id(cursor, user_id: int):
+    query = """
+        SELECT id, username, registration_date, reputation
+        FROM users
+        WHERE users.id = %(user_id)s"""
+    value = {
+        'user_id': user_id
+    }
+    cursor.execute(query, value)
+    return cursor.fetchone()

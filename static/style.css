@@ -404,8 +404,7 @@ button.visit_user {
     border: 0;
     border-radius: 5px;
     padding: 10px;
-    margin: auto;
-    display: flex;
+
 }
 
 button.visit_user:hover {
@@ -569,8 +568,9 @@ a.delete-button:hover, a.delete-button:active {
     scrollbar-gutter: auto;
     position: fixed;
     top: 20%;
-    height: 18vh;
-    width: 10vw;
+    left: 25%;
+    height: 50vh;
+    width: 50vw;
     transition: opacity 0.3s ease;
     opacity: 0;
     z-index: -1;

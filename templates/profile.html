@@ -1,0 +1,64 @@
+{% extends "template_site.html"%}
+{% block title %}List users{% endblock %}
+{#<script src="https://code.jquery.com/jquery-3.6.0.js"></script>#}
+{#  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>#}
+{% block content %}
+<div class="page-wrap">
+    {% if session["user"] is defined %}
+        <div class="profile">
+        <h3>ID</h3><label for="user_id">{{ user_details.id }}</label>
+        <h3>Username</h3><label for="username">{{ user_details.username }}</label>
+        <h3>Registration_date</h3><label for="registration_date">{{ user_details.registration_date }}</label>
+        <h3>Reputation</h3><label for="reputation">{{ user_details.reputation }}</label>
+        <h3>Number of asked questions</h3><label for="number_of_questions">?</label>
+        <h3>Number of answers</h3><label for="number_of_answers">?</label>
+        <h3>Number of comments</h3><label for="number_of_answers">?</label>
+        </div>
+
+        <table>
+        <thead>
+            <tr>
+                <th>Asked questions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>asked questions with links</td>
+            </tr>
+        </tbody>
+        </table>
+
+
+        <table>
+        <thead>
+            <tr>
+                <th>Submitted answers</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>answers with links</td>
+            </tr>
+        </tbody>
+        </table>
+
+
+        <table>
+        <thead>
+            <tr>
+                <th>Comments from the user</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>comments with links</td>
+            </tr>
+        </tbody>
+        </table>
+
+        <br><a class="back-button" href="/users">Go back</a>
+    {% else %}
+        <h1>Please log in to your account</h1>
+    {% endif %}
+
+{% endblock %}
