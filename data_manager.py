@@ -557,3 +557,15 @@ def get_user_id_from_question_or_answer_id(cursor, from_id, from_question_id=Tru
     value = {'from_id': from_id}
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_tags_table(cursor):
+    query = """
+        SELECT tag.name, COUNT(question_tag.tag_id)
+        FROM tag
+        INNER JOIN question_tag
+        ON tag.id = question_tag.tag_id
+        GROUP BY tag.id;"""
+    cursor.execute(query)
+    return cursor.fetchall()
