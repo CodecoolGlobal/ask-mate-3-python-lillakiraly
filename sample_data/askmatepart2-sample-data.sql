@@ -19,6 +19,12 @@ ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS fk_user_id CAS
 ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.answer DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.comment DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.rel_id_connect DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.rel_id_connect DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.rel_id_connect DROP CONSTRAINT IF EXISTS fk_answer_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.rel_id_connect DROP CONSTRAINT IF EXISTS fk_comment_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.rel_id_connect DROP CONSTRAINT IF EXISTS fk_question_tag_id CASCADE;
+
 
 DROP TABLE IF EXISTS public.users;
 CREATE TABLE users (
@@ -28,6 +34,15 @@ CREATE TABLE users (
     registration_date DATE DEFAULT NOW(),
     reputation integer DEFAULT  0,
     user_role text
+);
+
+DROP TABLE IF EXISTS public.rel_id_connect;
+CREATE TABLE rel_id_connect (
+    user_id integer,
+    question_id integer,
+    answer_id integer,
+    comment_id integer,
+    question_tag_id integer
 );
 
 DROP TABLE IF EXISTS public.question;
@@ -121,6 +136,23 @@ ALTER TABLE ONLY comment
 
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE;
+
+
+ALTER TABLE ONLY rel_id_connect
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY rel_id_connect
+    ADD CONSTRAINT fk_question_id FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY rel_id_connect
+    ADD CONSTRAINT fk_answer_id FOREIGN KEY (answer_id) REFERENCES answer(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY rel_id_connect
+    ADD CONSTRAINT fk_comment_id FOREIGN KEY (comment_id) REFERENCES comment(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY rel_id_connect
+    ADD CONSTRAINT fk_question_tag_id FOREIGN KEY (question_tag_id) REFERENCES tag(id) ON DELETE CASCADE;
+
 
 INSERT INTO users (username, password, user_role ) VALUES ('lilo@gmail.com', '$2b$12$TURfZQoXo55j5.8fTtnrNuz6aqwnyf2WfeQmuPZVt.mmXRCUws60y', 'admin');
 INSERT INTO users (username, password, user_role) VALUES ('repa@repa.hu', '$2b$12$TURfZQoXo55j5.8fTtnrNuz6aqwnyf2WfeQmuPZVt.mmXRCUws60y', 'admin');
