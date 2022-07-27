@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    {% block head %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -17,6 +18,7 @@
         <li class="nav-item"><a href="#">Support</a></li>
             {% if session['user'] is defined %}
                 <li class="nav-item"><a href="{{ url_for('users') }}">Users</a></li>
+                <li class="nav-item"><a href="{{ url_for('bonus') }}">Bonus</a></li>
                 <li class="nav-item"><a href="{{ url_for('logout') }}">Logout</a></li>
             {% else %}
                 <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>

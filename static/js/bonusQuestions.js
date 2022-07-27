@@ -9,15 +9,31 @@ function getSortedItems(items, sortField, sortDirection) {
     // effect this function has on the table
     //
     if (sortDirection === "asc") {
-        const firstItem = items.shift()
-        if (firstItem) {
-            items.push(firstItem)
-        }
+        items.sort((a,b)=> {
+            a = a["Description"];
+            b = b["Description"];
+            if(a<b){
+                return -1;
+            }
+            if(a>b){
+                return 1;
+            } else {
+                return 0;
+            }
+        })
     } else {
-        const lastItem = items.pop()
-        if (lastItem) {
-            items.push(lastItem)
-        }
+        items.sort((a,b)=> {
+            a = a["Description"];
+            b = b["Description"];
+            if(a<b){
+                return 1;
+            }
+            if(a>b){
+                return -1;
+            } else {
+                return 0;
+            }
+        })
     }
 
     return items
