@@ -312,6 +312,12 @@ def delete_question_tag(question_id, tag_id):
     return redirect(url_for('display_question', question_id=question_id))
 
 
+@app.route('/users')
+def users():
+    user_details = data_manager.get_users()
+    return make_response(render_template('users.html', user_details=user_details), 200)
+
+
 @app.route('/authentication')
 def authentication():
     return render_template('authentication.html')
