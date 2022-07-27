@@ -470,3 +470,12 @@ def add_user_details(cursor, username, password, user_role='user'):
     value = {'username': username, 'password': password, 'user_role': user_role}
     cursor.execute(query, value)
     return None
+
+
+@database_common.connection_handler
+def get_users(cursor):
+    query = """
+        SELECT username, registration_date
+        FROM users"""
+    cursor.execute(query)
+    return cursor.fetchall()
