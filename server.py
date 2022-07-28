@@ -327,13 +327,15 @@ def bonus():
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():
-    user_details = data_manager.get_users()
-    username = session['user']
-    user_id = data_manager.get_user_id_from_username(username)['id']
-    user_data = data_manager.get_user_from_user_id(user_id)
-    if request.method == 'POST':
-        return redirect(url_for('visit_user_profile', user_id=user_details.id))
-    return make_response(render_template('users.html', user_details=user_details, user_data=user_data), 200)
+    if 'user' in session.keys():
+        user_details = data_manager.get_users()
+        username = session['user']
+        user_id = data_manager.get_user_id_from_username(username)['id']
+        user_data = data_manager.get_user_from_user_id(user_id)
+        if request.method == 'POST':
+            return redirect(url_for('visit_user_profile', user_id=user_details.id))
+        return make_response(render_template('users.html', user_details=user_details, user_data=user_data), 200)
+    return make_response(render_template('users.html'))
 
 
 @app.route('/users/user/<user_id>', methods=['GET', 'POST'])
