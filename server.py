@@ -349,9 +349,15 @@ def visit_user_profile(user_id: int):
     num_of_questions = data_manager.get_num_of_data_from_user(user_id, 'question')['num_of_data']
     num_of_answers = data_manager.get_num_of_data_from_user(user_id, 'answer')['num_of_data']
     num_of_comments = data_manager.get_num_of_data_from_user(user_id, 'comment')['num_of_data']
+    questions_from_user = data_manager.get_question_ids_and_titles_from_user_id(user_id)
+    answers_from_user = data_manager.get_question_ids_and_titles_with_corresponding_answers_from_user_id(user_id)
+    question_comments_from_user = data_manager.get_question_ids_and_titles_with_corresponding_comments_from_user_id_question_id_given(user_id)
+    answer_comments_from_user = data_manager.get_question_ids_and_titles_with_corresponding_comments_from_user_id_answer_id_given(user_id)
     return make_response(render_template('profile.html', user_details=user_data, user_id=user_id,
                                          num_of_questions=num_of_questions, num_of_answers=num_of_answers,
-                                         num_of_comments=num_of_comments), 200)
+                                         num_of_comments=num_of_comments, questions_from_user=questions_from_user,
+                                         answers_from_user=answers_from_user, question_comments_from_user=question_comments_from_user,
+                                         answer_comments_from_user=answer_comments_from_user), 200)
 
 
 @app.route('/tags')

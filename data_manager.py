@@ -591,3 +591,57 @@ def get_num_of_data_from_user(cursor, user_id, table):
     cursor.execute(query)
     return cursor.fetchone()
 
+
+#TODO
+@database_common.connection_handler
+def get_question_ids_and_titles_from_user_id(cursor, user_id):
+    query = """
+        SELECT question.id, question.title
+        FROM question
+        WHERE user_id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_answers_from_user_id(cursor, user_id):
+    query = """
+        SELECT DISTINCT question.id, question.title
+        FROM question
+        INNER JOIN answer
+        ON answer.question_id = question.id
+        WHERE answer.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_comments_from_user_id_question_id_given(cursor, user_id):
+    query = """
+        SELECT question.id, question.title
+        FROM comment
+        INNER JOIN question
+        ON comment.question_id = question.id
+        WHERE comment.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_comments_from_user_id_answer_id_given(cursor, user_id):
+    query = """
+        SELECT question.id, question.title
+        FROM comment
+        INNER JOIN answer
+        ON comment.answer_id = answer.id
+        INNER JOIN question
+        ON answer.question_id = question.id
+        WHERE comment.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
