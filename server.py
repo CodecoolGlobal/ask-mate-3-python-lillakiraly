@@ -157,7 +157,6 @@ def delete_answer(answer_id):
     return redirect("/list")
 
 
-# TODO
 @app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
 def edit_answer(answer_id):
     answer = data_manager.get_answer_by_answer_id(answer_id)
@@ -326,16 +325,27 @@ def bonus():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
-@app.route('/users')
+@app.route('/users', methods=['GET', 'POST'])
 def users():
     user_details = data_manager.get_users()
-    return make_response(render_template('users.html', user_details=user_details), 200)
+    username = session['user']
+    user_id = data_manager.get_user_id_from_username(username)['id']
+    user_data = data_manager.get_user_from_user_id(user_id)
+    if request.method == 'POST':
+        return redirect(url_for('visit_user_profile', user_id=user_details.id))
+    return make_response(render_template('users.html', user_details=user_details, user_data=user_data), 200)
+
+
+@app.route('/users/user/<user_id>', methods=['GET', 'POST'])
+def visit_user_profile(user_id: int):
+    user_data = data_manager.get_user_from_user_id(user_id)
+    return make_response(render_template('profile.html', user_details=user_data, user_id=user_id), 200)
 
 
 @app.route('/tags')
 def show_tags():
     tag_storage = data_manager.get_tags_table()
-    return render_template('tags.html',tags=tag_storage )
+    return render_template('tags.html', tags=tag_storage)
 
 
 @app.route('/set_answer', methods=['GET', 'POST'])
