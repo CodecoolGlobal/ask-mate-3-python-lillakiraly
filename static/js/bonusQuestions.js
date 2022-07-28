@@ -60,9 +60,26 @@ function toggleTheme() {
 }
 
 function increaseFont() {
-    console.log("increaseFont")
+    fontEval(1);
 }
 
 function decreaseFont() {
-    console.log("decreaseFont")
+    fontEval(-1);
+}
+
+function fontEval(modNum){
+    let tableRows = document.querySelectorAll("tr")
+    for (const tableRow of tableRows) {
+        let number = window.getComputedStyle(tableRow, null).getPropertyValue("font-size")
+        console.log(number)
+        let fontSize = Number(number.replace("px", ""))
+        const limit = modNum > 0 ? 15 : 3;
+        if (modNum > 0) {
+            fontSize = fontSize < limit ? fontSize + 1 * modNum : fontSize;
+        } else {
+            fontSize = fontSize > limit ? fontSize + 1 * modNum : fontSize;
+        }
+        tableRow.setAttribute("style", `font-size: ${fontSize}px`)
+    }
+
 }
