@@ -34,7 +34,13 @@
 
     {%if comment_to_update%}
     <h1>Edit comment</h1>
-
+        <form action="/comment/{{ comment_id }}/edit" method="post">
+            <label for="message">Message</label>
+            <br>
+            <textarea id="message" name="message" cols="80" rows="6" placeholder="Write your comment here..." required>{{ message }}</textarea>
+            <br>
+            <button class="submit" type="submit">Submit</button>
+        </form>
     {%endif%}
     <br><a class="back-button" href="{{ url_for('display_question', question_id=question_id) }}">Go back</a>
 {% endblock %}

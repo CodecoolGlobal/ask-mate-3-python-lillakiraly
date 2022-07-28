@@ -59,7 +59,7 @@
                         <thead>
                         <tr>
                             <td>Submission time</td>
-                            <td colspan="6">Comment</td>
+                            <td colspan="7">Comment</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -67,6 +67,7 @@
                         <tr>
                             <td>{{ comment['submission_time'] }}</td>
                             <td colspan="6">{{ comment['message'] }}</td>
+                            <td><button type="button" name="question_comment"><a class="tag-button" href="{{ url_for('edit_comment', comment_id=comment["id"])}}">Edit</a></button></td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -138,16 +139,15 @@
                         </td>
                     </tr>
                         <tr>
-                            <td></td>
                             <td class="answer_comment_header">Submission Time</td>
-                            <td class="answer_comment_header" colspan="3">Comments</td>
-                            <td></td>
+                            <td class="answer_comment_header" colspan="5">Comments</td>
                         </tr>
                         {% for comment in answer_comments[loop.index - 1] %}
                             <tr>
-                                <td></td>
                                 <td>{{ comment['submission_time'] }}</td>
                                 <td colspan="4">{{ comment['message'] }}</td>
+                                <td><button type="button" name="answer_comment"><a class="tag-button" href="{{ url_for('edit_comment', comment_id=comment.id)}}">Edit</a></button></td>
+                                <td></td>
                             </tr>
                         {% endfor %}
                     </tbody>
