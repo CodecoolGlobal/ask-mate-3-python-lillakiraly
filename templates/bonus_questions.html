@@ -2,36 +2,18 @@
 {% block head %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/bonusQuestions.js') }}" defer></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/doNotModifyThisFile.js') }}" defer></script>
-        <!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'> -->
-
 {% endblock %}
 {% block content %}
-    <div class="menu">
-        <div class="headline">
-            <h1>All Questions</h1>
-        </div>
-
-        <div class="bonus">
-            <div>
-                <button class="filter" id="theme-button">&#9788 or &#9789</button>
-            </div>
-            <div>
-                <input
-                    class="search filter-bar"
-                    data-table-body="doNotModifyThisId_QuestionsTableBody"
-                    style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
-                    type="text"
-                    placeholder="&#8812 Filter questions by keywords">
-            </div>
-            <div class="bonus-font">
-
-                <button class="filter filter-font"  id="increase-font-button">&#8853</button>
-                <h2 class="bonus-font-text">Page font</h2>
-                <button class="filter filter-font"  id="decrease-font-button">&#8861</button>
-            </div>
-        </div>
-
-    </div>
+        <h1>AskMate</h1>
+        <h2>All Questions:</h2>
+        <button id="theme-button">Change Theme to Dark</button>
+        <button id="increase-font-button">Increase page font</button>
+        <button id="decrease-font-button">Decrease page font</button>
+        <input
+                data-table-body="doNotModifyThisId_QuestionsTableBody"
+                style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
+                type="text"
+                placeholder="filter questions by keywords">
         <table>
             <thead id="doNotModifyThisId_QuestionsTableHeader">
                 <tr>
@@ -52,5 +34,4 @@
                 {% endfor %}
             </tbody>
         </table>
-    <br><a class="back-button" href="/list">&#8592 Back</a>
 {% endblock %}

@@ -36,7 +36,8 @@ def display_question(question_id: int):
     data_manager.increase_view_number(question_id)
     question_data = data_manager.display_question_from_id(question_id)
     answers = data_manager.get_answers(question_id)
-    is_there_accepted_answer = int(data_manager.get_if_theres_accepted_answer_to_question(question_id)['is_accepted']) == 1
+    is_there_accepted_answer = int(
+        data_manager.get_if_theres_accepted_answer_to_question(question_id)['is_accepted']) == 1
 
     username = session['user']
     user_id = data_manager.get_user_id_from_username(username)['id']
@@ -186,25 +187,26 @@ def edit_answer(answer_id):
                            answer_to_update=answer)
 
 
-# @app.route("/comment/<int:comment_id>/edit", methods=['GET', 'POST'])
-# def edit_comment(comment_id):
-#     answer = data_manager.get_comment_by_id(comment_id)
-#     question_id = data_manager.get_question_id_by_answer_id(answer_id)
-#     if request.method == 'POST':
-#         edited_answer = {
-#             'id': answer.get('id'),
-#             'submission_time': SUBMISSION_TIME,
-#             'question_id': answer.get('question_id'),
-#             'message': request.form.get('message', ''),
-#         }
-#         data_manager.edit_answer(edited_answer)
-#         return redirect(url_for('display_question', question_id=question_id['question_id']))
-#
-#     return render_template("edit.html",
-#                            title='Edit answer',
-#                            question_id=question_id['question_id'],
-#                            answer_id=answer_id,
-#                            answer_to_update=answer)
+@app.route("/comment/<int:comment_id>/edit", methods=['GET', 'POST'])
+def edit_comment(comment_id):
+    comment = data_manager.get_comment_by_id(comment_id)
+    question_id = data_manager.get_question_id_by_comment_id(comment_id)
+    answer_id = data_manager.get_answer_id_by_comment_id(comment_id)
+    if request.method == 'POST':
+        edited_comment = {
+            'id': comment.get('id'),
+            'submission_time': SUBMISSION_TIME,
+            'message': request.form.get('message', '')
+        }
+        data_manager.edit_comment(edited_comment['id'], edited_comment['submission_time'], edited_comment['message'])
+        return redirect(url_for('display_question', question_id=question_id['question_id']))
+
+    return render_template("edit.html",
+                           message=comment['message'],
+                           title='Edit comment',
+                           question_id=1, #TODO
+                           comment_id=comment_id,
+                           comment_to_update=True)
 
 
 @app.route('/question/<int:question_id>/vote_up')
@@ -253,7 +255,8 @@ def search_question():
                 # result[key] = str(text).replace(search_phrase, '<span class="highlight">{}</span>'.format(search_phrase))
                 # result[key] = re.sub(search_phrase, f'<span class="highlight">{search_phrase}</span>', str(text),
                 #                      flags=re.IGNORECASE)
-                if locations := [i.span() for i in re.finditer(f'{search_phrase}', str(result[key]), flags=re.IGNORECASE)]:
+                if locations := [i.span() for i in
+                                 re.finditer(f'{search_phrase}', str(result[key]), flags=re.IGNORECASE)]:
                     for location in locations[::-1]:
                         result[key] = f'{str(result[key][:location[0]])}' \
                                       f'{highlight_prefix}{str(result[key])[location[0]:location[1]]}{highlight_suffix}' \
@@ -310,7 +313,7 @@ def add_tag(question_id):
         if add_tag_ids:
             data_manager.add_tags_to_question(question_id, add_tag_ids)
         return redirect(url_for('display_question', question_id=question_id))
-# TODO fix UniqueViolation
+    # TODO fix UniqueViolation
     return render_template('add_tag.html', tags=all_tags, question_id=question_id)
 
 

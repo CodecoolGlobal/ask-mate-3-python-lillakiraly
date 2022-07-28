@@ -22,14 +22,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for question in questions_from_user %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-
+            <tr>
+                <td>asked questions with links</td>
+            </tr>
         </tbody>
         </table>
 
@@ -41,14 +36,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for question in answers_from_user %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-
+            <tr>
+                <td>answers with links</td>
+            </tr>
         </tbody>
         </table>
 
@@ -60,24 +50,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for question in question_comments_from_user %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            {% for question in answer_comments_from_user %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <td>comments with links</td>
+            </tr>
         </tbody>
         </table>
 
-        <br><a class="back-button" href="/users">&#8592 Back</a>
+        <br><a class="back-button" href="/users">Go back</a>
     {% else %}
         <h1>Please log in to your account</h1>
     {% endif %}

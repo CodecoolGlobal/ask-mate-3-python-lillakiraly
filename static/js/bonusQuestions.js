@@ -41,55 +41,28 @@ function getSortedItems(items, sortField, sortDirection) {
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
 function getFilteredItems(items, filterValue) {
-    // console.log(items)
-    // console.log(filterValue)
+    console.log(items)
+    console.log(filterValue)
 
-    if (filterValue.length === 0) {
-        return items
-    } else if (filterValue[0] === "!") {
-        return items.filter(question => !((question.Title).toLowerCase()).includes(filterValue.slice(1).toLowerCase()));
-    } else if (filterValue.startsWith("Description:!")) {
-        return items.filter(question => !((question.Description).toLowerCase()).includes(filterValue.slice(13).toLowerCase()));
-    } else if (filterValue.startsWith("Description:")) {
-        return items.filter(question => (question.Description).toLowerCase().includes(filterValue.slice(12).toLowerCase()));
-    } else {
-        return items.filter(question => (question.Title).toLowerCase().includes(filterValue.toLowerCase()));
+    // === SAMPLE CODE ===
+    // if you have not changed the original html uncomment the code below to have an idea of the
+    // effect this function has on the table
+    //
+    for (let i=0; i<filterValue.length; i++) {
+        items.pop()
     }
-}
 
+    return items
+}
 
 function toggleTheme() {
     console.log("toggle theme")
-    const background = document.querySelector('body')
-
-    if (background.style.backgroundColor === 'teal') {
-        background.style.backgroundColor = 'white'
-    }
-    else {
-        background.style.backgroundColor = 'teal'
-    }
 }
 
 function increaseFont() {
-    fontEval(1);
+    console.log("increaseFont")
 }
 
 function decreaseFont() {
-    fontEval(-1);
-}
-
-function fontEval(modNum){
-    let tableRows = document.querySelectorAll("tr")
-    for (const tableRow of tableRows) {
-        let number = window.getComputedStyle(tableRow, null).getPropertyValue("font-size")
-        let fontSize = Number(number.replace("px", ""))
-        const limit = modNum > 0 ? 25 : 3;
-        if (modNum > 0) {
-            fontSize = fontSize < limit ? fontSize + 1 * modNum : fontSize;
-        } else {
-            fontSize = fontSize > limit ? fontSize + 1 * modNum : fontSize;
-        }
-        tableRow.setAttribute("style", `font-size: ${fontSize}px`)
-    }
-
+    console.log("decreaseFont")
 }

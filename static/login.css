@@ -41,8 +41,6 @@ body {
   box-sizing: border-box;
   box-shadow: 0 15px 25px darkcyan;
   border-radius: 10px;
-  color: white;
-  font-family: 'Roboto', sans-serif;
 }
 
 .login-box h2 {
@@ -90,20 +88,18 @@ body {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: white;
+  color: yellow;
   font-size: 16px;
   text-decoration: none;
-  text-transform: none;
+  text-transform: uppercase;
   overflow: hidden;
   transition: .5s;
   margin-top: 40px;
-  letter-spacing: 4px;
-  font-family: 'Roboto', sans-serif;
-
+  letter-spacing: 4px
 }
 
 .login-box a:hover {
-  background: white;
+  background: yellow;
   /*font-weight: bold;*/
   text-shadow: 1px 1px 10px darkcyan;
   color: darkcyan;

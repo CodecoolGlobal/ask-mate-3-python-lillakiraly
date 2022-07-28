@@ -95,14 +95,14 @@
                     <tr>
                         <td>
                             {% if answer['is_accepted'] %}
-                                &#9989
+                                ✓
                             {% endif %}
                             {% if not is_there_accepted_answer and is_user_the_author%}
                             <form action="/set_answer" method="post">
                             <input type="hidden" name="answer_id" value="{{ answer['id'] }}">
                             <input type="hidden" name="value" value="1">
                             <input type="hidden" name="question_id" value="{{ question_id }}">
-                            <button class="submit" type="submit">Accept</button>
+                            <button type="submit">Accept</button>
                             </form>
                             {% endif %}
                             {% if answer['is_accepted'] == 1 and is_user_the_author %}
@@ -110,7 +110,7 @@
                             <input type="hidden" name="answer_id" value="{{ answer['id'] }}">
                             <input type="hidden" name="value" value="0">
                             <input type="hidden" name="question_id" value="{{ question_id }}">
-                            <button class="submit" type="submit">&#8634</button>
+                            <button type="submit">Undo Accept</button>
                             </form>
                             {% endif %}
 
@@ -154,7 +154,7 @@
                 </table>
                 <br>
             {% endfor %}
-        <br><a class="back-button" href="/list">&#8592 Back</a>
+        <br><a class="back-button" href="/list">Go back</a>
     </div>
 {% endblock %}
 </div>
