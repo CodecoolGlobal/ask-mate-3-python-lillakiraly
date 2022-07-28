@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from psycopg2.errors import UniqueViolation
 from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
 from werkzeug.utils import secure_filename
 
@@ -294,10 +294,18 @@ def add_comment_to_answer(answer_id):
 @app.route("/question/<int:question_id>/new-tag", methods=['GET', 'POST'])
 def add_tag(question_id):
     all_tags = data_manager.get_all_question_tags()
+    new_all_tags = []
+    for tag in all_tags:
+        is_contains = False
+        for new_tag in new_all_tags:
+            if tag['name'] == new_tag.get('name'):
+                is_contains = True
+        if not is_contains:
+            new_all_tags.append(tag)
     if request.method == 'POST' and request.form.get('new_tag', None):
         new_tag_added = request.form.get('new_tag', None)
         id_for_new_tag = max([tag['id'] for tag in all_tags]) + 1
-        data_manager.add_new_tag(id_for_new_tag, new_tag_added)
+        data_manager.add_new_tag(new_tag_added)
         return redirect(url_for("add_tag", question_id=question_id))
 
     elif request.method == 'POST':
@@ -308,10 +316,12 @@ def add_tag(question_id):
                 add_tag_ids.append(tag['id'])
 
         if add_tag_ids:
-            data_manager.add_tags_to_question(question_id, add_tag_ids)
+            try:
+                data_manager.add_tags_to_question(question_id, add_tag_ids)
+            except UniqueViolation:
+                return redirect(url_for("add_tag", question_id=question_id))
         return redirect(url_for('display_question', question_id=question_id))
-# TODO fix UniqueViolation
-    return render_template('add_tag.html', tags=all_tags, question_id=question_id)
+    return render_template('add_tag.html', tags=new_all_tags, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/tag/<int:tag_id>/delete')

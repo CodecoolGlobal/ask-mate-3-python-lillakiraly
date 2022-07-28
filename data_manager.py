@@ -341,7 +341,10 @@ def add_new_comment_to_answer(cursor, user_id, answer_id, message, submission_ti
 @database_common.connection_handler
 def get_all_question_tags(cursor):
     query = """
-        SELECT tag.name, tag.id FROM tag
+        SELECT 
+            DISTINCT ON (tag.name) name,
+            tag.id
+        FROM tag
     """
     cursor.execute(query)
     return cursor.fetchall()
@@ -350,7 +353,7 @@ def get_all_question_tags(cursor):
 @database_common.connection_handler
 def get_question_tags_by_question_id(cursor, question_id):
     query = """
-        SELECT tag.name, tag.id
+        SELECT DISTINCT ON (tag.name) name, tag.id
         FROM tag
         JOIN question_tag
         ON question_tag.tag_id = tag.id
@@ -381,12 +384,13 @@ def add_tags_to_question(cursor, question_id, tags):
 
 
 @database_common.connection_handler
-def add_new_tag(cursor, tag_id, new_tag):
+def add_new_tag(cursor, new_tag):
     query = """
-    INSERT INTO tag
-    VALUES (%(tag_id)s, %(new_tag)s)
+    INSERT INTO tag (name)
+    VALUES (%(new_tag)s)
     """
-    cursor.execute(query, {'tag_id': tag_id, 'new_tag': new_tag})
+    cursor.execute(query, {'new_tag': new_tag})
+    return None
 
 
 @database_common.connection_handler
@@ -562,7 +566,7 @@ def get_user_id_from_question_or_answer_id(cursor, from_id, from_question_id=Tru
 @database_common.connection_handler
 def get_tags_table(cursor):
     query = """
-        SELECT tag.name, COUNT(question_tag.tag_id)
+        SELECT DISTINCT ON(tag.name) name, COUNT(question_tag.tag_id)
         FROM tag
         INNER JOIN question_tag
         ON tag.id = question_tag.tag_id
@@ -592,7 +596,6 @@ def get_num_of_data_from_user(cursor, user_id, table):
     return cursor.fetchone()
 
 
-#TODO
 @database_common.connection_handler
 def get_question_ids_and_titles_from_user_id(cursor, user_id):
     query = """
