@@ -41,19 +41,22 @@ function getSortedItems(items, sortField, sortDirection) {
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
 function getFilteredItems(items, filterValue) {
-    console.log(items)
-    console.log(filterValue)
+    // console.log(items)
+    // console.log(filterValue)
 
-    // === SAMPLE CODE ===
-    // if you have not changed the original html uncomment the code below to have an idea of the
-    // effect this function has on the table
-    //
-    for (let i=0; i<filterValue.length; i++) {
-        items.pop()
+    if (filterValue.length === 0) {
+        return items
+    } else if (filterValue[0] === "!") {
+        return items.filter(question => !((question.Title).toLowerCase()).includes(filterValue.slice(1).toLowerCase()));
+    } else if (filterValue.startsWith("Description:!")) {
+        return items.filter(question => !((question.Description).toLowerCase()).includes(filterValue.slice(13).toLowerCase()));
+    } else if (filterValue.startsWith("Description:")) {
+        return items.filter(question => (question.Description).toLowerCase().includes(filterValue.slice(12).toLowerCase()));
+    } else {
+        return items.filter(question => (question.Title).toLowerCase().includes(filterValue.toLowerCase()));
     }
-
-    return items
 }
+
 
 function toggleTheme() {
     console.log("toggle theme")
@@ -71,7 +74,6 @@ function fontEval(modNum){
     let tableRows = document.querySelectorAll("tr")
     for (const tableRow of tableRows) {
         let number = window.getComputedStyle(tableRow, null).getPropertyValue("font-size")
-        console.log(number)
         let fontSize = Number(number.replace("px", ""))
         const limit = modNum > 0 ? 15 : 3;
         if (modNum > 0) {
