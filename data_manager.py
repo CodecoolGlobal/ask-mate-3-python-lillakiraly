@@ -607,7 +607,7 @@ def get_question_ids_and_titles_from_user_id(cursor, user_id):
 @database_common.connection_handler
 def get_question_ids_and_titles_with_corresponding_answers_from_user_id(cursor, user_id):
     query = """
-        SELECT DISTINCT question.id, question.title
+        SELECT DISTINCT question.id, answer.message
         FROM question
         INNER JOIN answer
         ON answer.question_id = question.id
@@ -620,7 +620,7 @@ def get_question_ids_and_titles_with_corresponding_answers_from_user_id(cursor, 
 @database_common.connection_handler
 def get_question_ids_and_titles_with_corresponding_comments_from_user_id_question_id_given(cursor, user_id):
     query = """
-        SELECT question.id, question.title
+        SELECT question.id, comment.message
         FROM comment
         INNER JOIN question
         ON comment.question_id = question.id
@@ -633,7 +633,7 @@ def get_question_ids_and_titles_with_corresponding_comments_from_user_id_questio
 @database_common.connection_handler
 def get_question_ids_and_titles_with_corresponding_comments_from_user_id_answer_id_given(cursor, user_id):
     query = """
-        SELECT question.id, question.title
+        SELECT question.id, comment.message
         FROM comment
         INNER JOIN answer
         ON comment.answer_id = answer.id

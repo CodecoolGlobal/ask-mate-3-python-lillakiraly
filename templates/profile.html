@@ -44,7 +44,7 @@
             {% for question in answers_from_user %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a>
+                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -63,14 +63,14 @@
             {% for question in question_comments_from_user %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a>
+                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
                     </td>
                 </tr>
             {% endfor %}
             {% for question in answer_comments_from_user %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a>
+                        <a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['message'] }}</a>
                     </td>
                 </tr>
             {% endfor %}
