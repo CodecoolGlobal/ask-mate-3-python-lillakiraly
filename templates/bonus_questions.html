@@ -7,24 +7,30 @@
 {% endblock %}
 {% block content %}
     <div class="menu">
-        <h1>All Questions</h1>
-        <div>
-            <h3>Change Theme</h3>
-            <button class="filter" id="theme-button">&#9788 or &#9789</button>
+        <div class="headline">
+            <h1>All Questions</h1>
         </div>
-        <div>
-            <h3>Page font</h3>
-            <button class="filter"  id="increase-font-button">&#8853</button>
-            <button class="filter"  id="decrease-font-button">&#8861</button>
+
+        <div class="bonus">
+            <div>
+                <button class="filter" id="theme-button">&#9788 or &#9789</button>
+            </div>
+            <div>
+                <input
+                    class="search filter-bar"
+                    data-table-body="doNotModifyThisId_QuestionsTableBody"
+                    style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
+                    type="text"
+                    placeholder="&#8812 Filter questions by keywords">
+            </div>
+            <div class="bonus-font">
+
+                <button class="filter filter-font"  id="increase-font-button">&#8853</button>
+                <h2 class="bonus-font-text">Page font</h2>
+                <button class="filter filter-font"  id="decrease-font-button">&#8861</button>
+            </div>
         </div>
-        <div>
-            <input
-                class="search"
-                data-table-body="doNotModifyThisId_QuestionsTableBody"
-                style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
-                type="text"
-                placeholder="&#8812 Filter questions by keywords">
-        </div>
+
     </div>
         <table>
             <thead id="doNotModifyThisId_QuestionsTableHeader">
@@ -46,4 +52,5 @@
                 {% endfor %}
             </tbody>
         </table>
+    <br><a class="back-button" href="/list">&#8592 Back</a>
 {% endblock %}

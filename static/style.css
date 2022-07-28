@@ -603,4 +603,55 @@ a.delete-button:hover, a.delete-button:active {
     color: yellow;
     background-color: darkcyan;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.bonus {
+    display: flex;
+    flex-direction: row;
+}
+
+.bonus div:last-child {
+    margin-left: auto;
+    margin-right: 1em;
+    position: relative;
+    width: 20%;
+}
+
+.bonus div:first-child {
+    margin-left: 1em;
+    margin-right: auto;
+    width: 20%;
+}
+
+.bonus-font {
+    display: flex;
+    margin: 5px;
+    right: -30px;
+}
+
+.filter-font {
+    position: relative;
+    top: 50%;
+    transform: translateY(-80%);
+    font-size: 25px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+#theme-button {
+    font-size: 25px;
+}
+
+.headline {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.filter-bar {
+    width: 800px !important;
+    top: -10px !important;
+    position: relative;
 }
