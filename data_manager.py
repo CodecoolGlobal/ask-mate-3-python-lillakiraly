@@ -197,28 +197,6 @@ def get_question_id_by_answer_id(cursor, answer_id):
 
 
 @database_common.connection_handler
-def get_question_id_by_comment_id(cursor, comment_id):
-    query = """
-        SELECT question_id
-        FROM comment
-        WHERE id = %(comment_id)s"""
-    value = {'comment_id': comment_id}
-    cursor.execute(query, value)
-    return cursor.fetchone()
-
-
-@database_common.connection_handler
-def get_answer_id_by_comment_id(cursor, comment_id):
-    query = """
-        SELECT answer_id
-        FROM comment
-        WHERE id = %(comment_id)s"""
-    value = {'comment_id': comment_id}
-    cursor.execute(query, value)
-    return cursor.fetchone()
-
-
-@database_common.connection_handler
 def delete_question(cursor, question_id):
     query = """
             DELETE FROM question
@@ -304,7 +282,7 @@ def get_search_results(cursor, search_phrase):
 @database_common.connection_handler
 def display_comment_from_question_id(cursor, question_id):
     query = """
-        SELECT id, submission_time, message
+        SELECT submission_time, message
         FROM comment
         WHERE question_id = %(question_id)s"""
     value = {'question_id': question_id}
@@ -327,7 +305,7 @@ def display_comment_from_question_id(cursor, question_id):
 @database_common.connection_handler
 def display_comment_from_answer_id(cursor, answer_id):
     query = """
-        SELECT id, submission_time, message
+        SELECT submission_time, message
         FROM comment
         WHERE answer_id = %(answer_id)s"""
     value = {'answer_id': answer_id}
@@ -382,7 +360,6 @@ def get_question_tags_by_question_id(cursor, question_id):
     return cursor.fetchall()
 
 
-@database_common.connection_handler
 def get_comment_by_id(cursor, comment_id):
     query = """
         SELECT *
@@ -628,3 +605,56 @@ def edit_comment(cursor, comment_id, submission_time, message):
     }
     cursor.execute(query, value)
     return None
+
+@database_common.connection_handler
+def get_question_ids_and_titles_from_user_id(cursor, user_id):
+    query = """
+        SELECT question.id, question.title
+        FROM question
+        WHERE user_id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_answers_from_user_id(cursor, user_id):
+    query = """
+        SELECT DISTINCT question.id, answer.message
+        FROM question
+        INNER JOIN answer
+        ON answer.question_id = question.id
+        WHERE answer.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_comments_from_user_id_question_id_given(cursor, user_id):
+    query = """
+        SELECT question.id, comment.message
+        FROM comment
+        INNER JOIN question
+        ON comment.question_id = question.id
+        WHERE comment.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_question_ids_and_titles_with_corresponding_comments_from_user_id_answer_id_given(cursor, user_id):
+    query = """
+        SELECT question.id, comment.message
+        FROM comment
+        INNER JOIN answer
+        ON comment.answer_id = answer.id
+        INNER JOIN question
+        ON answer.question_id = question.id
+        WHERE comment.user_id = %(user_id)s;
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+

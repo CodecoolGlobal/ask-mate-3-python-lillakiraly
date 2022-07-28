@@ -109,9 +109,10 @@ form {
 }
 
 .sticky {
-  position: sticky;
-  top: 0;
-  width: 100%;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 @media (max-width: 640px) {
@@ -404,7 +405,7 @@ button.visit_user {
     border: 0;
     border-radius: 5px;
     padding: 10px;
-
+    font-size: 20px;
 }
 
 button.visit_user:hover {
@@ -589,4 +590,68 @@ a.delete-button:hover, a.delete-button:active {
     max-width: 100%;
     text-align: center;
     width: 620px;
+}
+
+.menu {
+    border-collapse: collapse;
+    margin: auto;
+    width: 80%;
+    font-size: 0.9em;
+    font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    color: yellow;
+    background-color: darkcyan;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.bonus {
+    display: flex;
+    flex-direction: row;
+}
+
+.bonus div:last-child {
+    margin-left: auto;
+    margin-right: 1em;
+    position: relative;
+    width: 20%;
+}
+
+.bonus div:first-child {
+    margin-left: 1em;
+    margin-right: auto;
+    width: 20%;
+}
+
+.bonus-font {
+    display: flex;
+    margin: 5px;
+    right: -30px;
+}
+
+.filter-font {
+    position: relative;
+    top: 50%;
+    transform: translateY(-80%);
+    font-size: 25px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+#theme-button {
+    font-size: 25px;
+}
+
+.headline {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.filter-bar {
+    width: 800px !important;
+    top: -10px !important;
+    position: relative;
 }
