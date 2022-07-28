@@ -2,18 +2,30 @@
 {% block head %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/bonusQuestions.js') }}" defer></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/doNotModifyThisFile.js') }}" defer></script>
+        <!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'> -->
+
 {% endblock %}
 {% block content %}
-        <h1>AskMate</h1>
-        <h2>All Questions:</h2>
-        <button id="theme-button">Change Theme to Dark</button>
-        <button id="increase-font-button">Increase page font</button>
-        <button id="decrease-font-button">Decrease page font</button>
-        <input
+    <div class="menu">
+        <h1>All Questions</h1>
+        <div>
+            <h3>Change Theme</h3>
+            <button class="filter" id="theme-button">&#9788 or &#9789</button>
+        </div>
+        <div>
+            <h3>Page font</h3>
+            <button class="filter"  id="increase-font-button">&#8853</button>
+            <button class="filter"  id="decrease-font-button">&#8861</button>
+        </div>
+        <div>
+            <input
+                class="search"
                 data-table-body="doNotModifyThisId_QuestionsTableBody"
                 style="width: 500px" id="doNotModifyThisId_QuestionsFilter"
                 type="text"
-                placeholder="filter questions by keywords">
+                placeholder="&#8812 Filter questions by keywords">
+        </div>
+    </div>
         <table>
             <thead id="doNotModifyThisId_QuestionsTableHeader">
                 <tr>
