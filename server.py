@@ -331,15 +331,25 @@ def users():
     username = session['user']
     user_id = data_manager.get_user_id_from_username(username)['id']
     user_data = data_manager.get_user_from_user_id(user_id)
+    num_of_questions = data_manager.get_num_of_data_from_user(user_id, 'question')['num_of_data']
+    num_of_answers = data_manager.get_num_of_data_from_user(user_id, 'answer')['num_of_data']
+    num_of_comments = data_manager.get_num_of_data_from_user(user_id, 'comment')['num_of_data']
     if request.method == 'POST':
         return redirect(url_for('visit_user_profile', user_id=user_details.id))
-    return make_response(render_template('users.html', user_details=user_details, user_data=user_data), 200)
+    return make_response(render_template('users.html', user_details=user_details, user_data=user_data,
+                                         num_of_questions=num_of_questions, num_of_answers=num_of_answers,
+                                         num_of_comments=num_of_comments), 200)
 
 
 @app.route('/users/user/<user_id>', methods=['GET', 'POST'])
 def visit_user_profile(user_id: int):
     user_data = data_manager.get_user_from_user_id(user_id)
-    return make_response(render_template('profile.html', user_details=user_data, user_id=user_id), 200)
+    num_of_questions = data_manager.get_num_of_data_from_user(user_id, 'question')['num_of_data']
+    num_of_answers = data_manager.get_num_of_data_from_user(user_id, 'answer')['num_of_data']
+    num_of_comments = data_manager.get_num_of_data_from_user(user_id, 'comment')['num_of_data']
+    return make_response(render_template('profile.html', user_details=user_data, user_id=user_id,
+                                         num_of_questions=num_of_questions, num_of_answers=num_of_answers,
+                                         num_of_comments=num_of_comments), 200)
 
 
 @app.route('/tags')
