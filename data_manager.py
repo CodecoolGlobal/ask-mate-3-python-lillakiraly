@@ -582,3 +582,12 @@ def get_user_from_user_id(cursor, user_id: int):
     }
     cursor.execute(query, value)
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_num_of_data_from_user(cursor, user_id, table):
+    query = sql.SQL("SELECT COUNT(*) AS num_of_data FROM {table} WHERE user_id = {user_id}").\
+        format(table=sql.Identifier(table), user_id=sql.Literal(user_id))
+    cursor.execute(query)
+    return cursor.fetchone()
+

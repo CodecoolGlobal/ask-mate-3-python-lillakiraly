@@ -5,14 +5,14 @@
 {% block content %}
 <div class="page-wrap">
     {% if session["user"] is defined %}
-        <div class="profile">
+        <div class="tag-form">
         <h3>ID</h3><label for="user_id">{{ user_details.id }}</label>
         <h3>Username</h3><label for="username">{{ user_details.username }}</label>
         <h3>Registration_date</h3><label for="registration_date">{{ user_details.registration_date }}</label>
         <h3>Reputation</h3><label for="reputation">{{ user_details.reputation }}</label>
-        <h3>Number of asked questions</h3><label for="number_of_questions">?</label>
-        <h3>Number of answers</h3><label for="number_of_answers">?</label>
-        <h3>Number of comments</h3><label for="number_of_answers">?</label>
+        <h3>Number of asked questions</h3><label for="number_of_questions">{{ num_of_questions }}</label>
+        <h3>Number of answers</h3><label for="number_of_answers">{{ num_of_answers }}</label>
+        <h3>Number of comments</h3><label for="number_of_answers">{{ num_of_comments }}</label>
         </div>
 
         <table>
