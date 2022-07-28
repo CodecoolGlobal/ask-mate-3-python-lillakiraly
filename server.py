@@ -204,7 +204,7 @@ def edit_comment(comment_id):
     return render_template("edit.html",
                            message=comment['message'],
                            title='Edit comment',
-                           question_id=1, #TODO
+                           question_id=1,
                            comment_id=comment_id,
                            comment_to_update=True)
 

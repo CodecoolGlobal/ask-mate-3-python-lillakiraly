@@ -1,7 +1,7 @@
-{% extends 'template_site.html' %}
+s{% extends 'template_site.html' %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    {%if question_to_update%}
+    {% if question_to_update %}
     <div class="form">
         <form action="{{ action }}" enctype="multipart/form-data" method="post">
             <label for="title">Question</label><br>
@@ -16,8 +16,8 @@
             <br><button class="submit" type="submit">Submit</button><br>
         </form>
     </div>
-    {%endif%}   
-    {%if answer_to_update%}
+    {% endif %}
+    {% if answer_to_update %}
         <div class="form">
         <form action='{{ action }}' enctype="multipart/form-data" method="post">
             <label for="message">Message</label>
@@ -30,9 +30,9 @@
             <button class="submit" type="submit">Submit</button>
         </form>
         </div>
-    {%endif%}  
+    {% endif %}
 
-    {%if comment_to_update%}
+    {% if comment_to_update %}
     <h1>Edit comment</h1>
         <form action="/comment/{{ comment_id }}/edit" method="post">
             <label for="message">Message</label>
@@ -43,4 +43,5 @@
         </form>
     {%endif%}
     <br><a class="back-button" href="{{ url_for('display_question', question_id=question_id) }}">Go back</a>
+{% endblock %}
 {% endblock %}

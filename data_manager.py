@@ -316,7 +316,7 @@ def display_comment_from_question_id(cursor, question_id):
 # def get_search_results_from_answers(cursor, search_phrase):
 #     query = """
 #         SELECT message FROM answer
-#         WHERE anmessage ILIKE %(search_phrase)s
+#         WHERE message ILIKE %(search_phrase)s
 #         GROUP BY
 #     """
 #     search_values = {'search_phrase': f'%{search_phrase}%'}
