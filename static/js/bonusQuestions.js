@@ -60,6 +60,14 @@ function getFilteredItems(items, filterValue) {
 
 function toggleTheme() {
     console.log("toggle theme")
+    const background = document.querySelector('body')
+
+    if (background.style.backgroundColor === 'teal') {
+        background.style.backgroundColor = 'white'
+    }
+    else {
+        background.style.backgroundColor = 'teal'
+    }
 }
 
 function increaseFont() {
@@ -75,7 +83,7 @@ function fontEval(modNum){
     for (const tableRow of tableRows) {
         let number = window.getComputedStyle(tableRow, null).getPropertyValue("font-size")
         let fontSize = Number(number.replace("px", ""))
-        const limit = modNum > 0 ? 15 : 3;
+        const limit = modNum > 0 ? 25 : 3;
         if (modNum > 0) {
             fontSize = fontSize < limit ? fontSize + 1 * modNum : fontSize;
         } else {
