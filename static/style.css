@@ -404,7 +404,7 @@ button.visit_user {
     border: 0;
     border-radius: 5px;
     padding: 10px;
-
+    font-size: 20px;
 }
 
 button.visit_user:hover {

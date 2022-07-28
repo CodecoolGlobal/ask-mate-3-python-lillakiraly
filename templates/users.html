@@ -5,7 +5,7 @@
 {% block content %}
 <div class="page-wrap">
         <div class="tag-form">
-            <button class="visit_user" id="open">My profile</button>
+            <button class="visit_user" id="open">&#9818 My profile</button>
         </div>
 
         {% if session["user"] is defined %}
@@ -41,13 +41,13 @@
        </tbody>
        </table>
 
-        <br><a class="back-button" href="/list">Go back</a>
+        <br><a class="back-button" href="/list">&#8592 Back</a>
     {% else %}
     <div class="form">
             <a href="https://lmgtfy.app/?q=how+to+login+to+a+site">FYI</a>
     </div>
             <script>
-            alert('LOGOLJ MAR BE KONYORGOM!!!')
+            alert('Please use the login button to sign in!!!')
             </script>
     {% endif %}
     </div>

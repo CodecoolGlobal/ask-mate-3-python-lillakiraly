@@ -15,14 +15,14 @@
 <nav class="navbar">
     <a class="logo" href="/list"><img src="{{ url_for('static', filename='images/ask_logo.png') }}" alt="AskMate logo" width="100"></a>
     <ul class="nav-links">
-        <li class="nav-item"><a href="#">Support</a></li>
+        <li class="nav-item"><a href="{{ url_for('contact') }}">&#9993 Contact</a></li>
             {% if session['user'] is defined %}
-                <li class="nav-item"><a href="{{ url_for('users') }}">Users</a></li>
-                <li class="nav-item"><a href="{{ url_for('bonus') }}">Bonus</a></li>
-                <li class="nav-item"><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li class="nav-item"><a href="{{ url_for('users') }}">&#9787 Users</a></li>
+                <li class="nav-item"><a href="{{ url_for('bonus') }}">&#10030 Bonus</a></li>
+                <li class="nav-item"><a href="{{ url_for('logout') }}">&#8690 Logout</a></li>
             {% else %}
-                <li class="nav-item"><a href="{{ url_for('authentication') }}">Login</a></li>
-                <li class="nav-item"><a href="{{ url_for('register') }}">Registration</a></li>
+                <li class="nav-item"><a href="{{ url_for('authentication') }}">&#8689 Login</a></li>
+                <li class="nav-item"><a href="{{ url_for('register') }}">&#10010 Register</a></li>
             {% endif %}
     </ul>
 </nav>
