@@ -591,3 +591,16 @@ a.delete-button:hover, a.delete-button:active {
     text-align: center;
     width: 620px;
 }
+
+.menu {
+    border-collapse: collapse;
+    margin: auto;
+    width: 80%;
+    font-size: 0.9em;
+    font-family: ProximaNova,Arial,Tahoma,PingFangSC,sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    color: yellow;
+    background-color: darkcyan;
+    text-align: center;
+}
